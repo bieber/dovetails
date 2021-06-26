@@ -1,18 +1,45 @@
 .App {
-  text-align: center;
+	text-align: center;
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 10vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+	background-color: #282c34;
+	min-height: 10vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-size: calc(10px + 2vmin);
+	color: white;
 }
 
 .App-link {
-  color: #61dafb;
+	color: #61dafb;
+}
+
+.GlobalSettings {
+	border: 2px solid gray;
+	margin-top: 12px;
+	max-width: fit-content;
+	padding: 12px;
+}
+
+.GlobalSettings form {
+	overflow: hidden;
+}
+
+.GlobalSettings label {
+	text-align: right;
+	float: left;
+	width: 150px;
+	padding-right: 12px;
+}
+
+.GlobalSettings input {
+	float: left;
+	width: 100px;
+}
+
+.GlobalSettings select {
+	float: left;
 }
