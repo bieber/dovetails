@@ -1,5 +1,6 @@
 import './App.css';
 import GlobalSettings from './GlobalSettings';
+import Visualizer from './Visualizer';
 
 export default function App() {
 	return (
@@ -7,7 +8,10 @@ export default function App() {
 			<header className="App-header">
 				Dovetail Generator
 			</header>
-			<GlobalSettings />
+			<div className="Body">
+				<GlobalSettings />
+				<Visualizer />
+			</div>
 		</div>
 	);
 }

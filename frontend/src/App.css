@@ -17,29 +17,50 @@
 	color: #61dafb;
 }
 
-.GlobalSettings {
-	border: 2px solid gray;
-	margin-top: 12px;
-	max-width: fit-content;
-	padding: 12px;
+.Body {
+	display: grid;
+	grid-template-columns: auto 1fr;
 }
 
-.GlobalSettings form {
-	overflow: hidden;
+div.GlobalSettings {
+	grid-column: 1/2;
+	border: 2px solid gray;
+	margin-top: 12px;
+	margin-left: 12px;
+	max-width: fit-content;
+	float: left;
 }
 
 .GlobalSettings label {
 	text-align: right;
-	float: left;
-	width: 150px;
-	padding-right: 12px;
+	grid-column: 1/2;
 }
 
 .GlobalSettings input {
-	float: left;
 	width: 100px;
+	grid-column: 2/3;
 }
 
 .GlobalSettings select {
-	float: left;
+	grid-column: 2/3;
+}
+
+.GlobalSettings .FormSection {
+	padding: 8px;
+}
+
+.GlobalSettings .FormRow {
+	display: grid;
+	grid-template-columns: 150px 1fr;
+	column-gap: 16px;
+	row-gap: 16px;
+	padding: 2px;
+}
+
+div.Visualizer {
+	margin-top: 12px;
+	margin-left: 12px;
+	height: 500px;
+	grid-column: 2/3;
+	grid-row: 1/3;
 }
