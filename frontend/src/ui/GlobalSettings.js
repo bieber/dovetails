@@ -1,4 +1,4 @@
-import {useContext} from './context';
+import {useGlobalContext} from '../context/globalContext';
 import {useDimension, useNumber} from './dimension';
 import {Form, FormSection, SelectRow, TextRow} from './Form';
 
@@ -6,7 +6,7 @@ export default function GlobalSettings() {
 	const [
 		{unit, cutter, material},
 		{setUnit, setCutter, setMaterial},
-	] = useContext();
+	] = useGlobalContext();
 
 	const [diameterText, setDiameter] = useDimension(
 		cutter.diameter,

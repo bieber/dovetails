@@ -1,6 +1,6 @@
 import './App.css';
-import GlobalSettings from './GlobalSettings';
-import Visualizer from './Visualizer';
+import GlobalSettings from './ui/GlobalSettings';
+import Visualizer from './visualize/Visualizer';
 
 export default function App() {
 	return (

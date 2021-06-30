@@ -2,11 +2,11 @@ import React, {createContext, useState} from 'react';
 
 const Context = createContext();
 
-export function useContext() {
+export function useGlobalContext() {
 	return React.useContext(Context);
 };
 
-export function ContextProvider({children}) {
+export function GlobalContextProvider({children}) {
 	const [context, setContext] = useState({
 		unit: 'mm',
 		cutter: {

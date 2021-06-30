@@ -1,6 +1,6 @@
 import {useState} from 'react';
 
-import {useContext} from './context';
+import {useGlobalContext} from '../context/globalContext';
 
 const MM_PER_INCH = 25.4;
 
@@ -17,7 +17,7 @@ function round(x) {
 }
 
 export function useDimension(dimension, onUpdate) {
-	const [{unit}] = useContext();
+	const [{unit}] = useGlobalContext();
 	const [{existingUnit, existingText}, setState] = useState({
 		existingUnit: unit,
 		existingText: text(dimension, unit),

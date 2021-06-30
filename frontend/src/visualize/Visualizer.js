@@ -1,5 +1,5 @@
 import {useRef, useState, useLayoutEffect} from 'react';
-import {Stage, Layer, Rect} from 'react-konva';
+import {Stage, Layer} from 'react-konva';
 
 function useSize(target) {
 	const [size, setSize] = useState();
@@ -38,9 +38,8 @@ export default function Visualizer() {
 	let stage = null;
 	if (size) {
 		stage = (
-			<Stage width={size.width} height={size.height} fill="red">
+			<Stage width={size.width} height={size.height}>
 				<Layer>
-					<Rect width={100} height={100} fill="green" draggable />
 				</Layer>
 			</Stage>
 		);
