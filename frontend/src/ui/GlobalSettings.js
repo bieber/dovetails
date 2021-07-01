@@ -1,5 +1,5 @@
 import {useGlobalContext} from '../context/globalContext';
-import {useDimension, useNumber} from './dimension';
+
 import {Form, FormSection, SelectRow, TextRow} from './Form';
 
 export default function GlobalSettings() {
@@ -7,28 +7,6 @@ export default function GlobalSettings() {
 		{unit, cutter, material},
 		{setUnit, setCutter, setMaterial},
 	] = useGlobalContext();
-
-	const [diameterText, setDiameter] = useDimension(
-		cutter.diameter,
-		(diameter) => setCutter({diameter}),
-	);
-	const [heightText, setHeight] = useDimension(
-		cutter.height,
-		(height) => setCutter({height}),
-	);
-	const [angleText, setAngle] = useNumber(
-		cutter.angle,
-		(angle) => setCutter({angle}),
-	);
-
-	const [thicknessText, setThickness] = useDimension(
-		material.thickness,
-		(thickness) => setMaterial({thickness}),
-	);
-	const [widthText, setWidth] = useDimension(
-		material.width,
-		(width) => setMaterial({width}),
-	);
 
 	const unitOptions = [
 		{value: 'mm', label: 'mm'},
@@ -49,34 +27,35 @@ export default function GlobalSettings() {
 					<TextRow
 						id="diameter_input"
 						label="Cutter Diameter"
-						value={diameterText}
-						onChange={setDiameter}
+						value={cutter.diameter}
+						onChange={(diameter) => setCutter({diameter})}
 					/>
 					<TextRow
 						id="heigh_input"
 						label="Cutter Height"
-						value={heightText}
-						onChange={setHeight}
+						value={cutter.height}
+						onChange={(height) => setCutter({height})}
 					/>
 					<TextRow
 						id="angle_input"
 						label="Cutter Angle (deg)"
-						value={angleText}
-						onChange={setAngle}
+						value={cutter.angle}
+						onChange={(angle) => setCutter({angle})}
+						dimensionless
 					/>
 				</FormSection>
 				<FormSection>
 					<TextRow
 						id="thickness_input"
 						label="Material Thickness"
-						value={thicknessText}
-						onChange={setThickness}
+						value={material.thickness}
+						onChange={(thickness) => setMaterial({thickness})}
 					/>
 					<TextRow
 						id="width_input"
 						label="Material Width"
-						value={widthText}
-						onChange={setWidth}
+						value={material.width}
+						onChange={(width) => setMaterial({width})}
 					/>
 				</FormSection>
 			</Form>

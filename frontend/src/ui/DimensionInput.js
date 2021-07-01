@@ -4,8 +4,8 @@ import {useGlobalContext} from '../context/globalContext';
 
 const MM_PER_INCH = 25.4;
 
-function text(dimension, unit) {
-	let dimensionValue = dimension;
+function text(value, unit) {
+	let dimensionValue = value;
 	if (unit === 'inch') {
 		dimensionValue /= MM_PER_INCH;
 	}
@@ -16,21 +16,28 @@ function round(x) {
 	return parseFloat(x.toFixed(5));
 }
 
-export function useDimension(dimension, onUpdate) {
-	const [{unit}] = useGlobalContext();
+export default function DimensionInput({id, value, dimensionless, onChange}) {
+	let [{unit}] = useGlobalContext();
 	const [{existingUnit, existingText}, setState] = useState({
 		existingUnit: unit,
-		existingText: text(dimension, unit),
+		existingText: text(value, unit),
 	});
+
+	// If we just want a numeric input without conversion to inches
+	// (e.g. for angles, or counts) we can set the dimensionless flag
+	if (dimensionless) {
+		unit = 'mm';
+	}
 
 	if (unit !== existingUnit) {
 		setState({
 			existingUnit: unit,
-			existingText: text(dimension, unit),
+			existingText: text(value, unit),
 		});
 	}
 
-	function update(newText) {
+	function onInnerChange(event) {
+		const newText = event.target.value;
 		const parsed = newText === '' ? 0 : parseFloat(newText);
 		if (isNaN(parsed)) {
 			return;
@@ -41,30 +48,18 @@ export function useDimension(dimension, onUpdate) {
 			if (unit === 'inch') {
 				newValue *= MM_PER_INCH;
 			}
-			onUpdate(round(newValue));
+			onChange(round(newValue));
 		}
 
 		setState({existingUnit: unit, existingText: newText});
 	}
 
-	return [existingText, update];
-}
-
-export function useNumber(number, onUpdate) {
-	const [existingText, setExistingText] = useState(text(number, 'mm'));
-
-	function update(newText) {
-		const parsed = newText === '' ? 0 : parseFloat(newText);
-		if (isNaN(parsed)) {
-			return;
-		}
-
-		if (parsed !== parseFloat(existingText)) {
-			onUpdate(round(parsed));
-		}
-
-		setExistingText(newText);
-	}
-
-	return [existingText, update];
+	return (
+		<input
+			id={id}
+			type="text"
+			value={existingText}
+			onChange={onInnerChange}
+		/>
+	);
 }

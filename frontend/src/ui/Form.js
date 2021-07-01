@@ -1,3 +1,5 @@
+import DimensionInput from './DimensionInput';
+
 export function Form({children}) {
 	return (
 		<form onSubmit={(e) => e.preventDefault()}>
@@ -47,7 +49,7 @@ export function SelectRow({id, label, options, value, onChange}) {
 	)
 }
 
-export function TextRow({id, label, value, onChange}) {
+export function TextRow({id, label, value, onChange, dimensionless}) {
 	let renderedLabel = null;
 	if (label !== null) {
 		renderedLabel = <label htmlFor={id}>{label}</label>;
@@ -56,11 +58,11 @@ export function TextRow({id, label, value, onChange}) {
 	return (
 		<FormRow>
 			{renderedLabel}
-			<input
+			<DimensionInput
 				id={id}
-				type="text"
 				value={value}
-				onChange={(e) => onChange(e.target.value)}
+				onChange={onChange}
+				dimensionless={dimensionless}
 			/>
 		</FormRow>
 	);
