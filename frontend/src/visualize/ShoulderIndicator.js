@@ -2,8 +2,8 @@ import {Line} from 'react-konva';
 
 export default function ShoulderIndicator(props) {
 	const {
-		width: viewWidth,
-		height: viewHeight,
+		viewWidth,
+		viewHeight,
 		materialWidth,
 		materialThickness,
 		pixelsPerMM,

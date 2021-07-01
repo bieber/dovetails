@@ -5,6 +5,7 @@ import {useGlobalContext} from '../context/globalContext';
 
 import Board from './Board';
 import ShoulderIndicator from './ShoulderIndicator';
+import Pin from './Pin';
 
 function useSize(target) {
 	const [size, setSize] = useState();
@@ -38,7 +39,7 @@ function useSize(target) {
 export default function Visualizer() {
 	const target = useRef(null);
 	const size = useSize(target);
-	const [{material}] = useGlobalContext();
+	const [{material, cutter}] = useGlobalContext();
 
 	let stage = null;
 	if (size) {
@@ -53,19 +54,21 @@ export default function Visualizer() {
 		);
 
 		const commonProps = {
-			width: size.width,
-			height: size.height,
+			viewWidth: size.width,
+			viewHeight: size.height,
 			// These have to be copied into props because the child
 			// components won't have access to the global context
 			// due to konva portaling them out of the main render tree
 			materialWidth: material.width,
 			materialThickness: material.thickness,
+			cutterAngle: cutter.angle,
 			pixelsPerMM,
 		};
 		stage = (
 			<Stage width={size.width} height={size.height}>
 				<Layer>
 					<Board {...commonProps} />
+					<Pin maxWidth={15} x={50} {...commonProps} />
 					<ShoulderIndicator {...commonProps} />
 				</Layer>
 			</Stage>
