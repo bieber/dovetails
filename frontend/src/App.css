@@ -18,26 +18,35 @@
 }
 
 .Body {
-	display: grid;
-	grid-template-columns: auto 1fr;
+	display: flex;
+	flex-direction: row;
+}
+
+.BodyLeft {
+	display: flex;
+	flex-direction: column;
+}
+
+.BodyRight {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+
+	overflow: hidden;
 }
 
 div.GlobalSettings {
-	grid-column: 1/2;
 	border: 2px solid gray;
 	margin-top: 12px;
 	margin-left: 12px;
 	max-width: fit-content;
-	float: left;
 }
 
 div.GuideSettings {
-	grid-column: 1/2;
 	border: 2px solid gray;
 	margin-top: 12px;
 	margin-left: 12px;
 	max-width: fit-content;
-	float: left;
 }
 
 .Settings label {
@@ -69,11 +78,8 @@ div.GuideSettings {
 div.Visualizer {
 	border: 2px solid gray;
 	background-color: white;
-	overflow: hidden;
 	margin-top: 12px;
 	margin-left: 12px;
 	margin-right: 12px;
 	height: 500px;
-	grid-column: 2/3;
-	grid-row: 1/4;
 }
