@@ -3,9 +3,11 @@ import {Stage, Layer} from 'react-konva';
 
 import {useGuideLocations} from '../context/guideContext';
 import {useGlobalContext} from '../context/globalContext';
+import {usePinContext} from '../context/pinContext';
 
 import Board from './Board';
 import Guide from './Guide';
+import Pin from './Pin';
 import ShoulderIndicator from './ShoulderIndicator';
 
 function useSize(target) {
@@ -33,7 +35,10 @@ function useSize(target) {
 		[target],
 	);
 
-	return size;
+	if (!size) {
+		return size;
+	}
+	return {width: size.width - 4, height: size.height - 4};
 }
 
 
@@ -42,6 +47,7 @@ export default function Visualizer() {
 	const size = useSize(target);
 	const [{material, cutter}] = useGlobalContext();
 	const guideLocations = useGuideLocations();
+	const {pins, updatePin} = usePinContext();
 
 	let stage = null;
 	if (size) {
@@ -71,10 +77,48 @@ export default function Visualizer() {
 			(x, i, xs) => <Guide key={i} x={x} {...commonProps} />,
 		);
 
+		// Since sorting will potentially scramble up the indices, we
+		// have to store the original indices before sorting for use in
+		// the onChange handler
+		const renderedPins = [...pins]
+			.map((p, i, ps) => [i, p])
+			.sort((a, b) => a[1].x - b[1].x)
+			.map(
+				(p, i, ps) => {
+					const pin = p[1];
+					let minX = pin.maxWidth / 2;
+					if (i > 0) {
+						const previous = ps[i - 1][1];
+						minX = previous.x
+							+ previous.maxWidth / 2
+							+ pin.maxWidth / 2;
+					}
+
+					let maxX = material.width - pin.maxWidth / 2;
+					if (i < ps.length - 1) {
+						const next = ps[i + 1][1];
+						maxX = next.x - next.maxWidth / 2 - pin.maxWidth / 2;
+					}
+
+					return (
+						<Pin
+							key={i}
+							onChange={(delta) => updatePin(p[0], delta)}
+							minX={minX}
+							maxX={maxX}
+							guides={guideLocations}
+							{...pin}
+							{...commonProps}
+						/>
+					);
+				},
+			);
+
 		stage = (
 			<Stage width={size.width} height={size.height}>
 				<Layer>
 					<Board {...commonProps} />
+					{renderedPins}
 					{guides}
 					<ShoulderIndicator {...commonProps} />
 				</Layer>

@@ -7,6 +7,8 @@ import GlobalSettings from './ui/GlobalSettings';
 import Visualizer from './visualize/Visualizer';
 
 export default function App() {
+	const {nextPin, addPin} = usePinContext();
+
 	return (
 		<div className="App">
 			<header className="App-header">
@@ -19,6 +21,7 @@ export default function App() {
 				</div>
 				<div className="BodyRight">
 					<Visualizer />
+					<button onClick={addPin} disabled={!nextPin}>Add</button>
 				</div>
 			</div>
 		</div>
