@@ -67,3 +67,22 @@ export function TextRow({id, label, value, onChange, dimensionless}) {
 		</FormRow>
 	);
 }
+
+export function CheckRow({id, label, checked, onChange}) {
+	let renderedLabel = null;
+	if (label !== null) {
+		renderedLabel = <label htmlFor={id}>{label}</label>;
+	}
+
+	return (
+		<FormRow>
+			{renderedLabel}
+			<input
+				id={id}
+				type="checkbox"
+				checked={checked}
+				onChange={(e) => onChange(e.target.checked)}
+			/>
+		</FormRow>
+	);
+}

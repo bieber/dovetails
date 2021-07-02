@@ -1,11 +1,12 @@
 import {useRef, useState, useLayoutEffect} from 'react';
 import {Stage, Layer} from 'react-konva';
 
+import {useGuideLocations} from '../context/guideContext';
 import {useGlobalContext} from '../context/globalContext';
 
 import Board from './Board';
+import Guide from './Guide';
 import ShoulderIndicator from './ShoulderIndicator';
-import Pin from './Pin';
 
 function useSize(target) {
 	const [size, setSize] = useState();
@@ -40,6 +41,7 @@ export default function Visualizer() {
 	const target = useRef(null);
 	const size = useSize(target);
 	const [{material, cutter}] = useGlobalContext();
+	const guideLocations = useGuideLocations();
 
 	let stage = null;
 	if (size) {
@@ -64,11 +66,16 @@ export default function Visualizer() {
 			cutterAngle: cutter.angle,
 			pixelsPerMM,
 		};
+
+		const guides = guideLocations.map(
+			(x, i, xs) => <Guide key={i} x={x} {...commonProps} />,
+		);
+
 		stage = (
 			<Stage width={size.width} height={size.height}>
 				<Layer>
 					<Board {...commonProps} />
-					<Pin maxWidth={15} x={50} {...commonProps} />
+					{guides}
 					<ShoulderIndicator {...commonProps} />
 				</Layer>
 			</Stage>

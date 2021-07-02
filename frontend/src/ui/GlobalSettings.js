@@ -13,7 +13,7 @@ export default function GlobalSettings() {
 		{value: 'inch', label: 'inch'},
 	];
 	return (
-		<div className="GlobalSettings">
+		<div className="GlobalSettings Settings">
 			<Form>
 				<FormSection>
 					<SelectRow
@@ -31,7 +31,7 @@ export default function GlobalSettings() {
 						onChange={(diameter) => setCutter({diameter})}
 					/>
 					<TextRow
-						id="heigh_input"
+						id="height_input"
 						label="Cutter Height"
 						value={cutter.height}
 						onChange={(height) => setCutter({height})}

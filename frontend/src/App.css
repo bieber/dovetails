@@ -31,25 +31,34 @@ div.GlobalSettings {
 	float: left;
 }
 
-.GlobalSettings label {
+div.GuideSettings {
+	grid-column: 1/2;
+	border: 2px solid gray;
+	margin-top: 12px;
+	margin-left: 12px;
+	max-width: fit-content;
+	float: left;
+}
+
+.Settings label {
 	text-align: right;
 	grid-column: 1/2;
 }
 
-.GlobalSettings input {
+.Settings input {
 	width: 100px;
 	grid-column: 2/3;
 }
 
-.GlobalSettings select {
+.Settings select {
 	grid-column: 2/3;
 }
 
-.GlobalSettings .FormSection {
+.Settings .FormSection {
 	padding: 8px;
 }
 
-.GlobalSettings .FormRow {
+.Settings .FormRow {
 	display: grid;
 	grid-template-columns: 150px 1fr;
 	column-gap: 16px;
@@ -66,5 +75,5 @@ div.Visualizer {
 	margin-right: 12px;
 	height: 500px;
 	grid-column: 2/3;
-	grid-row: 1/3;
+	grid-row: 1/4;
 }
