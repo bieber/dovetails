@@ -29,7 +29,7 @@ export default function GuideSettings() {
 					options={fromOptions}
 					value={from}
 					onChange={(from) => setGuides({from})}
-				/>
+p				/>
 			</FormSection>
 		);
 	}
@@ -43,7 +43,7 @@ export default function GuideSettings() {
 	}
 
 	return (
-		<div className="GuideSettings Settings">
+		<div className="Settings Block">
 			<Form>
 				<FormSection>
 					<CheckRow

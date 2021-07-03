@@ -1,14 +1,11 @@
 import './App.css';
 
-import {usePinContext} from './context/pinContext';
-
 import GuideSettings from './ui/GuideSettings';
 import GlobalSettings from './ui/GlobalSettings';
+import PinCreator from './ui/PinCreator';
 import Visualizer from './visualize/Visualizer';
 
 export default function App() {
-	const {nextPin, addPin} = usePinContext();
-
 	return (
 		<div className="App">
 			<header className="App-header">
@@ -21,7 +18,9 @@ export default function App() {
 				</div>
 				<div className="BodyRight">
 					<Visualizer />
-					<button onClick={addPin} disabled={!nextPin}>Add</button>
+					<div className="VisualizerTray">
+						<PinCreator />
+					</div>
 				</div>
 			</div>
 		</div>

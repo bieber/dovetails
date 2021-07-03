@@ -13,10 +13,11 @@ export default function GlobalSettings() {
 		{value: 'inch', label: 'inch'},
 	];
 	return (
-		<div className="GlobalSettings Settings">
+		<div className="Settings Block">
 			<Form>
 				<FormSection>
 					<SelectRow
+						id="units_input"
 						label="Units"
 						options={unitOptions}
 						value={unit}

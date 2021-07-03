@@ -16,7 +16,7 @@ export function GlobalContextProvider({children}) {
 		},
 		material: {
 			thickness: 10,
-			width: 150,
+			width: 100,
 		},
 	});
 

@@ -47,7 +47,7 @@ export default function Visualizer() {
 	const size = useSize(target);
 	const [{material, cutter}] = useGlobalContext();
 	const guideLocations = useGuideLocations();
-	const {pins, updatePin} = usePinContext();
+	const [pins, {updatePin}] = usePinContext();
 
 	let stage = null;
 	if (size) {
@@ -77,18 +77,13 @@ export default function Visualizer() {
 			(x, i, xs) => <Guide key={i} x={x} {...commonProps} />,
 		);
 
-		// Since sorting will potentially scramble up the indices, we
-		// have to store the original indices before sorting for use in
-		// the onChange handler
 		const renderedPins = [...pins]
-			.map((p, i, ps) => [i, p])
-			.sort((a, b) => a[1].x - b[1].x)
+			.sort((a, b) => a.x - b.x)
 			.map(
-				(p, i, ps) => {
-					const pin = p[1];
+				(pin, i, ps) => {
 					let minX = pin.maxWidth / 2;
 					if (i > 0) {
-						const previous = ps[i - 1][1];
+						const previous = ps[i - 1];
 						minX = previous.x
 							+ previous.maxWidth / 2
 							+ pin.maxWidth / 2;
@@ -96,14 +91,14 @@ export default function Visualizer() {
 
 					let maxX = material.width - pin.maxWidth / 2;
 					if (i < ps.length - 1) {
-						const next = ps[i + 1][1];
+						const next = ps[i + 1];
 						maxX = next.x - next.maxWidth / 2 - pin.maxWidth / 2;
 					}
 
 					return (
 						<Pin
 							key={i}
-							onChange={(delta) => updatePin(p[0], delta)}
+							onChange={(delta) => updatePin(pin.id, delta)}
 							minX={minX}
 							maxX={maxX}
 							guides={guideLocations}
@@ -127,7 +122,7 @@ export default function Visualizer() {
 	}
 
 	return (
-		<div ref={target} className="Visualizer">
+		<div ref={target} className="Visualizer Block">
 			{stage}
 		</div>
 	);

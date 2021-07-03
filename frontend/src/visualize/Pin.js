@@ -23,14 +23,14 @@ export default function Pin(props) {
 	function draw(context, shape) {
 		const angleRad = 2 * cutterAngle * Math.PI / 360;
 		const minWidth = maxWidth - (
-			2 * (materialThickness + 1) * Math.tan(angleRad)
+			2 * materialThickness * Math.tan(angleRad)
 		);
 		const pxMinWidth = minWidth * pixelsPerMM;
 		const pxHeight = materialThickness * pixelsPerMM;
 
 		context.beginPath();
-		context.moveTo(-0.5 * pxMinWidth, -pixelsPerMM);
-		context.lineTo(0.5 * pxMinWidth, -pixelsPerMM);
+		context.moveTo(-0.5 * pxMinWidth, 0);
+		context.lineTo(0.5 * pxMinWidth, 0);
 		context.lineTo(0.5 * pxMaxWidth, pxHeight);
 		context.lineTo(-0.5 * pxMaxWidth, pxHeight);
 		context.closePath();

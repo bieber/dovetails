@@ -35,18 +35,10 @@
 	overflow: hidden;
 }
 
-div.GlobalSettings {
-	border: 2px solid gray;
-	margin-top: 12px;
-	margin-left: 12px;
-	max-width: fit-content;
-}
-
-div.GuideSettings {
-	border: 2px solid gray;
-	margin-top: 12px;
-	margin-left: 12px;
-	max-width: fit-content;
+.VisualizerTray {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
 }
 
 .Settings label {
@@ -75,11 +67,12 @@ div.GuideSettings {
 	padding: 2px;
 }
 
-div.Visualizer {
+.Block {
 	border: 2px solid gray;
-	background-color: white;
-	margin-top: 12px;
-	margin-left: 12px;
+	margin: 12px 0px 0px 12px;
+}
+
+div.Visualizer {
 	margin-right: 12px;
 	height: 500px;
 }
