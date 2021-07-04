@@ -68,6 +68,7 @@
 }
 
 .Block {
+	block-size: fit-content;
 	border: 2px solid gray;
 	margin: 12px 0px 0px 12px;
 }

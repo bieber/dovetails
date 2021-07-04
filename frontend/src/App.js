@@ -3,6 +3,7 @@ import './App.css';
 import GuideSettings from './ui/GuideSettings';
 import GlobalSettings from './ui/GlobalSettings';
 import PinCreator from './ui/PinCreator';
+import PinEditor from './ui/PinEditor';
 import Visualizer from './visualize/Visualizer';
 
 export default function App() {
@@ -20,6 +21,7 @@ export default function App() {
 					<Visualizer />
 					<div className="VisualizerTray">
 						<PinCreator />
+						<PinEditor />
 					</div>
 				</div>
 			</div>

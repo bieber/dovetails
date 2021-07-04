@@ -16,9 +16,11 @@ function round(x) {
 	return parseFloat(x.toFixed(5));
 }
 
-export default function DimensionInput({id, value, dimensionless, onChange}) {
+export default function DimensionInput(props) {
+	const {id, value, dimensionless, onChange, min, max, ...rest} = props;
 	let [{unit}] = useGlobalContext();
-	const [{existingUnit, existingText}, setState] = useState({
+	const [{existingUnit, existingText, existingValue}, setState] = useState({
+		existingValue: value,
 		existingUnit: unit,
 		existingText: text(value, unit),
 	});
@@ -29,29 +31,59 @@ export default function DimensionInput({id, value, dimensionless, onChange}) {
 		unit = 'mm';
 	}
 
-	if (unit !== existingUnit) {
+	function onUnitChange() {
 		setState({
 			existingUnit: unit,
 			existingText: text(value, unit),
 		});
 	}
 
+	function reset() {
+		setState(
+			{
+				existingValue: value,
+				existingUnit: unit,
+				existingText: text(value, unit),
+			},
+		)
+	}
+
+	if (unit !== existingUnit) {
+		onUnitChange();
+	}
+
+
+	if (value !== existingValue) {
+		reset();
+	}
+
 	function onInnerChange(event) {
 		const newText = event.target.value;
-		const parsed = newText === '' ? 0 : parseFloat(newText);
-		if (isNaN(parsed)) {
+		let newValue = newText === '' ? 0 : parseFloat(newText);
+		if (isNaN(newValue)) {
 			return;
 		}
+		if (unit === 'inch') {
+			newValue *= MM_PER_INCH;
+		}
+		if (min !== undefined && newValue < min) {
+			newValue = round(min);
+		}
+		if (max !== undefined && newValue > max) {
+			newValue = round(max);
+		}
 
-		if (parsed !== parseFloat(existingText)) {
-			let newValue = parsed;
-			if (unit === 'inch') {
-				newValue *= MM_PER_INCH;
-			}
+		if (newValue !== existingValue) {
 			onChange(round(newValue));
 		}
 
-		setState({existingUnit: unit, existingText: newText});
+		setState(
+			{
+				existingValue: newValue,
+				existingUnit: unit,
+				existingText: newText,
+			},
+		);
 	}
 
 	return (
@@ -60,6 +92,8 @@ export default function DimensionInput({id, value, dimensionless, onChange}) {
 			type="text"
 			value={existingText}
 			onChange={onInnerChange}
+			onBlur={reset}
+			{...rest}
 		/>
 	);
 }

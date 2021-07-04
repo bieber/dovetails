@@ -43,7 +43,7 @@ export default function PinCreator() {
 				<FormSection>
 					<TextRow
 						id="width_input"
-						label="Width at Bottom"
+						label="New Pin Width"
 						value={maxWidth}
 						onChange={(w) => setMaxWidth(w)}
 					/>

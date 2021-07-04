@@ -49,7 +49,7 @@ export function SelectRow({id, label, options, value, onChange}) {
 	)
 }
 
-export function TextRow({id, label, value, onChange, dimensionless}) {
+export function TextRow({id, label, value, onChange, dimensionless, ...rest}) {
 	let renderedLabel = null;
 	if (label !== null) {
 		renderedLabel = <label htmlFor={id}>{label}</label>;
@@ -63,6 +63,7 @@ export function TextRow({id, label, value, onChange, dimensionless}) {
 				value={value}
 				onChange={onChange}
 				dimensionless={dimensionless}
+				{...rest}
 			/>
 		</FormRow>
 	);

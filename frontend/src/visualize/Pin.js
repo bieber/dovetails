@@ -14,6 +14,7 @@ export default function Pin(props) {
 		maxX,
 		guides,
 		onChange,
+		selected,
 	} = props;
 
 	const pxBoardWidth = materialWidth * pixelsPerMM;
@@ -71,9 +72,12 @@ export default function Pin(props) {
 			y={viewHeight * .2}
 			sceneFunc={draw}
 			fill="white"
+			stroke={selected ? 'blue' : null}
 			draggable
 			dragBoundFunc={dragBound}
+			onDragStart={() => onChange({selected: true})}
 			onDragEnd={onDragEnd}
+			onClick={() => onChange({selected: !selected})}
 		/>
 	);
 }
