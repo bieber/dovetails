@@ -7,6 +7,7 @@ import {usePinContext} from '../context/pinContext';
 
 import Board from './Board';
 import Guide from './Guide';
+import HalfPins from './HalfPins';
 import Pin from './Pin';
 import ShoulderIndicator from './ShoulderIndicator';
 
@@ -47,7 +48,7 @@ export default function Visualizer() {
 	const size = useSize(target);
 	const [{material, cutter}] = useGlobalContext();
 	const guideLocations = useGuideLocations();
-	const [pins, {updatePin}] = usePinContext();
+	const [{pins, halfPins}, {updatePin}] = usePinContext();
 
 	let stage = null;
 	if (size) {
@@ -77,11 +78,18 @@ export default function Visualizer() {
 			(x, i, xs) => <Guide key={i} x={x} {...commonProps} />,
 		);
 
+		let renderedHalfPins = null;
+		if (halfPins !== null) {
+			renderedHalfPins = (
+				<HalfPins width={halfPins} {...commonProps} />
+			);
+		}
+
 		const renderedPins = [...pins]
 			.sort((a, b) => a.x - b.x)
 			.map(
 				(pin, i, ps) => {
-					let minX = pin.maxWidth / 2;
+					let minX = pin.maxWidth / 2 + (halfPins || 0);
 					if (i > 0) {
 						const previous = ps[i - 1];
 						minX = previous.x
@@ -89,7 +97,9 @@ export default function Visualizer() {
 							+ pin.maxWidth / 2;
 					}
 
-					let maxX = material.width - pin.maxWidth / 2;
+					let maxX = (
+						material.width - pin.maxWidth / 2 - (halfPins || 0)
+					)
 					if (i < ps.length - 1) {
 						const next = ps[i + 1];
 						maxX = next.x - next.maxWidth / 2 - pin.maxWidth / 2;
@@ -113,6 +123,7 @@ export default function Visualizer() {
 			<Stage width={size.width} height={size.height}>
 				<Layer>
 					<Board {...commonProps} />
+					{renderedHalfPins}
 					{renderedPins}
 					{guides}
 					<ShoulderIndicator {...commonProps} />

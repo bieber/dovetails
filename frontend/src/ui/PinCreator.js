@@ -7,17 +7,18 @@ import {Form, FormSection, TextRow} from './Form';
 
 export default function PinCreator() {
 	const [{cutter: {diameter}, material: {width}}] = useGlobalContext();
-	const [pins, {addPin}] = usePinContext();
+	const [{pins, halfPins}, {addPin}] = usePinContext();
 	const [maxWidth, setMaxWidth] = useState(diameter);
 
+	const netWidth = width - (halfPins || 0);
 	let nextPin = null;
 	const sorted = [...pins].sort((a, b) => a.x - b.x);
 
-	let left = 0;
+	let left = halfPins || 0;
 	const gaps = [];
 	for (const pin of sorted) {
 		const right = pin.x - pin.maxWidth / 2;
-		if (right > width) {
+		if (right > netWidth) {
 			break;
 		}
 
@@ -27,8 +28,8 @@ export default function PinCreator() {
 		left = right + pin.maxWidth;
 	}
 
-	if (left < width) {
-		gaps.push([left, width]);
+	if (left < netWidth) {
+		gaps.push([left, netWidth]);
 	}
 
 	gaps.sort((a, b) => (b[1] - b[0]) - (a[1] - a[0]));

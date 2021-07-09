@@ -5,11 +5,14 @@ import {Form, FormSection, TextRow} from './Form';
 
 export default function PinEditor() {
 	const [{cutter: {diameter}, material: {width}}] = useGlobalContext();
-	const [pins, {selectedPin, updatePin, deletePin}] = usePinContext();
+	const [
+		{pins, halfPins},
+		{selectedPin, updatePin, deletePin},
+	] = usePinContext();
 
 	const sorted = pins.sort((a, b) => a.x - b.x);
-	let leftX = 0;
-	let rightX = width;
+	let leftX = halfPins || 0;
+	let rightX = width - (halfPins || 0);
 	let widthMax = width;
 	if (selectedPin) {
 		for (let i = 0; i < sorted.length; i++) {
@@ -22,9 +25,6 @@ export default function PinEditor() {
 
 				if (i < sorted.length - 1) {
 					const next = sorted[i + 1];
-					if (!next) {
-						console.log(sorted, i);
-					}
 					rightX = next.x - next.maxWidth / 2;
 				}
 				const rightMax = (rightX - selectedPin.x) * 2;

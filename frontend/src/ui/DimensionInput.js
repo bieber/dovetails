@@ -59,7 +59,9 @@ export default function DimensionInput(props) {
 
 	function onInnerChange(event) {
 		const newText = event.target.value;
-		let newValue = newText === '' ? 0 : parseFloat(newText);
+		let newValue = (newText === '' || newText === '.')
+			? 0
+			: parseFloat(newText);
 		if (isNaN(newValue)) {
 			return;
 		}
