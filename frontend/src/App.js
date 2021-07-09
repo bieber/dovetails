@@ -5,6 +5,7 @@ import GlobalSettings from './ui/GlobalSettings';
 import HalfPinEditor from './ui/HalfPinEditor';
 import PinCreator from './ui/PinCreator';
 import PinEditor from './ui/PinEditor';
+import Submit from './ui/Submit';
 import Visualizer from './visualize/Visualizer';
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
 				<div className="BodyLeft">
 					<GlobalSettings />
 					<GuideSettings />
+					<Submit />
 				</div>
 				<div className="BodyRight">
 					<Visualizer />

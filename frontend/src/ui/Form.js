@@ -1,8 +1,9 @@
 import DimensionInput from './DimensionInput';
 
-export function Form({children}) {
+export function Form({children, allowSubmit, ...rest}) {
+	const onSubmit = allowSubmit ? undefined : (e) => e.preventDefault();
 	return (
-		<form onSubmit={(e) => e.preventDefault()}>
+		<form onSubmit={onSubmit} {...rest}>
 			{children}
 		</form>
 	);
