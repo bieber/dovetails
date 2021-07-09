@@ -49,7 +49,7 @@ export function GuideContextProvider({children}) {
 	const [context, setContext] = useState({
 		enabled: false,
 		spacing: 0,
-		from: 'left',
+		from: 'center',
 	});
 
 	function mergeContext(newContext) {
