@@ -35,11 +35,15 @@ export default function PinEditor() {
 	}
 
 	function onChangeMaxWidth(maxWidth) {
-		updatePin(selectedPin.id, {maxWidth});
+		if (selectedPin) {
+			updatePin(selectedPin.id, {maxWidth});
+		}
 	}
 
 	function onChangeX(x) {
-		updatePin(selectedPin.id, {x});
+		if (selectedPin) {
+			updatePin(selectedPin.id, {x});
+		}
 	}
 
 	let xMin = leftX;

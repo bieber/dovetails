@@ -46,6 +46,8 @@ export default function PinCreator() {
 						id="width_input"
 						label="New Pin Width"
 						value={maxWidth}
+						min={diameter}
+						max={biggestGap ? biggestGap[1] - biggestGap[0] : 0}
 						onChange={(w) => setMaxWidth(w)}
 					/>
 				</FormSection>

@@ -50,6 +50,7 @@ export default function GlobalSettings() {
 						id="thickness_input"
 						label="Material Thickness"
 						value={material.thickness}
+						max={cutter.height}
 						onChange={(thickness) => setMaterial({thickness})}
 					/>
 					<TextRow
