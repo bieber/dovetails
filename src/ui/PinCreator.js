@@ -1,12 +1,16 @@
 import {useState} from 'react';
 
-import {useGlobalContext} from '../context/globalContext';
+import {useStore} from '../context/store';
 import {usePinContext} from '../context/pinContext';
 
 import {Form, FormSection, TextRow} from './Form';
 
 export default function PinCreator() {
-	const [{cutter: {diameter}, material: {width}}] = useGlobalContext();
+	const [
+		{
+			general: {cutter: {diameter}, material: {width}},
+		},
+	] = useStore();
 	const [{pins, halfPins}, {addPin}] = usePinContext();
 	const [maxWidth, setMaxWidth] = useState(diameter);
 

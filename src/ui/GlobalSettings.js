@@ -1,12 +1,10 @@
-import {useGlobalContext} from '../context/globalContext';
+import {useStore} from '../context/store';
+import {setUnit, setCutter, setMaterial} from '../context/generalStore';
 
 import {Form, FormSection, SelectRow, TextRow} from './Form';
 
 export default function GlobalSettings() {
-	const [
-		{unit, cutter, material},
-		{setUnit, setCutter, setMaterial},
-	] = useGlobalContext();
+	const [{general: {unit, cutter, material}}, dispatch] = useStore();
 
 	const unitOptions = [
 		{value: 'mm', label: 'mm'},
@@ -21,7 +19,7 @@ export default function GlobalSettings() {
 						label="Units"
 						options={unitOptions}
 						value={unit}
-						onChange={setUnit}
+						onChange={(unit) => dispatch(setUnit(unit))}
 					/>
 				</FormSection>
 				<FormSection>
@@ -29,19 +27,19 @@ export default function GlobalSettings() {
 						id="diameter_input"
 						label="Cutter Diameter"
 						value={cutter.diameter}
-						onChange={(diameter) => setCutter({diameter})}
+						onChange={(diameter) => dispatch(setCutter({diameter}))}
 					/>
 					<TextRow
 						id="height_input"
 						label="Cutter Height"
 						value={cutter.height}
-						onChange={(height) => setCutter({height})}
+						onChange={(height) => dispatch(setCutter({height}))}
 					/>
 					<TextRow
 						id="angle_input"
 						label="Cutter Angle (deg)"
 						value={cutter.angle}
-						onChange={(angle) => setCutter({angle})}
+						onChange={(angle) => dispatch(setCutter({angle}))}
 						dimensionless
 					/>
 				</FormSection>
@@ -51,13 +49,13 @@ export default function GlobalSettings() {
 						label="Material Thickness"
 						value={material.thickness}
 						max={cutter.height}
-						onChange={(thickness) => setMaterial({thickness})}
+						onChange={(t) => dispatch(setMaterial({thickness: t}))}
 					/>
 					<TextRow
 						id="width_input"
 						label="Material Width"
 						value={material.width}
-						onChange={(width) => setMaterial({width})}
+						onChange={(width) => dispatch(setMaterial({width}))}
 					/>
 				</FormSection>
 			</Form>

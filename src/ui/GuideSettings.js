@@ -1,11 +1,11 @@
 import {useGuideContext} from '../context/guideContext';
-import {useGlobalContext} from '../context/globalContext';
+import {useStore} from '../context/store';
 
 import {Form, FormSection, CheckRow, SelectRow, TextRow} from './Form';
 
 export default function GuideSettings() {
 	const [{enabled, spacing, from}, setGuides] = useGuideContext();
-	const [{cutter: {diameter}}] = useGlobalContext();
+	const [{general: {cutter: {diameter}}}] = useStore();
 
 	let extraOptions = null;
 	if (enabled) {

@@ -1,6 +1,6 @@
 import {createContext, useState, useContext} from 'react';
 
-import {useGlobalContext} from './globalContext';
+import {useStore} from './store';
 
 const Context = createContext();
 
@@ -9,7 +9,7 @@ export function useGuideContext() {
 };
 
 export function useGuideLocations() {
-	const [{material: {width}}] = useGlobalContext();
+	const [{general: {material: {width}}}] = useStore();
 	const [{enabled, spacing, from}] = useGuideContext();
 
 	if (!enabled) {

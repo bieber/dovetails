@@ -1,10 +1,10 @@
-import {useGlobalContext} from '../context/globalContext';
+import {useStore} from '../context/store';
 import {usePinContext} from '../context/pinContext';
 
 import {Form, FormSection} from './Form';
 
 export default function Submit() {
-	const [{cutter, material}] = useGlobalContext();
+	const [{general: {cutter, material}}] = useStore();
 	const [{pins, halfPins}] = usePinContext();
 
 	const submission = {cutter, material, pins, halfPins}

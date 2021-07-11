@@ -1,8 +1,8 @@
 import {useRef, useState, useLayoutEffect} from 'react';
 import {Stage, Layer} from 'react-konva';
 
+import {useStore} from '../context/store';
 import {useGuideLocations} from '../context/guideContext';
-import {useGlobalContext} from '../context/globalContext';
 import {usePinContext} from '../context/pinContext';
 
 import Board from './Board';
@@ -46,7 +46,7 @@ function useSize(target) {
 export default function Visualizer() {
 	const target = useRef(null);
 	const size = useSize(target);
-	const [{material, cutter}] = useGlobalContext();
+	const [{general: {material, cutter}}] = useStore();
 	const guideLocations = useGuideLocations();
 	const [{pins, halfPins}, {updatePin}] = usePinContext();
 

@@ -1,10 +1,10 @@
-import {useGlobalContext} from '../context/globalContext';
+import {useStore} from '../context/store';
 import {usePinContext} from '../context/pinContext';
 
 import {Form, FormSection, TextRow, CheckRow} from './Form';
 
 export default function HalfPinEditor() {
-	const [{material: {width}}] = useGlobalContext();
+	const [{general: {material: {width}}}] = useStore();
 	const [{pins, halfPins}, {updateHalfPins}] = usePinContext();
 
 	let widthMax = width / 2;

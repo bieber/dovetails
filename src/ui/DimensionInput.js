@@ -1,6 +1,6 @@
 import {useState} from 'react';
 
-import {useGlobalContext} from '../context/globalContext';
+import {useStore} from '../context/store';
 
 const MM_PER_INCH = 25.4;
 
@@ -18,7 +18,7 @@ function round(x) {
 
 export default function DimensionInput(props) {
 	const {id, value, dimensionless, onChange, min, max, ...rest} = props;
-	let [{unit}] = useGlobalContext();
+	let [{general: {unit}}] = useStore();
 	const [{existingUnit, existingText, existingValue}, setState] = useState({
 		existingValue: value,
 		existingUnit: unit,
