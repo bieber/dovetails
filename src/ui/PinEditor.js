@@ -1,18 +1,24 @@
 import {useStore} from '../context/store';
-import {usePinContext} from '../context/pinContext';
+import {update, remove} from '../context/pins';
 
 import {Form, FormSection, TextRow} from './Form';
 
 export default function PinEditor() {
-	const [{general: {cutter: {diameter}, material: {width}}}] = useStore();
 	const [
-		{pins, halfPins},
-		{selectedPin, updatePin, deletePin},
-	] = usePinContext();
+		{
+			general: {cutter: {diameter}, material: {width}},
+			pins,
+			halfPins,
+		},
+		dispatch,
+	] = useStore();
 
+	const halfPinWidth = halfPins.enabled ? halfPins.width : 0;
+	const selectedPin = pins.filter((p, i, ps) => p.selected)[0];
 	const sorted = pins.sort((a, b) => a.x - b.x);
-	let leftX = halfPins || 0;
-	let rightX = width - (halfPins || 0);
+
+	let leftX = halfPinWidth;
+	let rightX = width - halfPinWidth;
 	let widthMax = width;
 	if (selectedPin) {
 		for (let i = 0; i < sorted.length; i++) {
@@ -36,13 +42,13 @@ export default function PinEditor() {
 
 	function onChangeMaxWidth(maxWidth) {
 		if (selectedPin) {
-			updatePin(selectedPin.id, {maxWidth});
+			dispatch(update(selectedPin.id, {maxWidth}));
 		}
 	}
 
 	function onChangeX(x) {
 		if (selectedPin) {
-			updatePin(selectedPin.id, {x});
+			dispatch(update(selectedPin.id, {x}));
 		}
 	}
 
@@ -81,7 +87,7 @@ export default function PinEditor() {
 				<FormSection>
 					<button
 						disabled={!selectedPin}
-						onClick={() => deletePin(selectedPin.id)}>
+						onClick={() => dispatch(remove(selectedPin.id))}>
 						Delete Selected
 					</button>
 				</FormSection>

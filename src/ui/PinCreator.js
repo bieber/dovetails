@@ -1,24 +1,27 @@
 import {useState} from 'react';
 
 import {useStore} from '../context/store';
-import {usePinContext} from '../context/pinContext';
+import {add} from '../context/pins';
 
 import {Form, FormSection, TextRow} from './Form';
 
 export default function PinCreator() {
 	const [
 		{
-			general: {cutter: {diameter}, material: {width}},
+			general: {cutter: {diameter}, material: {width: materialWidth}},
+			pins,
+			halfPins,
 		},
+		dispatch,
 	] = useStore();
-	const [{pins, halfPins}, {addPin}] = usePinContext();
 	const [maxWidth, setMaxWidth] = useState(diameter);
 
-	const netWidth = width - (halfPins || 0);
+	const halfPinWidth = halfPins.enabled ? halfPins.width : 0;
+	const netWidth = materialWidth - (halfPinWidth);
 	let nextPin = null;
 	const sorted = [...pins].sort((a, b) => a.x - b.x);
 
-	let left = halfPins || 0;
+	let left = halfPinWidth;
 	const gaps = [];
 	for (const pin of sorted) {
 		const right = pin.x - pin.maxWidth / 2;
@@ -58,7 +61,7 @@ export default function PinCreator() {
 				<FormSection>
 					<button
 						disabled={!nextPin}
-						onClick={() => addPin(nextPin, maxWidth)}>
+						onClick={() => dispatch(add(nextPin, maxWidth))}>
 						Add Pin
 					</button>
 				</FormSection>

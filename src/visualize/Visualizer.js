@@ -3,7 +3,7 @@ import {Stage, Layer} from 'react-konva';
 
 import {useStore} from '../context/store';
 import {useGuideLocations} from '../context/guides';
-import {usePinContext} from '../context/pinContext';
+import {update} from '../context/pins';
 
 import Board from './Board';
 import Guide from './Guide';
@@ -46,9 +46,15 @@ function useSize(target) {
 export default function Visualizer() {
 	const target = useRef(null);
 	const size = useSize(target);
-	const [{general: {material, cutter}}] = useStore();
+	const [
+		{
+			general: {material, cutter},
+			pins,
+			halfPins,
+		},
+		dispatch,
+	] = useStore();
 	const guideLocations = useGuideLocations();
-	const [{pins, halfPins}, {updatePin}] = usePinContext();
 
 	let stage = null;
 	if (size) {
@@ -62,6 +68,7 @@ export default function Visualizer() {
 			0.8 * size.width / material.width,
 		);
 
+		const halfPinWidth = halfPins.enabled ? halfPins.width : 0;
 		const commonProps = {
 			viewWidth: size.width,
 			viewHeight: size.height,
@@ -79,9 +86,9 @@ export default function Visualizer() {
 		);
 
 		let renderedHalfPins = null;
-		if (halfPins !== null) {
+		if (halfPins.enabled) {
 			renderedHalfPins = (
-				<HalfPins width={halfPins} {...commonProps} />
+				<HalfPins width={halfPinWidth} {...commonProps} />
 			);
 		}
 
@@ -89,7 +96,7 @@ export default function Visualizer() {
 			.sort((a, b) => a.x - b.x)
 			.map(
 				(pin, i, ps) => {
-					let minX = pin.maxWidth / 2 + (halfPins || 0);
+					let minX = pin.maxWidth / 2 + halfPinWidth;
 					if (i > 0) {
 						const previous = ps[i - 1];
 						minX = previous.x
@@ -98,7 +105,7 @@ export default function Visualizer() {
 					}
 
 					let maxX = (
-						material.width - pin.maxWidth / 2 - (halfPins || 0)
+						material.width - pin.maxWidth / 2 - halfPinWidth
 					)
 					if (i < ps.length - 1) {
 						const next = ps[i + 1];
@@ -108,7 +115,7 @@ export default function Visualizer() {
 					return (
 						<Pin
 							key={i}
-							onChange={(delta) => updatePin(pin.id, delta)}
+							onChange={(d) => dispatch(update(pin.id, d))}
 							minX={minX}
 							maxX={maxX}
 							guides={guideLocations}

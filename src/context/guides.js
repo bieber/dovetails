@@ -48,10 +48,10 @@ export function useGuideLocations() {
 }
 
 export function reduceGuides(state, action) {
-	const {action: _, ...rest} = action;
+	const {type: _, ...rest} = action;
 	return {...state, ...rest};
 }
 
 export function update(delta) {
-	return {type: 'guides:merge', ...delta};
+	return {type: 'guides:update', ...delta};
 }
