@@ -2,7 +2,7 @@ import {useRef, useState, useLayoutEffect} from 'react';
 import {Stage, Layer} from 'react-konva';
 
 import {useStore} from '../context/store';
-import {useGuideLocations} from '../context/guideContext';
+import {useGuideLocations} from '../context/guides';
 import {usePinContext} from '../context/pinContext';
 
 import Board from './Board';

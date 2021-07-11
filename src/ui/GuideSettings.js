@@ -1,11 +1,16 @@
-import {useGuideContext} from '../context/guideContext';
 import {useStore} from '../context/store';
+import {update} from '../context/guides';
 
 import {Form, FormSection, CheckRow, SelectRow, TextRow} from './Form';
 
 export default function GuideSettings() {
-	const [{enabled, spacing, from}, setGuides] = useGuideContext();
-	const [{general: {cutter: {diameter}}}] = useStore();
+	const [
+		{
+			general: {cutter: {diameter}},
+			guides: {enabled, spacing, from},
+		},
+		dispatch,
+	] = useStore();
 
 	let extraOptions = null;
 	if (enabled) {
@@ -21,24 +26,24 @@ export default function GuideSettings() {
 					id="spacing_input"
 					label="Guide Spacing"
 					value={spacing}
-					onChange={(spacing) => setGuides({spacing})}
+					onChange={(spacing) => dispatch(update({spacing}))}
 				/>
 				<SelectRow
 					id="from_input"
 					label="Guides From"
 					options={fromOptions}
 					value={from}
-					onChange={(from) => setGuides({from})}
-p				/>
+					onChange={(from) => dispatch(update({from}))}
+				/>
 			</FormSection>
 		);
 	}
 
 	function updateEnabled(newValue) {
 		if (newValue && spacing === 0) {
-			setGuides({enabled: true, spacing: diameter});
+			dispatch(update({enabled: true, spacing: diameter}));
 		} else {
-			setGuides({enabled: newValue});
+			dispatch(update({enabled: newValue}));
 		}
 	}
 

@@ -1,5 +1,5 @@
 import {useStore} from '../context/store';
-import {setUnit, setCutter, setMaterial} from '../context/generalStore';
+import {setUnit, setCutter, setMaterial} from '../context/general';
 
 import {Form, FormSection, SelectRow, TextRow} from './Form';
 

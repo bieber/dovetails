@@ -1,16 +1,18 @@
-import {createContext, useState, useContext} from 'react';
-
 import {useStore} from './store';
 
-const Context = createContext();
-
-export function useGuideContext() {
-	return useContext(Context);
+export const initGuides = {
+	enabled: false,
+	spacing: 0,
+	from: 'center',
 };
 
 export function useGuideLocations() {
-	const [{general: {material: {width}}}] = useStore();
-	const [{enabled, spacing, from}] = useGuideContext();
+	const [
+		{
+			general: {material: {width}},
+			guides: {enabled, spacing, from},
+		},
+	] = useStore();
 
 	if (!enabled) {
 		return [];
@@ -45,20 +47,11 @@ export function useGuideLocations() {
 	}
 }
 
-export function GuideContextProvider({children}) {
-	const [context, setContext] = useState({
-		enabled: false,
-		spacing: 0,
-		from: 'center',
-	});
+export function reduceGuides(state, action) {
+	const {action: _, ...rest} = action;
+	return {...state, ...rest};
+}
 
-	function mergeContext(newContext) {
-		setContext({...context, ...newContext});
-	}
-
-	return (
-		<Context.Provider value={[context, mergeContext]}>
-			{children}
-		</Context.Provider>
-	);
+export function update(delta) {
+	return {type: 'guides:merge', ...delta};
 }
