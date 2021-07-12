@@ -6,7 +6,10 @@ import {Form, FormSection, TextRow, CheckRow} from './Form';
 export default function HalfPinEditor() {
 	const [
 		{
-			general: {material: {width: materialWidth}},
+			general: {
+				cutter: {straightDiameter},
+				material: {width: materialWidth},
+			},
 			pins,
 			halfPins: {enabled, width},
 		},
@@ -15,8 +18,8 @@ export default function HalfPinEditor() {
 
 	let widthMax = materialWidth / 2;
 	for (const {x, maxWidth} of pins) {
-		const leftEdge = x - maxWidth / 2;
-		const rightEdge = x + maxWidth / 2;
+		const leftEdge = x - maxWidth / 2 - straightDiameter;
+		const rightEdge = x + maxWidth / 2 + straightDiameter;
 		widthMax = Math.min(widthMax, leftEdge, materialWidth - rightEdge);
 	}
 
@@ -52,6 +55,7 @@ export default function HalfPinEditor() {
 						id="enable_half_pins_input"
 						label="Enable Half Pins"
 						checked={enabled}
+						disabled={widthMax <= 0}
 						onChange={onToggle}
 					/>
 				</FormSection>

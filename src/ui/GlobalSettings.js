@@ -10,6 +10,15 @@ export default function GlobalSettings() {
 		{value: 'mm', label: 'mm'},
 		{value: 'inch', label: 'inch'},
 	];
+
+	function onDovetailChange(dovetailDiameter) {
+		dispatch(setCutter({dovetailDiameter}));
+	}
+
+	function onStraightChange(straightDiameter) {
+		dispatch(setCutter({straightDiameter}));
+	}
+
 	return (
 		<div className="Settings Block">
 			<Form>
@@ -24,10 +33,16 @@ export default function GlobalSettings() {
 				</FormSection>
 				<FormSection>
 					<TextRow
-						id="diameter_input"
-						label="Cutter Diameter"
-						value={cutter.diameter}
-						onChange={(diameter) => dispatch(setCutter({diameter}))}
+						id="dovetail_diameter_input"
+						label="Dovetail Diameter"
+						value={cutter.dovetailDiameter}
+						onChange={onDovetailChange}
+					/>
+					<TextRow
+						id="straight_diameter_input"
+						label="Straight Diameter"
+						value={cutter.straightDiameter}
+						onChange={onStraightChange}
 					/>
 					<TextRow
 						id="height_input"

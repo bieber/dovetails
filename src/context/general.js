@@ -1,7 +1,8 @@
 export const initGeneral = {
 	unit: 'mm',
 	cutter: {
-		diameter: 12.7,
+		dovetailDiameter: 12.7,
+		straightDiameter: 6.35,
 		height: 12.7,
 		angle: 14,
 	},

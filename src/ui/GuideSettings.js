@@ -6,7 +6,7 @@ import {Form, FormSection, CheckRow, SelectRow, TextRow} from './Form';
 export default function GuideSettings() {
 	const [
 		{
-			general: {cutter: {diameter}},
+			general: {cutter: {dovetailDiameter}},
 			guides: {enabled, spacing, from},
 		},
 		dispatch,
@@ -41,7 +41,7 @@ export default function GuideSettings() {
 
 	function updateEnabled(newValue) {
 		if (newValue && spacing === 0) {
-			dispatch(update({enabled: true, spacing: diameter}));
+			dispatch(update({enabled: true, spacing: dovetailDiameter}));
 		} else {
 			dispatch(update({enabled: newValue}));
 		}

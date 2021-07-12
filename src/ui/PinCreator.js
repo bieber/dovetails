@@ -8,15 +8,20 @@ import {Form, FormSection, TextRow} from './Form';
 export default function PinCreator() {
 	const [
 		{
-			general: {cutter: {diameter}, material: {width: materialWidth}},
+			general: {
+				cutter: {straightDiameter, dovetailDiameter},
+				material: {width: materialWidth},
+			},
 			pins,
 			halfPins,
 		},
 		dispatch,
 	] = useStore();
-	const [maxWidth, setMaxWidth] = useState(diameter);
+	const [maxWidth, setMaxWidth] = useState(dovetailDiameter);
 
-	const halfPinWidth = halfPins.enabled ? halfPins.width : 0;
+	const halfPinWidth = halfPins.enabled
+		? halfPins.width + straightDiameter
+		: 0;
 	const netWidth = materialWidth - (halfPinWidth);
 	let nextPin = null;
 	const sorted = [...pins].sort((a, b) => a.x - b.x);
@@ -24,7 +29,7 @@ export default function PinCreator() {
 	let left = halfPinWidth;
 	const gaps = [];
 	for (const pin of sorted) {
-		const right = pin.x - pin.maxWidth / 2;
+		const right = pin.x - pin.maxWidth / 2 - straightDiameter;
 		if (right > netWidth) {
 			break;
 		}
@@ -32,7 +37,7 @@ export default function PinCreator() {
 		if (right > left) {
 			gaps.push([left, right]);
 		}
-		left = right + pin.maxWidth;
+		left = right + pin.maxWidth + straightDiameter * 2;
 	}
 
 	if (left < netWidth) {
@@ -53,7 +58,7 @@ export default function PinCreator() {
 						id="width_input"
 						label="New Pin Width"
 						value={maxWidth}
-						min={diameter}
+						min={dovetailDiameter}
 						max={biggestGap ? biggestGap[1] - biggestGap[0] : 0}
 						onChange={(w) => setMaxWidth(w)}
 					/>

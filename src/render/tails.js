@@ -3,18 +3,18 @@ import renderBase from './base';
 export default function renderTails(state, buffer) {
 	const {
 		general: {
-			cutter: {diameter},
+			cutter: {dovetailDiameter},
 			material: {thickness, width: materialWidth},
 		},
 		pins,
 		halfPins,
 	} = state;
 
-	const radius = diameter / 2;
+	const radius = dovetailDiameter / 2;
 
 	const top = -1.1 * radius;
-	const middle = thickness + 0.1 * diameter;
-	const bottom = thickness + 1.5 * diameter;
+	const middle = thickness + 0.1 * dovetailDiameter;
+	const bottom = thickness + 1.5 * dovetailDiameter;
 
 	const maxLeft = -1.1 * radius;
 	const maxRight = materialWidth + 1.1 * radius;
