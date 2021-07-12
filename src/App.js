@@ -1,5 +1,8 @@
 import './App.css';
 
+import {useStore} from './context/store';
+import renderTails from './render/tails';
+
 import GuideSettings from './ui/GuideSettings';
 import GlobalSettings from './ui/GlobalSettings';
 import HalfPinEditor from './ui/HalfPinEditor';
@@ -9,6 +12,10 @@ import Submit from './ui/Submit';
 import Visualizer from './visualize/Visualizer';
 
 export default function App() {
+	const [store] = useStore();
+	const rendered = renderTails(store, 20);
+	const src = `data:image/svg+xml;base64,${btoa(rendered)}`;
+
 	return (
 		<div className="App">
 			<header className="App-header">
@@ -29,6 +36,7 @@ export default function App() {
 					</div>
 				</div>
 			</div>
+			<img src={src} alt="Tails preview" />
 		</div>
 	);
 }
