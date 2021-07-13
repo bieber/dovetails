@@ -1,4 +1,4 @@
-import renderBase from './base';
+import renderBase, {pocketStyle} from './base';
 
 export default function renderTails(state, buffer) {
 	const {
@@ -53,6 +53,6 @@ export default function renderTails(state, buffer) {
 	return renderBase(
 		state,
 		buffer,
-		`<path class="pocket" d="${steps.join(' ')}" />`,
+		`<path style="${pocketStyle}" d="${steps.join(' ')}" />`,
 	);
 }
