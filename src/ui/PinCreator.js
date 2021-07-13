@@ -46,7 +46,8 @@ export default function PinCreator() {
 
 	gaps.sort((a, b) => (b[1] - b[0]) - (a[1] - a[0]));
 	const biggestGap = gaps[0];
-	if (biggestGap && biggestGap[1] - biggestGap[0] >= maxWidth) {
+	const spaceNeeded = Math.max(maxWidth, dovetailDiameter);
+	if (biggestGap && biggestGap[1] - biggestGap[0] >= spaceNeeded) {
 		nextPin = (biggestGap[1] + biggestGap[0]) / 2;
 	}
 
@@ -60,6 +61,7 @@ export default function PinCreator() {
 						value={maxWidth}
 						min={dovetailDiameter}
 						max={biggestGap ? biggestGap[1] - biggestGap[0] : 0}
+						disabled={!nextPin}
 						onChange={(w) => setMaxWidth(w)}
 					/>
 				</FormSection>
