@@ -71,34 +71,22 @@ function expandedWidths(state, pin) {
 
 	const top = -1.1 * radius;
 	const middle = thickness + .5 * radius;
-	const bottom = thickness + 2 * straightDiameter;
 
-	// This trig is probably suboptimal, but it should work.
-	// Consider the following diagram of a dovetail
-	//
-	//               -----
-	//              /     |\
-	//             /      | \
-	//             --------d0-
-	//            /       |   \
-	//           -----------d1-
-	//
-	// We can calculate the length of segments d1 and d0, then
-	// subtract and multiply by two to get the amount we need to add
-	// to maxWidth to account for the extra space at the bottom
-	// (which ensures clearance of the bit when cutting with a
-	// negative offset to add glue gap).  Then we can just use the
-	// same calculation from the Pin renderer to get the minimum
-	// width at the top height
+	// The trig here could probably be simpler, but it works.  I use
+	// the same formula I use in the Pin visualizer component to
+	// calculate the minimum width if we extend the shape of the pin up
+	// to the top line.  Then I just apply it in reverse to get the
+	// maximum width if we extend it down to the middle line.
 
 	const {maxWidth} = pin;
 
 	const tangent = Math.tan(2 * angle * Math.PI / 360);
-	const d1 = tangent / bottom;
-	const d0 = tangent / thickness;
-	const expandedMaxWidth = maxWidth + 2 * (d1-d0);
-	const expandedMinWidth = expandedMaxWidth - (
-		2 * tangent * (middle - top)
+
+	const expandedMinWidth = maxWidth - (
+		2 * (thickness - top) * tangent
+	);
+	const expandedMaxWidth = expandedMinWidth + (
+		2 * (middle - top) * tangent
 	);
 
 	return [expandedMinWidth, expandedMaxWidth];
