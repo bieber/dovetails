@@ -2,7 +2,7 @@ import './App.css';
 
 import {useStore} from './context/store';
 import renderTails from './render/tails';
-import {renderPinsA} from './render/pins';
+import {renderPinsA, renderPinsB} from './render/pins';
 
 import GuideSettings from './ui/GuideSettings';
 import GlobalSettings from './ui/GlobalSettings';
@@ -16,8 +16,10 @@ export default function App() {
 	const [store] = useStore();
 	const tailsRendered = renderTails(store, 20);
 	const pinsARendered = renderPinsA(store, 20);
+	const pinsBRendered = renderPinsB(store, 20);
 	const tailsSrc = `data:image/svg+xml;base64,${btoa(tailsRendered)}`;
 	const pinsASrc = `data:image/svg+xml;base64,${btoa(pinsARendered)}`;
+	const pinsBSrc = `data:image/svg+xml;base64,${btoa(pinsBRendered)}`;
 
 	return (
 		<div className="App">
@@ -41,6 +43,7 @@ export default function App() {
 			</div>
 			<img src={tailsSrc} alt="Tails preview" />
 			<img src={pinsASrc} alt="Pins A preview" />
+			<img src={pinsBSrc} alt="Pins B preview" />
 		</div>
 	);
 }

@@ -8,7 +8,7 @@ export const pocketStyle = [
 	'stroke-miterlimit:10;',
 	'stroke-dasharray:none;',
 	'stroke-opacity:1',
-] .join('');
+].join('');
 
 export const guideStyle = [
 	'fill:none;',
@@ -20,7 +20,7 @@ export const guideStyle = [
 	'stroke-miterlimit:10;',
 	'stroke-dasharray:none;',
 	'stroke-opacity:1',
-] .join('');
+].join('');
 
 export default function renderBase(state, buffer, innerPath) {
 	const {general: {material: {thickness, width: materialWidth}}} = state;
