@@ -50,6 +50,9 @@ export default function PinCreator() {
 	if (biggestGap && biggestGap[1] - biggestGap[0] >= spaceNeeded) {
 		nextPin = (biggestGap[1] + biggestGap[0]) / 2;
 	}
+	const canFit = (
+		biggestGap && biggestGap[1] - biggestGap[0] >= dovetailDiameter
+	);
 
 	return (
 		<div className="Block Settings">
@@ -61,7 +64,7 @@ export default function PinCreator() {
 						value={maxWidth}
 						min={dovetailDiameter}
 						max={biggestGap ? biggestGap[1] - biggestGap[0] : 0}
-						disabled={!nextPin}
+						disabled={!canFit}
 						onChange={(w) => setMaxWidth(w)}
 					/>
 				</FormSection>
