@@ -59,7 +59,7 @@ function renderPins(state, buffer, points) {
 	);
 }
 
-function expandedWidths(state, pin) {
+function expandedWidths(state, pin, invert) {
 	const {
 		general: {
 			cutter: {straightDiameter, angle},
@@ -82,12 +82,9 @@ function expandedWidths(state, pin) {
 
 	const tangent = Math.tan(2 * angle * Math.PI / 360);
 
-	const expandedMinWidth = maxWidth - (
-		2 * (thickness - top) * tangent
-	);
-	const expandedMaxWidth = expandedMinWidth + (
-		2 * (middle - top) * tangent
-	);
+	const minDistance = invert ? middle : thickness - top;
+	const expandedMinWidth = maxWidth - 2 * minDistance * tangent;
+	const expandedMaxWidth = expandedMinWidth + 2 * (middle - top) * tangent;
 
 	return [expandedMinWidth, expandedMaxWidth];
 }
@@ -111,7 +108,11 @@ export function renderPinsA(state, buffer) {
 export function renderPinsB(state, buffer) {
 	function points(pin) {
 		const {x} = pin;
-		const [expandedMinWidth, expandedMaxWidth] = expandedWidths(state, pin);
+		const [expandedMinWidth, expandedMaxWidth] = expandedWidths(
+			state,
+			pin,
+			true,
+		);
 
 		return [
 			x - expandedMaxWidth / 2,
