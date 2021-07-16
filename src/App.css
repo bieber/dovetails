@@ -61,6 +61,26 @@
 	padding: 2px;
 }
 
+.Settings .ThreeButtonRow {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	column-gap: 16px;
+	padding: 2px;
+}
+
+.Settings a {
+	display: block;
+	border: 2px solid black;
+	background: gray;
+	padding: 2px;
+	color: white;
+	text-decoration: none;
+}
+
+.Settings span {
+	font-weight: bold;
+}
+
 .Block {
 	block-size: fit-content;
 	border: 2px solid gray;
