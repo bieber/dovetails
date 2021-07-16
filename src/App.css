@@ -1,5 +1,8 @@
 .App {
 	text-align: center;
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
 }
 
 .App-header {
@@ -28,6 +31,26 @@
 
 	overflow: hidden;
 }
+
+.Footer {
+	margin-top: auto;
+	padding: 12px;
+}
+
+.Footer ul {
+	margin: auto;
+	width: fit-content;
+}
+
+.Footer li:first-child {
+	list-style-type: none;
+}
+
+.Footer li {
+	float: left;
+	margin-left: 28px;
+}
+
 
 .VisualizerTray {
 	display: flex;

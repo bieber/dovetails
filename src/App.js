@@ -29,6 +29,16 @@ export default function App() {
 					</div>
 				</div>
 			</div>
+			<div className="Footer">
+				<ul>
+					<li>&copy; 2021, Robert Bieber</li>
+					<li>
+						<a href="https://www.github.com/bieber/dovetails/">
+							Source code on Github
+						</a>
+					</li>
+				</ul>
+			</div>
 		</div>
 	);
 }
