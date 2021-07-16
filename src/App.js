@@ -1,3 +1,5 @@
+import {Link} from 'react-router-dom';
+
 import './App.css';
 
 import GuideSettings from './ui/GuideSettings';
@@ -36,6 +38,9 @@ export default function App() {
 						<a href="https://www.github.com/bieber/dovetails/">
 							Source code on Github
 						</a>
+					</li>
+					<li>
+						<Link to="/instructions">Instructions</Link>
 					</li>
 				</ul>
 			</div>
