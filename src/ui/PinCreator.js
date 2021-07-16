@@ -17,7 +17,12 @@ export default function PinCreator() {
 		},
 		dispatch,
 	] = useStore();
-	const [maxWidth, setMaxWidth] = useState(dovetailDiameter);
+	const minWidth = dovetailDiameter + 0.1;
+	const [maxWidth, setMaxWidth] = useState(Math.ceil(minWidth));
+
+	if (maxWidth < minWidth) {
+		setMaxWidth(minWidth);
+	}
 
 	const halfPinWidth = halfPins.enabled
 		? halfPins.width + straightDiameter
@@ -62,7 +67,7 @@ export default function PinCreator() {
 						id="width_input"
 						label="New Pin Width"
 						value={maxWidth}
-						min={dovetailDiameter}
+						min={minWidth}
 						max={biggestGap ? biggestGap[1] - biggestGap[0] : 0}
 						disabled={!canFit}
 						onChange={(w) => setMaxWidth(w)}

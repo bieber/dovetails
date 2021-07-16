@@ -76,7 +76,7 @@ export default function PinEditor() {
 						value={selectedPin?.maxWidth || 0}
 						onChange={onChangeMaxWidth}
 						disabled={!selectedPin}
-						min={dovetailDiameter}
+						min={dovetailDiameter + 0.1}
 						max={widthMax}
 					/>
 					<TextRow
