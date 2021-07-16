@@ -2,10 +2,14 @@ import {createContext, useContext, useReducer} from 'react';
 
 import {initGeneral, reduceGeneral} from './general';
 import {initGuides, reduceGuides} from './guides';
-import {initHalfPins, reduceHalfPins} from './halfPins';
-import {initPins, reducePins} from './pins';
+import {initHalfPins, reduceHalfPins, validateHalfPins} from './halfPins';
+import {initPins, reducePins, validatePins} from './pins';
 
 const Context = createContext();
+const VALIDATIONS = [
+	validatePins,
+	validateHalfPins,
+];
 
 export function useStore() {
 	return useContext(Context);
@@ -46,6 +50,9 @@ export function StoreProvider({children}) {
 					return state;
 			}
 
+			for (const validation of VALIDATIONS) {
+				newState = validation(newState);
+			}
 			return newState;
 		},
 		{

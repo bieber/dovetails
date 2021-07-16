@@ -2,6 +2,52 @@ let pinID = 0;
 
 export const initPins = [];
 
+export function validatePins(state) {
+	const {
+		general: {
+			cutter: {dovetailDiameter, straightDiameter},
+			material: {width},
+		},
+		pins,
+		halfPins,
+	} = state;
+
+	function filterPin(pin, i, pins) {
+		if (pin.maxWidth < dovetailDiameter + 0.1) {
+			return false;
+		}
+
+		const halfPinFactor = halfPins.enabled ? halfPins.width : 0;
+		const maxLeft = halfPinFactor;
+		const maxRight = width - halfPinFactor;
+
+		const left = pin.x - pin.maxWidth / 2;
+		const right = pin.x + pin.maxWidth / 2;
+
+		if (left < maxLeft || right > maxRight) {
+			return false;
+		}
+		for (const otherPin of pins) {
+			if (otherPin.id === pin.id) {
+				continue;
+			}
+
+			const otherLeft = otherPin.x - otherPin.maxWidth / 2;
+			const otherRight = otherPin.x + otherPin.maxWidth / 2;
+			const margin = otherPin.x > pin.x
+				? otherLeft - right
+				: left - otherRight;
+			if (straightDiameter - margin > 0.0001) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	return {...state, pins: pins.filter(filterPin)};
+}
+
 export function reducePins(state, action) {
 	switch (action.type) {
 		case 'add':

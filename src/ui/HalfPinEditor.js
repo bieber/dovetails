@@ -16,7 +16,7 @@ export default function HalfPinEditor() {
 		dispatch,
 	] = useStore();
 
-	let widthMax = materialWidth / 2;
+	let widthMax = materialWidth / 2 - straightDiameter / 2;
 	for (const {x, maxWidth} of pins) {
 		const leftEdge = x - maxWidth / 2 - straightDiameter;
 		const rightEdge = x + maxWidth / 2 + straightDiameter;
