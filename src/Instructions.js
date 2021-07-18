@@ -237,6 +237,27 @@ export default function Instructions() {
 					to align the template (more on this in the next section).
 				</p>
 
+				<h3>Custom Anchor Points</h3>
+				<p>
+					If you have Origin firmware Inverness or newer, you should
+					see a custom anchor point in the templates defined by the
+					small red triangle.  Simply align this anchor point with the
+					origin of your grid and you're ready to cut.  You can use
+					the Anchor Position selector to place this at the corner of
+					your stock that you intend to probe your grid at.
+				</p>
+
+				<h3>Share</h3>
+				<p>
+					At the bottom of the export module, you'll find the Share
+					section with a button that links to the current
+					design.  This link captures the entire state of the tool
+					at the time you click it, and you can use it to share
+					your design with others or bookmark it to come back to
+					a design later.  Keep in mind that this link changes every
+					time you update your design.
+				</p>
+
 				{/* eslint-disable-next-line */}
 				<a name="cutting" />
 				<h2>Cutting Procedure</h2>
@@ -378,24 +399,24 @@ export default function Instructions() {
 					there are a few features left that I'm still planning to
 					implement in the next month or so before I stop working on
 					it in earnest.  Namely:
-					<ol>
-						<li>
-							An auto-layout tool that will allow you to easily
-							create evenly spaced layouts.
-						</li>
-						<li>
-							A mirrored layout tool that will mirror one side
-							of the layout to the other to create a perfectly
-							symmetrical layout.
-						</li>
-						<li>
-							Support for half-blind dovetails.  This is
-							conceptually not too difficult, I just need to
-							sit down and work out the math to get all the cut
-							lengths correct one of these days.
-						</li>
-					</ol>
 				</p>
+				<ol>
+					<li>
+						An auto-layout tool that will allow you to easily
+						create evenly spaced layouts.
+					</li>
+					<li>
+						A mirrored layout tool that will mirror one side
+						of the layout to the other to create a perfectly
+						symmetrical layout.
+					</li>
+					<li>
+						Support for half-blind dovetails.  This is
+						conceptually not too difficult, I just need to
+						sit down and work out the math to get all the cut
+						lengths correct one of these days.
+					</li>
+				</ol>
 			</div>
 		</div>
 	);
