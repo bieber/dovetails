@@ -96,6 +96,12 @@
 	padding: 2px;
 }
 
+.Settings .OneButtonRow {
+	display: grid;
+	grid-template-columns: 1fr;
+	padding: 10px;
+}
+
 .Settings a {
 	display: block;
 	border: 2px solid black;

@@ -1,4 +1,5 @@
 import {createContext, useContext, useReducer} from 'react';
+import {useLocation} from 'react-router-dom';
 
 import {initGeneral, reduceGeneral} from './general';
 import {initGuides, reduceGuides} from './guides';
@@ -15,7 +16,42 @@ export function useStore() {
 	return useContext(Context);
 }
 
+function isObject(x) {
+	return x && typeof x === 'object' && !Array.isArray(x);
+}
+
+function deepMerge(dst, src) {
+	const output = {...dst};
+
+	for (const key in src) {
+		if (!src.hasOwnProperty(key)) {
+			console.log(key);
+			continue;
+		}
+
+		if (isObject(src[key]) && isObject(dst[key])) {
+			output[key] = deepMerge(dst[key], src[key]);
+		} else {
+			output[key] = src[key];
+		}
+	}
+
+	return output;
+}
+window.deepMerge = deepMerge;
+
 export function StoreProvider({children}) {
+	const sharedState = new URLSearchParams(useLocation().search).get('s');
+	let initialState = {
+		general: initGeneral,
+		guides: initGuides,
+		halfPins: initHalfPins,
+		pins: initPins,
+	};
+	if (sharedState) {
+		initialState = deepMerge(initialState, JSON.parse(atob(sharedState)));
+	}
+
 	const [store, dispatch] = useReducer(
 		(state, action) => {
 			let newState = state;
@@ -55,12 +91,7 @@ export function StoreProvider({children}) {
 			}
 			return newState;
 		},
-		{
-			general: initGeneral,
-			guides: initGuides,
-			halfPins: initHalfPins,
-			pins: initPins,
-		},
+		initialState,
 	);
 
 	return (

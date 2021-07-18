@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import {Link} from 'react-router-dom';
 
 import {useStore} from '../context/store';
 import renderTails from '../render/tails';
@@ -20,6 +21,11 @@ export default function Submit() {
 	if (minBuffer > buffer) {
 		setBuffer(minBuffer);
 	}
+
+	const shareLink = {
+		path: '/',
+		search: `?s=${btoa(JSON.stringify(store))}`,
+	};
 
 	return (
 		<div className="Block Settings">
@@ -53,6 +59,10 @@ export default function Submit() {
 						</a>
 					</div>
 				</FormSection>
+				<span>Share</span>
+				<div className="OneButtonRow">
+					<Link to={shareLink}>Link to this design</Link>
+				</div>
 			</Form>
 		</div>
 	);
