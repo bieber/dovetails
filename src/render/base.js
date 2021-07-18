@@ -10,6 +10,18 @@ export const pocketStyle = [
 	'stroke-opacity:1',
 ].join('');
 
+export const anchorStyle = [
+	'fill:red;',
+	'fill-opacity:1;',
+	'fill-rule:nonzero;',
+	'stroke:none;',
+	'stroke-width:8;',
+	'stroke-linejoin:round;',
+	'stroke-miterlimit:10;',
+	'stroke-dasharray:none;',
+	'stroke-opacity:1',
+].join('');
+
 export const guideStyle = [
 	'fill:none;',
 	'fill-opacity:1;',
@@ -22,11 +34,28 @@ export const guideStyle = [
 	'stroke-opacity:1',
 ].join('');
 
-export default function renderBase(state, buffer, innerPath) {
+export default function renderBase(state, buffer, anchor, innerPath) {
 	const {general: {material: {thickness, width: materialWidth}}} = state;
 
 	const totalWidth = materialWidth + 2 * buffer;
 	const totalHeight = thickness + 2 * buffer;
+
+	let anchorTranslate=[0, 0];
+	switch (anchor) {
+		case 'bottomleft':
+			anchorTranslate = [buffer, buffer + thickness];
+			break;
+		case 'bottomright':
+			anchorTranslate = [buffer + materialWidth, buffer + thickness];
+			break;
+		case 'topright':
+			anchorTranslate = [buffer + materialWidth, buffer];
+			break;
+		case 'topleft':
+			anchorTranslate = [buffer, buffer];
+			break;
+		default:
+	}
 
 	return `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 		<svg
@@ -53,6 +82,9 @@ export default function renderBase(state, buffer, innerPath) {
 				width="${materialWidth}"
 				height="${thickness}"
 			/>
+			<g transform="translate(${anchorTranslate.join(',')})">
+				<polygon style="${anchorStyle}" points="0,0 0,-5 2,0" />
+			</g>
 		</svg>
 	`;
 }

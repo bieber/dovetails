@@ -1,6 +1,6 @@
 import renderBase, {pocketStyle} from './base';
 
-function renderPins(state, buffer, points) {
+function renderPins(state, buffer, anchor, points) {
 	const {
 		general: {
 			cutter: {straightDiameter},
@@ -55,6 +55,7 @@ function renderPins(state, buffer, points) {
 	return renderBase(
 		state,
 		buffer,
+		anchor,
 		`<path style="${pocketStyle}" d="${steps.join(' ')}" />`,
 	);
 }
@@ -89,7 +90,7 @@ function expandedWidths(state, pin, invert) {
 	return [expandedMinWidth, expandedMaxWidth];
 }
 
-export function renderPinsA(state, buffer) {
+export function renderPinsA(state, buffer, anchor) {
 	function points(pin) {
 		const {x} = pin;
 		const [expandedMinWidth, expandedMaxWidth] = expandedWidths(state, pin);
@@ -102,10 +103,10 @@ export function renderPinsA(state, buffer) {
 		];
 	}
 
-	return renderPins(state, buffer, points);
+	return renderPins(state, buffer, anchor, points);
 }
 
-export function renderPinsB(state, buffer) {
+export function renderPinsB(state, buffer, anchor) {
 	function points(pin) {
 		const {x} = pin;
 		const [expandedMinWidth, expandedMaxWidth] = expandedWidths(
@@ -122,5 +123,5 @@ export function renderPinsB(state, buffer) {
 		];
 	}
 
-	return renderPins(state, buffer, points);
+	return renderPins(state, buffer, anchor, points);
 }
