@@ -68,6 +68,7 @@ export default function DimensionInput(props) {
 		if (unit === 'inch') {
 			newValue *= MM_PER_INCH;
 		}
+
 		if (min !== undefined && newValue < min) {
 			newValue = round(min);
 		}
@@ -91,8 +92,11 @@ export default function DimensionInput(props) {
 	return (
 		<input
 			id={id}
-			type="text"
+			type="number"
 			value={existingText}
+			min={min}
+			max={max}
+			step={0.1}
 			onChange={onInnerChange}
 			onBlur={reset}
 			{...rest}
