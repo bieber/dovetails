@@ -1,3 +1,5 @@
+import {mirrorPins} from '../util/pins';
+
 let pinID = 0;
 
 export const initPins = [];
@@ -82,6 +84,20 @@ export function reducePins(state, action) {
 		case 'delete':
 			return state.filter((p, i, ps) => p.id !== action.id);
 
+		case 'mirror':
+			const {direction, width, dovetailDiameter} = action;
+			const mirrored = mirrorPins(
+				state,
+				direction,
+				width,
+				dovetailDiameter,
+			);
+			for (const i in mirrored) {
+				mirrored[i].id = pinID;
+				pinID += 2;
+			}
+			return mirrored;
+
 		default:
 			return state;
 	}
@@ -97,4 +113,8 @@ export function update(id, delta) {
 
 export function remove(id) {
 	return {type: 'pins:delete', id};
+}
+
+export function mirror(direction, width, dovetailDiameter) {
+	return {type: 'pins:mirror', direction, width, dovetailDiameter};
 }

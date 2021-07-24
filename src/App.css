@@ -56,7 +56,6 @@
 	margin-left: 28px;
 }
 
-
 .VisualizerTray {
 	display: flex;
 	flex-direction: row;
@@ -81,6 +80,10 @@
 	padding: 8px;
 }
 
+.Settings .FormHeader {
+	padding-top: 8px;
+}
+
 .Settings .FormRow {
 	display: grid;
 	grid-template-columns: 150px 1fr;
@@ -92,6 +95,13 @@
 .Settings .ThreeButtonRow {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
+	column-gap: 16px;
+	padding: 2px;
+}
+
+.Settings .TwoButtonRow {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
 	column-gap: 16px;
 	padding: 2px;
 }

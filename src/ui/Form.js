@@ -17,6 +17,14 @@ export function FormSection({children}) {
 	);
 }
 
+export function FormHeader({children}) {
+	return (
+		<div className="FormHeader">
+			{children}
+		</div>
+	);
+}
+
 export function FormRow({children}) {
 	return (
 		<div className="FormRow">

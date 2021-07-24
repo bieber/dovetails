@@ -5,6 +5,7 @@ import './App.css';
 import GuideSettings from './ui/GuideSettings';
 import GlobalSettings from './ui/GlobalSettings';
 import HalfPinEditor from './ui/HalfPinEditor';
+import Mirror from './ui/Mirror';
 import PinCreator from './ui/PinCreator';
 import PinEditor from './ui/PinEditor';
 import Submit from './ui/Submit';
@@ -20,6 +21,7 @@ export default function App() {
 				<div className="BodyLeft">
 					<GlobalSettings />
 					<GuideSettings />
+					<Mirror />
 					<Submit />
 				</div>
 				<div className="BodyRight">
