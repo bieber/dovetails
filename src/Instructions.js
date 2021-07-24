@@ -6,6 +6,7 @@ import overview from './assets/overview.png';
 import global from './assets/global.png';
 import pinEditing from './assets/pin_editing.png';
 import guides from './assets/guides.png';
+import mirror from './assets/mirror.png';
 import exportTemplates from './assets/export.png';
 import pinsA from './assets/pins_a.png';
 import placement from './assets/placement.jpg';
@@ -26,6 +27,7 @@ export default function Instructions() {
 						<li><a href="#global_settings">Global Settings</a></li>
 						<li><a href="#editing_pins">Editing Pins</a></li>
 						<li><a href="#guides">Guides</a></li>
+						<li><a href="#mirror">Mirroring the Design</a></li>
 						<li><a href="#export">Exporting Templates</a></li>
 						<li><a href="#cutting">Cutting Procedure</a></li>
 						<li><a href="#todo">TODO</a></li>
@@ -212,6 +214,28 @@ export default function Instructions() {
 				</p>
 
 				{/* eslint-disable-next-line */}
+				<a name="mirror" />
+				<h2>Mirroring the Design</h2>
+				<img src={mirror} alt="Design mirror screenshot" />
+				<p>
+					The mirror module makes it easy to create perfectly
+					symmetric layouts.  The two buttons each mirror one
+					side of your design to the other--either left to right
+					or right to left.  If you click the left to right button
+					it simply deletes all pins on the right side of the board
+					and replaces them with mirrored versions of the pins on
+					the left.  Likewise for the right to left button, but in
+					the opposite direction.
+				</p>
+				<p>
+					If a pin crosses the center line, or comes close enough to
+					it that there wouldn't be enough empty space in the center
+					of the board to permit mirroring it as two separate pins, it
+					will simply be replaced with a single, centered pin that
+					extends to the outer edge of the original pin.
+				</p>
+
+				{/* eslint-disable-next-line */}
 				<a name="export" />
 				<h2>Exporting Templates</h2>
 				<img src={exportTemplates} alt="Export screenshot" />
@@ -282,7 +306,15 @@ export default function Instructions() {
 					reset your grid.
 				</p>
 				<p>
-					To align each template, set its anchor point to the same
+					If your Origin's firmware is updated to Inverness or later
+					you can simply use the custom anchor in each file to align
+					the templates.  Set the position of the custom anchor to
+					(0, 0), and as long as you put the custom anchor on the
+					same corner you probed for your grid, the alignment should
+					be perfect.
+				</p>
+				<p>
+					With older firmware, set the anchor point to the same
 					corner as your grid origin and then place it beyond the
 					origin in each axis by the amount you set for the outer
 					buffer.  For example, in the image below I set my buffer
@@ -404,11 +436,6 @@ export default function Instructions() {
 					<li>
 						An auto-layout tool that will allow you to easily
 						create evenly spaced layouts.
-					</li>
-					<li>
-						A mirrored layout tool that will mirror one side
-						of the layout to the other to create a perfectly
-						symmetrical layout.
 					</li>
 					<li>
 						Support for half-blind dovetails.  This is
