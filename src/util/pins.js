@@ -1,7 +1,11 @@
+import {minPinWidth} from './limits';
+
 export function partitionPins(pins, width, dovetailDiameter) {
+	const minWidth = minPinWidth(dovetailDiameter);
+
 	const center = width / 2;
-	const centerRight = center + (dovetailDiameter + 0.1) /2;
-	const centerLeft = center - (dovetailDiameter + 0.1) / 2;
+	const centerRight = center + minWidth / 2;
+	const centerLeft = center - minWidth / 2;
 	const pinsRightOfCenter = pins.filter(
 		(p, i, ps) => p.x + p.maxWidth / 2 > centerRight,
 	);
@@ -13,6 +17,8 @@ export function partitionPins(pins, width, dovetailDiameter) {
 }
 
 export function mirrorPins(pins, direction, width, dovetailDiameter) {
+	const minWidth = minPinWidth(dovetailDiameter);
+
 	const [pinsLeftOfCenter, pinsRightOfCenter] = partitionPins(
 		pins,
 		width,
@@ -22,7 +28,7 @@ export function mirrorPins(pins, direction, width, dovetailDiameter) {
 	const newPins = [];
 
 	if (direction === 'ltr') {
-		const centerLeft = width / 2 - (dovetailDiameter + 0.1) / 2;
+		const centerLeft = width / 2 - minWidth / 2;
 		for (const pin of pinsLeftOfCenter) {
 			const rightEdge = pin.x + pin.maxWidth / 2;
 			const leftEdge = pin.x - pin.maxWidth / 2;
@@ -46,7 +52,7 @@ export function mirrorPins(pins, direction, width, dovetailDiameter) {
 			}
 		}
 	} else if (direction === 'rtl') {
-		const centerRight = width / 2 + (dovetailDiameter + 0.1) / 2;
+		const centerRight = width / 2 + minWidth / 2;
 		for (const pin of pinsRightOfCenter) {
 			const rightEdge = pin.x + pin.maxWidth / 2;
 			const leftEdge = pin.x - pin.maxWidth / 2;

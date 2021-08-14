@@ -1,29 +1,26 @@
 import {useStore} from '../context/store';
 import {update, remove} from '../context/pins';
 
+import {useLimits} from '../util/limits';
+
 import {Form, FormSection, TextRow} from './Form';
 
 export default function PinEditor() {
 	const [
-		{
-			general: {
-				cutter: {straightDiameter, dovetailDiameter},
-				material: {width},
-			},
-			pins,
-			halfPins,
-		},
+		{general: { material: {width}}, pins, halfPins},
 		dispatch,
 	] = useStore();
+
+	const {pins: {minWidth, minSpacing}} = useLimits();
 
 	const halfPinWidth = halfPins.enabled ? halfPins.width : 0;
 	const selectedPin = pins.filter((p, i, ps) => p.selected)[0];
 	const sorted = pins.sort((a, b) => a.x - b.x);
 
-	let leftX = halfPinWidth + (halfPins.enabled ? straightDiameter : 0);
+	let leftX = halfPinWidth + (halfPins.enabled ? minSpacing : 0);
 	let rightX = width
 		- halfPinWidth
-		- (halfPins.enabled ? straightDiameter : 0);
+		- (halfPins.enabled ? minSpacing : 0);
 	let widthMax = width;
 	if (selectedPin) {
 		for (let i = 0; i < sorted.length; i++) {
@@ -32,13 +29,13 @@ export default function PinEditor() {
 					const previous = sorted[i - 1];
 					leftX = previous.x
 						+ previous.maxWidth / 2
-						+ straightDiameter;
+						+ minSpacing;
 				}
 				const leftMax = (selectedPin.x - leftX) * 2;
 
 				if (i < sorted.length - 1) {
 					const next = sorted[i + 1];
-					rightX = next.x - next.maxWidth / 2 - straightDiameter;
+					rightX = next.x - next.maxWidth / 2 - minSpacing;
 				}
 				const rightMax = (rightX - selectedPin.x) * 2;
 
@@ -76,7 +73,7 @@ export default function PinEditor() {
 						value={selectedPin?.maxWidth || 0}
 						onChange={onChangeMaxWidth}
 						disabled={!selectedPin}
-						min={dovetailDiameter + 0.1}
+						min={minWidth}
 						max={widthMax}
 					/>
 					<TextRow

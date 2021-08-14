@@ -1,10 +1,13 @@
 import {useStore} from '../context/store';
 import {setUnit, setCutter, setMaterial} from '../context/general';
 
+import {useLimits} from '../util/limits';
+
 import {Form, FormSection, SelectRow, TextRow} from './Form';
 
 export default function GlobalSettings() {
 	const [{general: {unit, cutter, material}}, dispatch] = useStore();
+	const {material: {maxThickness}} = useLimits();
 
 	const unitOptions = [
 		{value: 'mm', label: 'mm'},
@@ -63,7 +66,7 @@ export default function GlobalSettings() {
 						id="thickness_input"
 						label="Material Thickness"
 						value={material.thickness}
-						max={cutter.height}
+						max={maxThickness}
 						onChange={(t) => dispatch(setMaterial({thickness: t}))}
 					/>
 					<TextRow

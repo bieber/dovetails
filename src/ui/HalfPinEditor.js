@@ -1,25 +1,26 @@
 import {useStore} from '../context/store';
 import {update} from '../context/halfPins';
 
+import {useLimits} from '../util/limits';
+
 import {Form, FormSection, TextRow, CheckRow} from './Form';
 
 export default function HalfPinEditor() {
 	const [
 		{
-			general: {
-				cutter: {straightDiameter},
-				material: {width: materialWidth},
-			},
+			general: {material: {width: materialWidth}},
 			pins,
 			halfPins: {enabled, width},
 		},
 		dispatch,
 	] = useStore();
 
-	let widthMax = materialWidth / 2 - straightDiameter / 2;
+	const {pins: {minSpacing}} = useLimits();
+
+	let widthMax = materialWidth / 2 - minSpacing / 2;
 	for (const {x, maxWidth} of pins) {
-		const leftEdge = x - maxWidth / 2 - straightDiameter;
-		const rightEdge = x + maxWidth / 2 + straightDiameter;
+		const leftEdge = x - maxWidth / 2 - minSpacing;
+		const rightEdge = x + maxWidth / 2 + minSpacing;
 		widthMax = Math.min(widthMax, leftEdge, materialWidth - rightEdge);
 	}
 

@@ -1,3 +1,5 @@
+import {minPinSpacing} from '../util/limits';
+
 export const initHalfPins = {
 	enabled: false,
 	width: 0,
@@ -11,8 +13,9 @@ export function validateHalfPins(state) {
 		},
 		halfPins,
 	} = state;
+	const minSpacing = minPinSpacing(straightDiameter);
 
-	let maxWidth = materialWidth / 2 - straightDiameter / 2;
+	let maxWidth = materialWidth / 2 - minSpacing / 2;
 
 	if (halfPins.width > maxWidth) {
 		if (maxWidth < 0) {

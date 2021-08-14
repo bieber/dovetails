@@ -2,7 +2,7 @@ import {useStore} from '../context/store';
 import {mirror} from '../context/pins';
 import {partitionPins} from '../util/pins';
 
-import {Form, FormSection, FormHeader} from './Form';
+import {Form, FormSection} from './Form';
 
 export default function Mirror() {
 	const [
@@ -33,20 +33,17 @@ export default function Mirror() {
 	return (
 		<div className="Block Settings">
 			<Form>
-				<FormHeader>
-					<span>Mirror Design</span>
-				</FormHeader>
 				<FormSection>
 					<div className="TwoButtonRow">
 						<button
 							disabled={pinsLeftOfCenter.length === 0}
 							onClick={mirrorLTR}>
-							Left to Right
+							Mirror Left to Right
 						</button>
 						<button
 							disabled={pinsRightOfCenter.length === 0}
 							onClick={mirrorRTL}>
-							Right to Left
+							Mirror Right to Left
 						</button>
 					</div>
 				</FormSection>

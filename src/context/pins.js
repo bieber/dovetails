@@ -1,4 +1,5 @@
 import {mirrorPins} from '../util/pins';
+import {minPinWidth, minPinSpacing} from '../util/limits';
 
 let pinID = 0;
 
@@ -14,8 +15,11 @@ export function validatePins(state) {
 		halfPins,
 	} = state;
 
+	const minWidth = minPinWidth(dovetailDiameter);
+	const minSpacing = minPinSpacing(straightDiameter);
+
 	function filterPin(pin, i, pins) {
-		if (pin.maxWidth < dovetailDiameter + 0.1) {
+		if (pin.maxWidth < minWidth) {
 			return false;
 		}
 
@@ -39,7 +43,7 @@ export function validatePins(state) {
 			const margin = otherPin.x > pin.x
 				? otherLeft - right
 				: left - otherRight;
-			if (straightDiameter - margin > 0.0001) {
+			if (minSpacing - margin > 0.0001) {
 				return false;
 			}
 		}
