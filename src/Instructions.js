@@ -7,6 +7,7 @@ import global from './assets/global.png';
 import pinEditing from './assets/pin_editing.png';
 import guides from './assets/guides.png';
 import mirror from './assets/mirror.png';
+import autolayout from './assets/autolayout.png';
 import exportTemplates from './assets/export.png';
 import pinsA from './assets/pins_a.png';
 import placement from './assets/placement.jpg';
@@ -28,6 +29,7 @@ export default function Instructions() {
 						<li><a href="#editing_pins">Editing Pins</a></li>
 						<li><a href="#guides">Guides</a></li>
 						<li><a href="#mirror">Mirroring the Design</a></li>
+						<li><a href="#autolayout">Auto Layout</a></li>
 						<li><a href="#export">Exporting Templates</a></li>
 						<li><a href="#cutting">Cutting Procedure</a></li>
 						<li><a href="#todo">TODO</a></li>
@@ -236,6 +238,45 @@ export default function Instructions() {
 				</p>
 
 				{/* eslint-disable-next-line */}
+				<a name="autolayout" />
+				<h2>Auto Layout</h2>
+				<img src={autolayout} alt="Auto layout screenshot" />
+				<p>
+					The auto-layout module allows you to automatically generate
+					evenly spaced layouts.  The selector at the top switches
+					between three different layout modes.  After selecting your
+					mode and filling out the parameters, clicking the "Auto
+					Layout" button will replace all of your pins with the newly
+					generated layout.  Note that half-pins remain under manual
+					control and will not be affected by the auto-layout.
+				</p>
+
+				<h3>Even Spacing</h3>
+				<p>
+					The even spacing mode offers only a single parameter: the
+					number of pins to generate.  It generates a layout where
+					the pins and the tails are the exact same size and evenly
+					spaced across the available space.
+				</p>
+
+				<h3>Fixed Pins</h3>
+				<p>
+					The fixed pins mode generates layouts where the pins are
+					all a specific size and the spacing between them adjusts
+					to place them evenly along the available space.  You can
+					set both the width of the pins (at their widest point) and
+					the number of them to generate.
+				</p>
+
+				<h3>Fixed Tails</h3>
+				<p>
+					The fixed tails mode works the same way as the fixed pins
+					mode, except you set the width and count of the tails
+					instead of the pins.  The specified width will apply to the
+					widest part of the tails.
+				</p>
+
+				{/* eslint-disable-next-line */}
 				<a name="export" />
 				<h2>Exporting Templates</h2>
 				<img src={exportTemplates} alt="Export screenshot" />
@@ -433,10 +474,6 @@ export default function Instructions() {
 					it in earnest.  Namely:
 				</p>
 				<ol>
-					<li>
-						An auto-layout tool that will allow you to easily
-						create evenly spaced layouts.
-					</li>
 					<li>
 						Support for half-blind dovetails.  This is
 						conceptually not too difficult, I just need to
