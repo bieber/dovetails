@@ -79,3 +79,75 @@ export function mirrorPins(pins, direction, width, dovetailDiameter) {
 
 	return newPins;
 }
+
+export function autolayoutPins(
+	{method, count, width, material, cutter, halfPins},
+) {
+	const pins = [];
+	let step = 0;
+
+	const tangent = Math.tan(2 * cutter.angle * Math.PI / 360);
+	const overlap = material.thickness * tangent;
+
+	let left = 0;
+	let right = material.width;
+	if (halfPins.enabled) {
+		left += halfPins.width;
+		right -= halfPins.width;
+	}
+	const availableSpace = right - left;
+	let space = 0;
+
+	switch (method) {
+		case 'even':
+			if (halfPins.enabled) {
+				width = (
+					(availableSpace + (2 * count + 2) * overlap) /
+					(2 * count + 1)
+				);
+				const space = (availableSpace - count * width) / (count + 1);
+				for (let i = 0; i < count; i++) {
+					const x = left + space * (i + 1) + width * (i + 0.5);
+					pins.push({selected: false, x, maxWidth: width});
+				}
+			} else {
+				width = (
+					(availableSpace + overlap * 2 * count) /
+					(2 * count)
+				);
+				step = (right - left) / (2 * count);
+				for (let i = 0; i < count; i++) {
+					pins.push(
+						{
+							selected: false,
+							x: left + (2 * i + 1) * step,
+							maxWidth: width,
+						},
+					);
+				}
+			}
+
+			return pins;
+
+		case 'pins':
+			space = (availableSpace - count * width) / (count + 1);
+			for (let i = 0; i < count; i++) {
+				const x = left + space * (i + 1) + width * (i + 0.5);
+				pins.push({selected: false, x, maxWidth: width});
+			}
+			return pins;
+
+		case 'tails':
+			count--;
+			space = width - 2 * overlap;
+			space = parseFloat(space.toFixed(5));
+			width = (availableSpace - (count + 1) * space) / count;
+			for (let i = 0; i < count; i++) {
+				const x = left + space * (i + 1) + width * (i + 0.5);
+				pins.push({selected: false, x, maxWidth: width});
+			}
+			return pins;
+		default:
+			break;
+	}
+}

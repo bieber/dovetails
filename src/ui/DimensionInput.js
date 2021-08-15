@@ -17,7 +17,16 @@ function round(x) {
 }
 
 export default function DimensionInput(props) {
-	const {id, value, dimensionless, onChange, min, max, ...rest} = props;
+	const {
+		id,
+		value,
+		dimensionless,
+		integer,
+		onChange,
+		min,
+		max,
+		...rest
+	} = props;
 	let [{general: {unit}}] = useStore();
 	const [{existingUnit, existingText, existingValue}, setState] = useState({
 		existingValue: value,
@@ -74,6 +83,10 @@ export default function DimensionInput(props) {
 		}
 		if (max !== undefined && newValue > max) {
 			newValue = round(max);
+		}
+
+		if (integer) {
+			newValue = Math.floor(newValue);
 		}
 
 		if (newValue !== existingValue) {

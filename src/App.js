@@ -2,6 +2,7 @@ import {Link} from 'react-router-dom';
 
 import './App.css';
 
+import AutoLayout from './ui/AutoLayout';
 import GuideSettings from './ui/GuideSettings';
 import GlobalSettings from './ui/GlobalSettings';
 import HalfPinEditor from './ui/HalfPinEditor';
@@ -21,6 +22,7 @@ export default function App() {
 				<div className="BodyLeft">
 					<GlobalSettings />
 					<GuideSettings />
+					<AutoLayout />
 					<Mirror />
 					<Submit />
 				</div>

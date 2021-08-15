@@ -1,4 +1,4 @@
-import {mirrorPins} from '../util/pins';
+import {mirrorPins, autolayoutPins} from '../util/pins';
 import {minPinWidth, minPinSpacing} from '../util/limits';
 
 let pinID = 0;
@@ -102,6 +102,14 @@ export function reducePins(state, action) {
 			}
 			return mirrored;
 
+		case 'autolayout':
+			const newPins = autolayoutPins(action);
+			for (const i in newPins) {
+				newPins[i].id = pinID;
+				pinID += 2;
+			}
+			return newPins;
+
 		default:
 			return state;
 	}
@@ -121,4 +129,16 @@ export function remove(id) {
 
 export function mirror(direction, width, dovetailDiameter) {
 	return {type: 'pins:mirror', direction, width, dovetailDiameter};
+}
+
+export function autolayout(method, count, width, material, cutter, halfPins) {
+	return {
+		type: 'pins:autolayout',
+		method,
+		count,
+		width,
+		material,
+		cutter,
+		halfPins,
+	};
 }
