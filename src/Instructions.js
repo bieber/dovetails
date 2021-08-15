@@ -115,7 +115,7 @@ export default function Instructions() {
 					</li>
 					<li>
 						<strong>Straight Diameter</strong>: Set this to the
-						diameter of the straight cutter you'll us to cut the
+						diameter of the straight cutter you'll use to cut the
 						pins boards.
 					</li>
 					<li>
