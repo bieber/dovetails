@@ -1,4 +1,5 @@
 export const initGeneral = {
+	kind: 'through',
 	unit: 'mm',
 	cutter: {
 		dovetailDiameter: 12.7,
@@ -9,11 +10,28 @@ export const initGeneral = {
 	material: {
 		thickness: 10,
 		width: 100,
+		dovetailLength: 10,
 	},
 };
 
 export function reduceGeneral(state, action) {
 	switch (action.type) {
+		case 'setKind':
+			let materialComponent = {};
+			if (action.kind === 'half') {
+				materialComponent = {
+					material: {
+						...state.material,
+						thickness: state.material.thickness * 2 / 3,
+						dovetailLength: state.material.thickness,
+					},
+				};
+			}
+			return {
+				...state,
+				kind: action.kind,
+				...materialComponent,
+			};
 		case 'setUnit':
 			return {...state, unit: action.unit};
 		case 'setCutter':
@@ -26,6 +44,10 @@ export function reduceGeneral(state, action) {
 		default:
 			return state;
 	}
+}
+
+export function setKind(kind) {
+	return {type: 'general:setKind', kind}
 }
 
 export function setUnit(unit) {

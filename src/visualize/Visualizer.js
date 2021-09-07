@@ -5,6 +5,8 @@ import {useStore} from '../context/store';
 import {useGuideLocations} from '../context/guides';
 import {update} from '../context/pins';
 
+import {useLimits} from '../util/limits';
+
 import Board from './Board';
 import Guide from './Guide';
 import HalfPins from './HalfPins';
@@ -54,6 +56,7 @@ export default function Visualizer() {
 		},
 		dispatch,
 	] = useStore();
+	const {pins: {minSpacing}} = useLimits();
 	const guideLocations = useGuideLocations();
 
 	let stage = null;
@@ -98,25 +101,25 @@ export default function Visualizer() {
 				(pin, i, ps) => {
 					let minX = pin.maxWidth / 2
 						+ halfPinWidth
-						+ (halfPins.enabled ? cutter.straightDiameter : 0);
+						+ (halfPins.enabled ? minSpacing : 0);
 					if (i > 0) {
 						const previous = ps[i - 1];
 						minX = previous.x
 							+ previous.maxWidth / 2
 							+ pin.maxWidth / 2
-							+ cutter.straightDiameter;
+							+ minSpacing;
 					}
 
 					let maxX = material.width
 						- pin.maxWidth / 2
 						- halfPinWidth
-						- (halfPins.enabled ? cutter.straightDiameter : 0);
+						- (halfPins.enabled ? minSpacing : 0);
 					if (i < ps.length - 1) {
 						const next = ps[i + 1];
 						maxX = next.x
 							- next.maxWidth / 2
 							- pin.maxWidth / 2
-							- cutter.straightDiameter;
+							- minSpacing;
 					}
 
 					return (

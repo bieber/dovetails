@@ -1,13 +1,18 @@
 import {useStore} from '../context/store';
-import {setUnit, setCutter, setMaterial} from '../context/general';
+import {setKind, setUnit, setCutter, setMaterial} from '../context/general';
 
 import {useLimits} from '../util/limits';
 
 import {Form, FormSection, SelectRow, TextRow} from './Form';
 
 export default function GlobalSettings() {
-	const [{general: {unit, cutter, material}}, dispatch] = useStore();
-	const {material: {maxThickness}} = useLimits();
+	const [{general: {kind, unit, cutter, material}}, dispatch] = useStore();
+	let {material: {maxThickness}} = useLimits();
+
+	const kindOptions = [
+		{value: 'through', label: 'Through'},
+		{value: 'half', label: 'Half-Blind'},
+	];
 
 	const unitOptions = [
 		{value: 'mm', label: 'mm'},
@@ -22,10 +27,33 @@ export default function GlobalSettings() {
 		dispatch(setCutter({straightDiameter}));
 	}
 
+	let thicknessLabel = 'Material Thickness';
+	let lengthInput = null;
+	if (kind === 'half') {
+		thicknessLabel = 'Dovetail Depth';
+		maxThickness = Math.min(maxThickness, material.dovetailLength);
+		lengthInput = (
+			<TextRow
+				id="length_input"
+				label="Material Thickness"
+				value={material.dovetailLength}
+				min={material.thickness}
+				onChange={(l) => dispatch(setMaterial({dovetailLength: l}))}
+			/>
+		);
+	}
+
 	return (
 		<div className="Settings Block">
 			<Form>
 				<FormSection>
+					<SelectRow
+						id="type_input"
+						label="Dovetail Type"
+						options={kindOptions}
+						value={kind}
+						onChange={(kind) => dispatch(setKind(kind))}
+					/>
 					<SelectRow
 						id="units_input"
 						label="Units"
@@ -62,11 +90,13 @@ export default function GlobalSettings() {
 					/>
 				</FormSection>
 				<FormSection>
+					{lengthInput}
 					<TextRow
 						id="thickness_input"
-						label="Material Thickness"
+						label={thicknessLabel}
 						value={material.thickness}
 						max={maxThickness}
+						min={1}
 						onChange={(t) => dispatch(setMaterial({thickness: t}))}
 					/>
 					<TextRow
