@@ -1,6 +1,6 @@
 import renderBase, {pocketStyle} from './base';
 
-export default function renderTails(state, buffer, anchor) {
+export default function renderTails(state, anchor) {
 	const {
 		general: {
 			cutter: {dovetailDiameter},
@@ -52,7 +52,6 @@ export default function renderTails(state, buffer, anchor) {
 
 	return renderBase(
 		state,
-		buffer,
 		anchor,
 		`<path style="${pocketStyle}" d="${steps.join(' ')}" />`,
 	);

@@ -34,8 +34,15 @@ export const guideStyle = [
 	'stroke-opacity:1',
 ].join('');
 
-export default function renderBase(state, buffer, anchor, innerPath) {
-	const {general: {material: {thickness, width: materialWidth}}} = state;
+export default function renderBase(state, anchor, innerPath) {
+	const {
+		general: {
+			cutter: {dovetailDiameter},
+			material: {thickness, width: materialWidth},
+		},
+	} = state;
+
+	const buffer = 1.75 * dovetailDiameter;
 
 	const totalWidth = materialWidth + 2 * buffer;
 	const totalHeight = thickness + 2 * buffer;
@@ -65,13 +72,6 @@ export default function renderBase(state, buffer, anchor, innerPath) {
 			height="${totalHeight}mm"
 			viewBox="0 0 ${totalWidth} ${totalHeight}"
 			xmlns="http://www.w3.org/2000/svg">
-			<rect
-				style="${guideStyle}"
-				x="0"
-				y="0"
-				width="${totalWidth}"
-				height="${totalHeight}"
-			/>
 			<g transform="translate(${buffer},${buffer})">
 				${innerPath}
 			</g>

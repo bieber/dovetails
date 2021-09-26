@@ -11,17 +11,10 @@ function dataURI(svg) {
 	return `data:image/svg+xml;base64,${btoa(svg)}`;
 }
 
-export default function Submit() {
+export default function GenerateHalf() {
 	const [store] = useStore();
-	const [buffer, setBuffer] = useState(20);
 	const [anchor, setAnchor] = useState('bottomleft');
-
-	const {general: {cutter: {dovetailDiameter}}} = store;
-
-	const minBuffer = 1.5 * dovetailDiameter;
-	if (minBuffer > buffer) {
-		setBuffer(minBuffer);
-	}
+	const [glueGap, setGlueGap] = useState(0.05);
 
 	const shareLink = {
 		path: '/',
@@ -39,13 +32,6 @@ export default function Submit() {
 		<div className="Block Settings">
 			<Form>
 				<FormSection>
-					<TextRow
-						id="buffer_input"
-						label="Outer Guide Buffer"
-						min={minBuffer}
-						value={buffer}
-						onChange={setBuffer}
-					/>
 					<SelectRow
 						id="anchor_input"
 						label="Anchor Position"
@@ -53,22 +39,36 @@ export default function Submit() {
 						value={anchor}
 						onChange={setAnchor}
 					/>
+					<TextRow
+						id="glue_input"
+						label="Glue Gap"
+						min={0}
+						value={glueGap}
+						onChange={setGlueGap}
+					/>
 				</FormSection>
 				<span>Download</span>
 				<FormSection>
-					<div className="ThreeButtonRow">
+					<div className="TwoButtonRow">
 						<a
-							href={dataURI(renderTails(store, buffer, anchor))}
+							href={dataURI(renderTails(store, anchor))}
 							download="tails.svg">
-							Tails
+							Tails (A)
 						</a>
 						<a
-							href={dataURI(renderPinsA(store, buffer, anchor))}
+							href={dataURI(renderTails(store, anchor))}
+							download="tails.svg">
+							Tails (B)
+						</a>
+					</div>
+					<div className="TwoButtonRow">
+						<a
+							href={dataURI(renderPinsA(store, anchor))}
 							download="pins_a.svg">
 							Pins (A)
 						</a>
 						<a
-							href={dataURI(renderPinsB(store, buffer, anchor))}
+							href={dataURI(renderPinsB(store, anchor))}
 							download="pins_b.svg">
 							Pins (B)
 						</a>

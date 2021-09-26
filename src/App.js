@@ -9,7 +9,7 @@ import HalfPinEditor from './ui/HalfPinEditor';
 import Mirror from './ui/Mirror';
 import PinCreator from './ui/PinCreator';
 import PinEditor from './ui/PinEditor';
-import Submit from './ui/Submit';
+import Generate from './ui/Generate';
 import Visualizer from './visualize/Visualizer';
 
 export default function App() {
@@ -24,7 +24,7 @@ export default function App() {
 					<GuideSettings />
 					<AutoLayout />
 					<Mirror />
-					<Submit />
+					<Generate />
 				</div>
 				<div className="BodyRight">
 					<Visualizer />
