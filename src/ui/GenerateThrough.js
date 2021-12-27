@@ -2,8 +2,8 @@ import {useState} from 'react';
 import {Link} from 'react-router-dom';
 
 import {useStore} from '../context/store';
-import renderTails from '../render/tails';
-import {renderPinsA, renderPinsB} from '../render/pins';
+import {renderThroughTails} from '../render/tails';
+import {renderThroughPinsA, renderThroughPinsB} from '../render/pins';
 
 import {Form, FormSection, SelectRow} from './Form';
 
@@ -43,17 +43,17 @@ export default function GenerateThrough() {
 				<FormSection>
 					<div className="ThreeButtonRow">
 						<a
-							href={dataURI(renderTails(store, anchor))}
+							href={dataURI(renderThroughTails(store, anchor))}
 							download="tails.svg">
 							Tails
 						</a>
 						<a
-							href={dataURI(renderPinsA(store, anchor))}
+							href={dataURI(renderThroughPinsA(store, anchor))}
 							download="pins_a.svg">
 							Pins (A)
 						</a>
 						<a
-							href={dataURI(renderPinsB(store, anchor))}
+							href={dataURI(renderThroughPinsB(store, anchor))}
 							download="pins_b.svg">
 							Pins (B)
 						</a>

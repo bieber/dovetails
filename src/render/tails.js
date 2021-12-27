@@ -1,6 +1,6 @@
-import renderBase, {pocketStyle} from './base';
+import renderVerticalBase, {pocketStyle} from './base';
 
-export default function renderTails(state, anchor) {
+export function renderThroughTails(state, anchor) {
 	const {
 		general: {
 			cutter: {dovetailDiameter},
@@ -50,9 +50,126 @@ export default function renderTails(state, anchor) {
 	steps.push(`V ${bottom}`);
 	steps.push(`Z`);
 
-	return renderBase(
+	return renderVerticalBase(
 		state,
 		anchor,
 		`<path style="${pocketStyle}" d="${steps.join(' ')}" />`,
+	);
+}
+
+function renderHalfTails(state, anchor) {
+	const {
+		general: {
+			cutter: {dovetailDiameter, angle},
+			material: {dovetailLength, thickness, width: materialWidth},
+		},
+		pins,
+		halfPins,
+	} = state;
+
+	const radius = dovetailDiameter / 2;
+	const tangent = Math.tan(2 * angle * Math.PI / 360);
+	const inset = thickness * tangent;
+
+	const top = -1.1 * radius;
+	const middle = dovetailLength - inset;
+	const bottom = dovetailLength + 1.5 * dovetailDiameter;
+
+	const maxLeft = -1.1 * radius;
+	const maxRight = materialWidth + 1.1 * radius;
+
+	let x = maxLeft;
+	let y = bottom;
+	const steps = [`M ${x} ${y}`];
+
+	function h(newX) {
+		x = newX;
+		steps.push(`H ${x}`);
+	}
+
+	function v(newY) {
+		y = newY;
+		steps.push(`V ${y}`);
+	}
+
+	function a() {
+		x += radius;
+		if (y < middle) {
+			y += radius;
+		} else {
+			y -= radius;
+		}
+
+		steps.push(`A ${radius} ${radius} 90 0 0 ${x} ${y}`);
+	}
+
+	function addFinger(endX) {
+		v(top);
+		h(endX);
+		if (endX === maxRight) {
+			v(middle);
+		} else {
+			v(middle - radius);
+			a();
+		}
+	}
+
+	if (halfPins.enabled) {
+		addFinger(halfPins.width);
+	} else {
+		v(middle);
+	}
+
+
+	let sortedPins = [...pins];
+	sortedPins.sort((a, b) => b.x - a.x);
+	for (const pin of sortedPins) {
+		const left = pin.x - pin.maxWidth / 2;
+		const right = pin.x + pin.maxWidth / 2;
+		h(left - radius);
+		a();
+		addFinger(right);
+	}
+
+	if (halfPins.enabled) {
+		h(materialWidth - halfPins.width - radius);
+		a();
+		addFinger(maxRight);
+	} else {
+		h(maxRight);
+	}
+
+	v(bottom);
+	steps.push(`Z`);
+
+	return renderVerticalBase(
+		state,
+		anchor,
+		`<path style="${pocketStyle}" d="${steps.join(' ')}" />`,
+	);
+}
+
+export function renderHalfTailsA(state, anchor) {
+	return renderHalfTails(state, 'bottomleft');
+}
+
+export function renderHalfTailsB(state, anchor) {
+	const {
+		general: {material: {width}},
+		pins,
+	} = state;
+	const center = width / 2;
+
+	return renderHalfTails(
+		{
+			...state,
+			pins: pins.map(
+				(p, i, ps) => ({
+					...p,
+					x: center - (p.x - center),
+				}),
+			),
+		},
+		'bottomright',
 	);
 }

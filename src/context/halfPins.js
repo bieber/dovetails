@@ -11,7 +11,7 @@ export function validateHalfPins(state) {
 		halfPins,
 	} = state;
 	const {width: materialWidth} = material;
-	const minSpacing = minPinSpacing(kind, cutter, material);
+	const minSpacing = minPinSpacing(kind, cutter);
 
 	let maxWidth = materialWidth / 2 - minSpacing / 2;
 

@@ -34,14 +34,20 @@ export const guideStyle = [
 	'stroke-opacity:1',
 ].join('');
 
-export default function renderBase(state, anchor, innerPath) {
+export default function renderVerticalBase(state, anchor, innerPath) {
 	const {
 		general: {
+			kind,
 			cutter: {dovetailDiameter},
-			material: {thickness, width: materialWidth},
+			material: {
+				dovetailLength,
+				thickness: materialThickness,
+				width: materialWidth,
+			},
 		},
 	} = state;
 
+	const thickness = kind === 'half' ? dovetailLength : materialThickness;
 	const buffer = 1.75 * dovetailDiameter;
 
 	const totalWidth = materialWidth + 2 * buffer;

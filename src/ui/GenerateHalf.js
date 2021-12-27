@@ -2,10 +2,10 @@ import {useState} from 'react';
 import {Link} from 'react-router-dom';
 
 import {useStore} from '../context/store';
-import renderTails from '../render/tails';
-import {renderPinsA, renderPinsB} from '../render/pins';
+import {renderHalfTailsA, renderHalfTailsB} from '../render/tails';
+import {renderThroughPinsA, renderThroughPinsB} from '../render/pins';
 
-import {Form, FormSection, TextRow, SelectRow} from './Form';
+import {Form, FormSection, TextRow} from './Form';
 
 function dataURI(svg) {
 	return `data:image/svg+xml;base64,${btoa(svg)}`;
@@ -13,7 +13,6 @@ function dataURI(svg) {
 
 export default function GenerateHalf() {
 	const [store] = useStore();
-	const [anchor, setAnchor] = useState('bottomleft');
 	const [glueGap, setGlueGap] = useState(0.05);
 
 	const shareLink = {
@@ -21,24 +20,10 @@ export default function GenerateHalf() {
 		search: `?s=${btoa(JSON.stringify(store))}`,
 	};
 
-	const anchorOptions = [
-		{value: 'bottomleft', label: 'Bottom Left'},
-		{value: 'bottomright', label: 'Bottom Right'},
-		{value: 'topright', label: 'Top Right'},
-		{value: 'topleft', label: 'Top Left'},
-	];
-
 	return (
 		<div className="Block Settings">
 			<Form>
 				<FormSection>
-					<SelectRow
-						id="anchor_input"
-						label="Anchor Position"
-						options={anchorOptions}
-						value={anchor}
-						onChange={setAnchor}
-					/>
 					<TextRow
 						id="glue_input"
 						label="Glue Gap"
@@ -51,24 +36,24 @@ export default function GenerateHalf() {
 				<FormSection>
 					<div className="TwoButtonRow">
 						<a
-							href={dataURI(renderTails(store, anchor))}
-							download="tails.svg">
+							href={dataURI(renderHalfTailsA(store))}
+							download="tails_a.svg">
 							Tails (A)
 						</a>
 						<a
-							href={dataURI(renderTails(store, anchor))}
-							download="tails.svg">
+							href={dataURI(renderHalfTailsB(store))}
+							download="tails_b.svg">
 							Tails (B)
 						</a>
 					</div>
 					<div className="TwoButtonRow">
 						<a
-							href={dataURI(renderPinsA(store, anchor))}
+							href={dataURI(renderThroughPinsA(store))}
 							download="pins_a.svg">
 							Pins (A)
 						</a>
 						<a
-							href={dataURI(renderPinsB(store, anchor))}
+							href={dataURI(renderThroughPinsB(store))}
 							download="pins_b.svg">
 							Pins (B)
 						</a>

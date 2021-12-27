@@ -14,7 +14,7 @@ export function validatePins(state) {
 	const {width} = material;
 
 	const minWidth = minPinWidth(cutter.dovetailDiameter);
-	const minSpacing = minPinSpacing(kind, cutter, material);
+	const minSpacing = minPinSpacing(kind, cutter);
 
 	function filterPin(pin, i, pins) {
 		if (pin.maxWidth < minWidth) {
