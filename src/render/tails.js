@@ -70,6 +70,7 @@ function renderHalfTails(state, anchor) {
 	const radius = dovetailDiameter / 2;
 	const tangent = Math.tan(2 * angle * Math.PI / 360);
 	const inset = thickness * tangent;
+	const innerRadius = radius - inset;
 
 	const top = -1.1 * radius;
 	const middle = dovetailLength - inset;
@@ -93,14 +94,14 @@ function renderHalfTails(state, anchor) {
 	}
 
 	function a() {
-		x += radius;
+		x += innerRadius;
 		if (y < middle) {
-			y += radius;
+			y += innerRadius;
 		} else {
-			y -= radius;
+			y -= innerRadius;
 		}
 
-		steps.push(`A ${radius} ${radius} 90 0 0 ${x} ${y}`);
+		steps.push(`A ${innerRadius} ${innerRadius} 90 0 0 ${x} ${y}`);
 	}
 
 	function addFinger(endX) {
@@ -109,7 +110,7 @@ function renderHalfTails(state, anchor) {
 		if (endX === maxRight) {
 			v(middle);
 		} else {
-			v(middle - radius);
+			v(middle - innerRadius);
 			a();
 		}
 	}
@@ -126,13 +127,13 @@ function renderHalfTails(state, anchor) {
 	for (const pin of sortedPins) {
 		const left = pin.x - pin.maxWidth / 2;
 		const right = pin.x + pin.maxWidth / 2;
-		h(left - radius);
+		h(left - innerRadius);
 		a();
 		addFinger(right);
 	}
 
 	if (halfPins.enabled) {
-		h(materialWidth - halfPins.width - radius);
+		h(materialWidth - halfPins.width - innerRadius);
 		a();
 		addFinger(maxRight);
 	} else {
