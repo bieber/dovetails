@@ -43,6 +43,18 @@ export default function GlobalSettings() {
 		);
 	}
 
+	let straightInput = null;
+	if (kind === 'through') {
+		straightInput = (
+			<TextRow
+				id="straight_diameter_input"
+				label="Straight Diameter"
+				value={cutter.straightDiameter}
+				onChange={onStraightChange}
+			/>
+		);
+	}
+
 	return (
 		<div className="Settings Block">
 			<Form>
@@ -69,12 +81,7 @@ export default function GlobalSettings() {
 						value={cutter.dovetailDiameter}
 						onChange={onDovetailChange}
 					/>
-					<TextRow
-						id="straight_diameter_input"
-						label="Straight Diameter"
-						value={cutter.straightDiameter}
-						onChange={onStraightChange}
-					/>
+					{straightInput}
 					<TextRow
 						id="height_input"
 						label="Cutter Height"
