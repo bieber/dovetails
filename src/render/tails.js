@@ -123,7 +123,7 @@ function renderHalfTails(state, anchor) {
 
 
 	let sortedPins = [...pins];
-	sortedPins.sort((a, b) => b.x - a.x);
+	sortedPins.sort((a, b) => a.x - b.x);
 	for (const pin of sortedPins) {
 		const left = pin.x - pin.maxWidth / 2;
 		const right = pin.x + pin.maxWidth / 2;
