@@ -1,4 +1,4 @@
-import renderVerticalBase, {pocketStyle} from './base';
+import {renderVerticalBase, pocketStyle} from './base';
 
 export function renderThroughTails(state, anchor) {
 	const {

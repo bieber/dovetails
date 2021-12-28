@@ -1,4 +1,4 @@
-import renderVerticalBase, {pocketStyle} from './base';
+import {renderHorizontalBase, renderVerticalBase, pocketStyle} from './base';
 
 function renderThroughPins(state, anchor, points) {
 	const {
@@ -123,4 +123,102 @@ export function renderThroughPinsB(state, anchor) {
 	}
 
 	return renderThroughPins(state, anchor, points);
+}
+
+function renderHalfPins(state, anchor, glueGap, extraDepth) {
+	const {
+		general: {
+			cutter: {dovetailDiameter, angle},
+			material: {dovetailLength, thickness, width: materialWidth},
+		},
+		pins,
+		halfPins,
+	} = state;
+
+	const radius = dovetailDiameter / 2;
+	const tangent = Math.tan(2 * angle * Math.PI / 360);
+	const inset = thickness * tangent + glueGap;
+
+	const top = -extraDepth;
+	const middle = dovetailLength + .5 * radius;
+	const bottom = dovetailLength + 2 * dovetailDiameter;
+
+	const maxLeft = -1.1 * radius;
+	const maxRight = materialWidth + 1.1 * radius;
+
+	const steps = [`M ${maxLeft} ${bottom}`];
+
+	function h(x) {
+		steps.push(`H ${x}`);
+	}
+
+	function v(y) {
+		steps.push(`V ${y}`);
+	}
+
+	function addFinger(beginX, endX) {
+		h(beginX)
+		v(middle);
+		h(endX);
+		v(top);
+	}
+
+	if (halfPins.enabled) {
+		v(middle);
+		h(halfPins.width - inset);
+		v(top);
+	} else {
+		v(top);
+	}
+
+	let sortedPins = [...pins];
+	sortedPins.sort((a, b) => a.x - b.x);
+	for (const pin of sortedPins) {
+		const left = pin.x - pin.maxWidth / 2 + inset;
+		const right = pin.x + pin.maxWidth / 2 - inset;
+		addFinger(left, right);
+	}
+
+	if (halfPins.enabled) {
+		h(materialWidth - halfPins.width + inset);
+		v(middle);
+	}
+	h(maxRight);
+
+	v(bottom);
+	steps.push(`Z`);
+
+
+	return renderHorizontalBase(
+		state,
+		anchor,
+		`<path style="${pocketStyle}" d="${steps.join(' ')}" />`,
+	);
+}
+
+export function renderHalfPinsA(state, glueGap, extraDepth) {
+	return renderHalfPins(state, 'bottomleft', glueGap, extraDepth);
+}
+
+export function renderHalfPinsB(state, glueGap, extraDepth) {
+	const {
+		general: {material: {width}},
+		pins,
+	} = state;
+	const center = width / 2;
+
+	return renderHalfPins(
+		{
+			...state,
+			pins: pins.map(
+				(p, i, ps) => ({
+					...p,
+					x: center - (p.x - center),
+				}),
+			),
+		},
+		'bottomright',
+		glueGap,
+		extraDepth,
+	);
 }

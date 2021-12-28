@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 
 import {useStore} from '../context/store';
 import {renderHalfTailsA, renderHalfTailsB} from '../render/tails';
-import {renderThroughPinsA, renderThroughPinsB} from '../render/pins';
+import {renderHalfPinsA, renderHalfPinsB} from '../render/pins';
 
 import {Form, FormSection, TextRow} from './Form';
 
@@ -13,12 +13,16 @@ function dataURI(svg) {
 
 export default function GenerateHalf() {
 	const [store] = useStore();
-	const [glueGap, setGlueGap] = useState(0.05);
+	const [glueGap, setGlueGap] = useState(0.02);
+	const [extraDepth, setExtraDepth] = useState(0.1);
 
 	const shareLink = {
 		path: '/',
 		search: `?s=${btoa(JSON.stringify(store))}`,
 	};
+
+	const pinsA = renderHalfPinsA(store, glueGap, extraDepth);
+	const pinsB = renderHalfPinsB(store, glueGap, extraDepth);
 
 	return (
 		<div className="Block Settings">
@@ -30,6 +34,13 @@ export default function GenerateHalf() {
 						min={0}
 						value={glueGap}
 						onChange={setGlueGap}
+					/>
+					<TextRow
+						id="extra_depth_input"
+						label="Extra Depth"
+						min={0}
+						value={extraDepth}
+						onChange={setExtraDepth}
 					/>
 				</FormSection>
 				<span>Download</span>
@@ -48,12 +59,12 @@ export default function GenerateHalf() {
 					</div>
 					<div className="TwoButtonRow">
 						<a
-							href={dataURI(renderThroughPinsA(store))}
+							href={dataURI(pinsA)}
 							download="pins_a.svg">
 							Pins (A)
 						</a>
 						<a
-							href={dataURI(renderThroughPinsB(store))}
+							href={dataURI(pinsB)}
 							download="pins_b.svg">
 							Pins (B)
 						</a>
