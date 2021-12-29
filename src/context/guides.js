@@ -14,7 +14,7 @@ export function useGuideLocations() {
 		},
 	] = useStore();
 
-	if (!enabled) {
+	if (!enabled || spacing === 0) {
 		return [];
 	}
 
