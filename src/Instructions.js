@@ -3,15 +3,16 @@ import {Link} from 'react-router-dom';
 import './App.css';
 
 import overview from './assets/overview.png';
-import global from './assets/global.png';
+import globalThrough from './assets/global_through.png';
+import globalHalf from './assets/global_half.png';
 import pinEditing from './assets/pin_editing.png';
 import guides from './assets/guides.png';
 import mirror from './assets/mirror.png';
 import autolayout from './assets/autolayout.png';
-import exportTemplates from './assets/export.png';
-import pinsA from './assets/pins_a.png';
-import placement from './assets/placement.jpg';
-import completed from './assets/completed.jpg';
+import exportHalf from './assets/export_half.png';
+import exportThrough from './assets/export_through.png';
+import completedThrough from './assets/completed_through.jpg';
+import completedHalf from './assets/completed_half.jpg';
 
 export default function Instructions() {
 	return (
@@ -32,7 +33,7 @@ export default function Instructions() {
 						<li><a href="#autolayout">Auto Layout</a></li>
 						<li><a href="#export">Exporting Templates</a></li>
 						<li><a href="#cutting">Cutting Procedure</a></li>
-						<li><a href="#todo">TODO</a></li>
+						<li><a href="#todo">Epilogue</a></li>
 					</ul>
 				</div>
 
@@ -67,6 +68,10 @@ export default function Instructions() {
 						You can just flip your board end over end and keep
 						using the same reference edge.
 					</li>
+					<li>
+						This generator can create both half-blind and through
+						dovetails.
+					</li>
 				</ol>
 				<p>
 					That being said, I still recommend watching the
@@ -99,13 +104,22 @@ export default function Instructions() {
 				{/* eslint-disable-next-line */}
 				<a name="global_settings" />
 				<h2>Global Settings</h2>
-				<img src={global} alt="Global settings screenshot" />
+				<img
+					src={globalThrough}
+					alt="Global settings through dovetail screenshot"
+				/>
 				<p>
 					The global settings module lets you update settings that
 					affect your design as a whole.  The first among them is the
-					unit selector, which allows you to switch between mm and
-					inches.  When you change this selection, all units across
-					the entire interface will switch to your chosen units.
+					dovetail type selector.  This allows you to choose whether
+					you want to generate templates for through or half-blind
+					dovetails.
+				</p>
+				<p>
+					Next comes the unit selector, which allows you to switch
+					between mm and inches.  When you change this selection, all
+					values across the entire interface will switch to your
+					chosen units.
 				</p>
 				<ul>
 					<li>
@@ -130,14 +144,32 @@ export default function Instructions() {
 						<strong>Material Thickness</strong>: Set this to the
 						exact thickness of your material.  Note that you will
 						not be able to set this value higher than the height of
-						your dovetail cutter, as it would be impossible to cut
-						your dovetails deep enough otherwise.
+						your dovetail cutter in through dovetail mode, as it
+						would be impossible to cut your dovetails deep enough
+						otherwise.  In half-blind mode you can use arbitrarily
+						thick materials because the dovetails will be shorter
+						than the material thickness.
 					</li>
 					<li>
 						<strong>Material Width</strong>: Set this to the
 						exact width of your material.
 					</li>
 				</ul>
+
+				<img
+					src={globalHalf}
+					alt="Global settings half-blind dovetail screenshot"
+				/>
+
+				<p>
+					Changing to half-blind mode alters the available options
+					slightly.  The straight cutter diameter disappears, as all
+					half-blind cuts are made with the dovetail cutter.  In the
+					bottom-most section of the panel, a new option titled{' '}
+					<strong>Dovetail Depth</strong> appears.  This is the depth
+					to which your dovetails should be cut, and it is limited to
+					the height of your dovetail cutter.
+				</p>
 
 				{/* eslint-disable-next-line */}
 				<a name="editing_pins" />
@@ -171,10 +203,13 @@ export default function Instructions() {
 						outline.  In addition to manually editing the position
 						and size of the pin with the textboxes in this
 						module, you can click and drag pins in the preview to
-						reposition them.  Note that pins must be spaced at least
-						the distance of your straight cutter bit apart to ensure
-						that you will be able to physically fit the bit in
-						between them to cut out your pins.
+						reposition them.  Each dovetail mode will enforce a
+						minimum space between pins.  In through mode, they must
+						be at least as far apart as the diameter of your
+						straight cutter to ensure that it can get in between
+						them when cutting the pins board.  In half-blind mode
+						they must be at least as far apart as the diameter of
+						the dovetail bit at the dovetail cutting depth.
 					</li>
 					<li>
 						<strong>Half Pins</strong>: This module allows you to
@@ -202,7 +237,7 @@ export default function Instructions() {
 					The guides module to the left of the preview allows you to
 					add vertical guides to the preview, which you can use to
 					align your tails with consistent spacing.  When you drag
-					tails in the preview, their centers and edges will snap
+					pins in the preview, their centers and edges will snap
 					to guide lines.
 				</p>
 				<p>
@@ -279,46 +314,77 @@ export default function Instructions() {
 				{/* eslint-disable-next-line */}
 				<a name="export" />
 				<h2>Exporting Templates</h2>
-				<img src={exportTemplates} alt="Export screenshot" />
 				<p>
 					When your design is finished, use the export module to
-					download the SVG templates to load into your Origin.  There
-					are three templates required: one for the tails boards, and
-					two for the pins boards.  Click the buttons at the bottom of
-					the module to download each one.
-				</p>
-				<p>
-					The outer guide buffer is used to help align your template
-					on the Origin.  In the generated file, you will find two
-					blue guide paths: one rectangle that should cover the end
-					of your board, and one bigger rectangle that extends the
-					given distance beyond your board.  See, for example, this
-					template for a pins board.
-				</p>
-				<img src={pinsA} alt="Example pins board template" />
-				<p>
-					In this example, I set the outer buffer 20mm away from
-					the edges of my stock.  I subsequently used those dimensions
-					to align the template (more on this in the next section).
+					download the SVG templates to load into your Origin.  The
+					interface varies slightly for through and half-blind
+					dovetails.
 				</p>
 
-				<h3>Custom Anchor Points</h3>
+				<h3>Through Dovetails</h3>
+				<img
+					src={exportThrough}
+					alt="Screenshot of export module in through dovetail mode"
+				/>
+
+				<ul>
+					<li>
+						<strong>Anchor Position</strong>: The generated
+						templates use custom anchors for alignment. In
+						through dovetail mode you will use the same anchor point
+						for every template, so you can use this selector to
+						choose your desired anchor point position.
+					</li>
+
+					<li>
+						<strong>Templates</strong>: In through dovetail mode
+						there are three templates to download.  One tails
+						template, which can be used for both sides of the tails
+						board, and one template for each side of the pins board.
+					</li>
+				</ul>
+
+				<h3>Half-blind Dovetails</h3>
+				<img
+					src={exportHalf}
+					alt="Screenshot of export module in half-blind mode"
+				/>
+
 				<p>
-					If you have Origin firmware Inverness or newer, you should
-					see a custom anchor point in the templates defined by the
-					small red triangle.  Simply align this anchor point with the
-					origin of your grid and you're ready to cut.  You can use
-					the Anchor Position selector to place this at the corner of
-					your stock that you intend to probe your grid at.
+					Cutting half-blind dovetails will require indexing off of
+					different sides of the board for different cuts, so no
+					anchor position option is included.  However, due to the
+					fact that setting an offset in the Origin for the pins board
+					would affect both horizontal and vertical spacing, separate
+					options are provided for each while generating the
+					templates.
 				</p>
+
+				<ul>
+					<li>
+						<strong>Glue Gap</strong>: This parameter adds the given
+						amount to each side of the channels cut into the pins
+						boards.  Increasing this value will result in a looser
+						fit between pins and tails.
+					</li>
+					<li>
+						<strong>Extra Depth</strong>: This parameter adds the
+						given amount to the depth of the channels cut into the
+						pins boards.  Increasing this value will sink the tails
+						boards deeper into the pins boards, leaving the ends of
+						the pins boards slightly proud so that they can be
+						planed or sanded flush.  For an exact fit, set this
+						value to 0.
+					</li>
+				</ul>
 
 				<h3>Share</h3>
 				<p>
-					At the bottom of the export module, you'll find the Share
-					section with a button that links to the current
-					design.  This link captures the entire state of the tool
-					at the time you click it, and you can use it to share
-					your design with others or bookmark it to come back to
+					At the bottom of the export module in either mode, you'll
+					find the Share section with a button that links to the
+					current design.  This link captures the entire state of
+					the tool at the time you click it, and you can use it to
+					share your design with others or bookmark it to come back to
 					a design later.  Keep in mind that this link changes every
 					time you update your design.
 				</p>
@@ -334,8 +400,16 @@ export default function Instructions() {
 					process with a focus on the areas where it diverges from
 					using Shaper's template.
 				</p>
+				<p>
+					The procedure is also a little bit different when cutting
+					half-blind dovetails.  I'll start with an overview for
+					through dovetails and then go into the specifics that
+					change for half-blind.
+				</p>
 
-				<h3>Alignment</h3>
+				<h3>Through Dovetails</h3>
+
+				<h4>Alignment</h4>
 				<p>
 					To begin with, clamp one of your boards (I like to start
 					with the tails board) vertically into the workstation.  Mark
@@ -347,28 +421,17 @@ export default function Instructions() {
 					reset your grid.
 				</p>
 				<p>
-					If your Origin's firmware is updated to Inverness or later
-					you can simply use the custom anchor in each file to align
-					the templates.  Set the position of the custom anchor to
-					(0, 0), and as long as you put the custom anchor on the
-					same corner you probed for your grid, the alignment should
-					be perfect.
+					The current version of this tool only supports custom
+					anchor alignment, so you'll need to make sure that your
+					Origin's firmware is up to date--support for custom
+					anchors was added in the Inverness firmware.  Simply set
+					up a grid with its origin on the corner of the board you
+					selected for your anchor and then position the template's
+					custom anchor at (0, 0).  You should see the blue guide
+					rectangle aligned with the top of your board.
 				</p>
-				<p>
-					With older firmware, set the anchor point to the same
-					corner as your grid origin and then place it beyond the
-					origin in each axis by the amount you set for the outer
-					buffer.  For example, in the image below I set my buffer
-					to 20mm and created my grid with its origin at the bottom
-					left of my workpiece.  So I used the bottom left anchor
-					point on the template and placed it at (-20, -20) to
-					perfectly align it with my workpiece.  If your template is
-					aligned properly, you should see the inner blue guide placed
-					directly over top of your workpiece.
-				</p>
-				<img src={placement} alt="Template placement example" />
 
-				<h3>Cutting the Tails</h3>
+				<h4>Cutting the Tails</h4>
 				<p>
 					I like to start with the tails boards.  You can cut both
 					sides of your tails board with the same template.  Just be
@@ -412,7 +475,7 @@ export default function Instructions() {
 					tails.
 				</p>
 
-				<h3>Cutting the Pins</h3>
+				<h4>Cutting the Pins</h4>
 				<p>
 					Cutting the pins is less complicated, because you can
 					make your cuts with a straight bit and don't have to worry
@@ -456,11 +519,102 @@ export default function Instructions() {
 					offset of -0.03mm to provide just a tiny bit of extra space
 					for glue.
 				</p>
-				<img src={completed} alt="Completed dovetailed box" />
+				<img
+					src={completedThrough}
+					alt="Completed through dovetailed box"
+				/>
+
+				<h3>Half-blind Dovetails</h3>
+
+				<h4>Alignment</h4>
+
+				<p>
+					Aligning the tails boards is similar to the through dovetail
+					process, but in these templates the custom anchor positions
+					are already set for you.  This is because the two sides of
+					the board will need to be indexed against different sides
+					of the workstation owing to the need to cut the
+					rounded tails on the side facing you both times.
+				</p>
+				<p>
+					When cutting the A side, index the left side of
+					the board against the vertical stops, grid on the left side
+					and align to the custom anchor.  Whichever side is facing
+					towards you when you set the board up will become the inside
+					of the box.  To cut the B side rotate the board like you're
+					turning a steering wheel, keeping the same face towards
+					you.  You'll now need to index the board against the right
+					side vertical stops, grid on the right side and align to
+					the custom anchor.
+				</p>
+				<p>
+					For the pins boards, you'll want to lie the board down
+					horizontally on your work surface.  For small pieces you
+					may be able to get away with using the workstation, but for
+					longer boards you'll need to either put shaper tape on the
+					board itself or build a fixture to hold the board in
+					place.  It also helps to place extra material of the same
+					thickness to the sides of the board to keep the Origin
+					stable while cutting.
+				</p>
+				<p>
+					The side of the board facing up will become the inside
+					of the box.  For the A side, grid on the left side of the
+					board and align to the custom anchor.  For the B side, grid
+					on the right side.  Keep the same face of the board facing
+					up for both cuts, effectively spinning the board in place
+					on the work surface.
+				</p>
+
+				<h4>Cutting the Tails</h4>
+
+				<p>
+					Cutting the tails for half-blind dovetails is essentially
+					the same as for through dovetails, with the exception that
+					you <strong>must</strong> make sure to set your cut depth to
+					the exact <strong>Dovetail Depth</strong> setting to ensure
+					proper fit in the pins board.  Don't forget to Z touch on
+					your material and be sure to plunge in the open area at the
+					bottom of the template.
+				</p>
+
+				<h4>Cutting the Pins</h4>
+
+				<p>
+					For the pins boards, the process is similar but you'll be
+					cutting into the end grain of the board instead of across
+					it.  You still want to plunge the bit in the open space at
+					the bottom of the template, and use pocketing mode to clear
+					out any larger cut areas before switching to inside cut
+					mode.  And most importantly, <strong>use your dovetail
+					cutter rather than a straight bit for these cuts.</strong>
+				</p>
+				<p>
+					One key difference from the through dovetail templates is
+					that it's not a good idea to use negative offset to adjust
+					the fit.  The depth <strong>and</strong> width of the cut
+					are important, and if you add a negative offset you'll
+					change both of them the same amount at the same
+					time.  Instead, you can use the <strong>Glue
+					Gap</strong> and <strong>Extra Depth</strong> settings
+					in the export module.  The first setting will adjust the
+					fit of the tails in the slots, and the second will make
+					the slots deeper.  I like to add a little bit of depth
+					so that the ends of the pins board sit slightly proud
+					of the tails boards, allowing you to plane or sand them
+					flush.  If you shoot for an exact fit and end up with
+					channels too shallow, you'd have to plane down the entire
+					length of the tails board to get a flush fit.
+				</p>
+
+				<img
+					src={completedHalf}
+					alt="Completed half-blind dovetailed box"
+				/>
 
 				{/* eslint-disable-next-line */}
 				<a name="todo" />
-				<h2>TODO</h2>
+				<h2>Epilogue</h2>
 				<p>
 					If you've made it this far, thanks for sticking with me.  I
 					built this tool for myself, but hopefully you'll find it
@@ -468,19 +622,25 @@ export default function Instructions() {
 					let me know by filing an issue in the {' '}
 					<a href="https://www.github.com/bieber/dovetails">
 						Github repo
-					</a>.  I don't have a ton of time to devote to upkeep, but
-					there are a few features left that I'm still planning to
-					implement in the next month or so before I stop working on
-					it in earnest.  Namely:
+					</a>.
 				</p>
-				<ol>
-					<li>
-						Support for half-blind dovetails.  This is
-						conceptually not too difficult, I just need to
-						sit down and work out the math to get all the cut
-						lengths correct one of these days.
-					</li>
-				</ol>
+				<p>
+					With the addition of half blind mode, I'm considering this
+					project feature complete.  I'm not planning to make any more
+					additions to it in the foreseeable future, but I'll try to
+					fix any bug reports that come in.  And of course if you want
+					to add a new feature, I'm open to pull requests--just try to
+					follow the same style as the rest of the code.
+				</p>
+				<p>
+					P.S. Did you know that you can also use this to create
+					custom box joint layouts by setting the cutter angle to 0
+					and using a straight bit for both cuts?  At least I think
+					you can.  I've never tried it myself, but I have looked at
+					the generated templates and they seem legit enough.  You
+					could even do half-blind box joints.  If you give it a try
+					let me know if it works out for you!
+				</p>
 			</div>
 		</div>
 	);
