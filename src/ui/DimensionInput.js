@@ -102,13 +102,14 @@ export default function DimensionInput(props) {
 		);
 	}
 
+	const unitFactor = unit === 'inch' ? 1 / MM_PER_INCH : 1;
 	return (
 		<input
 			id={id}
 			type="number"
 			value={existingText}
-			min={min}
-			max={max}
+			min={min ? min * unitFactor : null}
+			max={max ? max * unitFactor : null}
 			step={0.1}
 			onChange={onInnerChange}
 			onBlur={reset}
