@@ -55,9 +55,13 @@ export function StoreProvider({children}) {
 	const [store, dispatch] = useReducer(
 		(state, action) => {
 			let newState = state;
-			let subAction = {...action, type: action.type.split(':')[1]};
+			let subAction = {
+				...action,
+				type: action.type.split(':')[1] || action.type,
+			};
 
-			switch (action.type.split(':')[0]) {
+			console.log(action.store, action.type);
+			switch (action.store || action.type.split(':')[0]) {
 				case 'general':
 					newState = {
 						...state,
