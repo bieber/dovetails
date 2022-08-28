@@ -96,30 +96,30 @@ export function reduceGeneral(state: ContextGeneral, action: GeneralAction) {
 }
 
 type KindAction = {store: 'general', type: Action.SetKind, kind: Kind};
-export function setKind(kind: Kind): KindAction {
+export function setKind(kind: Partial<Kind>): KindAction {
 	return {store: 'general', type: Action.SetKind, kind};
 }
 
 type UnitAction = {store: 'general', type: Action.SetUnit, unit: Unit};
-export function setUnit(unit: Unit): UnitAction {
+export function setUnit(unit: Partial<Unit>): UnitAction {
 	return {store: 'general', type: Action.SetUnit, unit};
 }
 
 type CutterAction = {
 	store: 'general',
 	type: Action.SetCutter,
-	cutter: Cutter,
+	cutter: Partial<Cutter>,
 };
-export function setCutter(cutter: Cutter): CutterAction {
+export function setCutter(cutter: Partial<Cutter>): CutterAction {
 	return {store: 'general', type: Action.SetCutter, cutter};
 }
 
 type MaterialAction = {
 	store: 'general',
 	type: Action.SetMaterial,
-	material: Material,
+	material: Partial<Material>,
 };
-export function setMaterial(material: Material): MaterialAction {
+export function setMaterial(material: Partial<Material>): MaterialAction {
 	return {store: 'general', type: Action.SetMaterial, material};
 }
 

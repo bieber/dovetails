@@ -60,7 +60,6 @@ export function StoreProvider({children}) {
 				type: action.type.split(':')[1] || action.type,
 			};
 
-			console.log(action.store, action.type);
 			switch (action.store || action.type.split(':')[0]) {
 				case 'general':
 					newState = {
