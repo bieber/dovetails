@@ -1,6 +1,13 @@
+import {MirrorDirection, AutolayoutMethod} from '../context/pins';
 import {minPinWidth} from './limits';
 
-export function partitionPins(pins, width, dovetailDiameter) {
+import type {Pin, PinWithoutID, AutolayoutAction} from '../context/pins';
+
+export function partitionPins(
+	pins: Pin[],
+	width: number,
+	dovetailDiameter: number,
+): [Pin[], Pin[]] {
 	const minWidth = minPinWidth(dovetailDiameter);
 
 	const center = width / 2;
@@ -16,7 +23,12 @@ export function partitionPins(pins, width, dovetailDiameter) {
 	return [pinsLeftOfCenter, pinsRightOfCenter];
 }
 
-export function mirrorPins(pins, direction, width, dovetailDiameter) {
+export function mirrorPins(
+	pins: Pin[],
+	direction: MirrorDirection,
+	width: number,
+	dovetailDiameter: number,
+): PinWithoutID[] {
 	const minWidth = minPinWidth(dovetailDiameter);
 
 	const [pinsLeftOfCenter, pinsRightOfCenter] = partitionPins(
@@ -27,7 +39,7 @@ export function mirrorPins(pins, direction, width, dovetailDiameter) {
 	const center = width / 2;
 	const newPins = [];
 
-	if (direction === 'ltr') {
+	if (direction === MirrorDirection.LeftToRight) {
 		const centerLeft = width / 2 - minWidth / 2;
 		for (const pin of pinsLeftOfCenter) {
 			const rightEdge = pin.x + pin.maxWidth / 2;
@@ -51,7 +63,7 @@ export function mirrorPins(pins, direction, width, dovetailDiameter) {
 				);
 			}
 		}
-	} else if (direction === 'rtl') {
+	} else if (direction === MirrorDirection.RightToLeft) {
 		const centerRight = width / 2 + minWidth / 2;
 		for (const pin of pinsRightOfCenter) {
 			const rightEdge = pin.x + pin.maxWidth / 2;
@@ -81,8 +93,8 @@ export function mirrorPins(pins, direction, width, dovetailDiameter) {
 }
 
 export function autolayoutPins(
-	{method, count, width, material, cutter, halfPins},
-) {
+	{method, count, width, material, cutter, halfPins}: AutolayoutAction,
+): PinWithoutID[] {
 	const pins = [];
 	let step = 0;
 
@@ -99,7 +111,7 @@ export function autolayoutPins(
 	let space = 0;
 
 	switch (method) {
-		case 'even':
+		case AutolayoutMethod.EvenSpacing:
 			if (halfPins.enabled) {
 				width = (
 					(availableSpace + (2 * count + 2) * overlap) /
@@ -129,7 +141,7 @@ export function autolayoutPins(
 
 			return pins;
 
-		case 'pins':
+		case AutolayoutMethod.FixedPins:
 			space = (availableSpace - count * width) / (count + 1);
 			for (let i = 0; i < count; i++) {
 				const x = left + space * (i + 1) + width * (i + 0.5);
@@ -137,7 +149,7 @@ export function autolayoutPins(
 			}
 			return pins;
 
-		case 'tails':
+		case AutolayoutMethod.FixedTails:
 			count--;
 			space = width - 2 * overlap;
 			space = parseFloat(space.toFixed(5));
@@ -148,6 +160,6 @@ export function autolayoutPins(
 			}
 			return pins;
 		default:
-			break;
+			throw new Error('Invalid autolayout method');
 	}
 }

@@ -18,7 +18,7 @@ const CutterSchema = z.object(
 		angle: z.number(),
 	},
 );
-type Cutter = z.infer<typeof CutterSchema>;
+export type Cutter = z.infer<typeof CutterSchema>;
 
 const MaterialSchema = z.object(
 	{
@@ -27,7 +27,7 @@ const MaterialSchema = z.object(
 		dovetailLength: z.number(),
 	},
 );
-type Material = z.infer<typeof MaterialSchema>;
+export type Material = z.infer<typeof MaterialSchema>;
 
 const ContextSchema = z.object(
 	{
@@ -37,7 +37,7 @@ const ContextSchema = z.object(
 		material: MaterialSchema,
 	},
 );
-type ContextGeneral = z.infer<typeof ContextSchema>;
+export type ContextGeneral = z.infer<typeof ContextSchema>;
 
 
 enum Action {
