@@ -1,6 +1,16 @@
 import {Shape} from 'react-konva';
+import Konva from 'konva';
 
-export default function Pin(props) {
+type Props = {
+	viewWidth: number,
+	viewHeight: number,
+	materialWidth: number,
+	materialThickness: number,
+	pixelsPerMM: number,
+	cutterAngle: number,
+	width: number,
+};
+export default function Pin(props: Props) {
 	const {
 		viewWidth,
 		viewHeight,
@@ -15,7 +25,7 @@ export default function Pin(props) {
 	const pxBoardStart = (viewWidth - pxBoardWidth) / 2;
 	const pxMaxWidth = width * pixelsPerMM;
 
-	function draw(context, shape) {
+	function draw(context: Konva.Context, shape: Konva.Shape) {
 		const angleRad = 2 * cutterAngle * Math.PI / 360;
 		const minWidth = width - (materialThickness * Math.tan(angleRad));
 		const pxMinWidth = minWidth * pixelsPerMM;

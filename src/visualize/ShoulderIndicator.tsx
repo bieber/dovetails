@@ -1,6 +1,13 @@
 import {Line} from 'react-konva';
 
-export default function ShoulderIndicator(props) {
+type Props = {
+	viewWidth: number,
+	viewHeight: number,
+	materialWidth: number,
+	materialThickness: number,
+	pixelsPerMM: number,
+};
+export default function ShoulderIndicator(props: Props) {
 	const {
 		viewWidth,
 		viewHeight,

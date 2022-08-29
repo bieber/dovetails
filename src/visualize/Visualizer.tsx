@@ -13,10 +13,10 @@ import HalfPins from './HalfPins';
 import Pin from './Pin';
 import ShoulderIndicator from './ShoulderIndicator';
 
-function useSize(target) {
-	const [size, setSize] = useState();
+function useSize(target: React.RefObject<HTMLDivElement>) {
+	const [size, setSize] = useState<DOMRect | null>();
 	useLayoutEffect(
-		() =>  setSize(
+		() => setSize(
 			target.current && target.current.getBoundingClientRect(),
 		),
 		[target],
@@ -46,7 +46,7 @@ function useSize(target) {
 
 
 export default function Visualizer() {
-	const target = useRef(null);
+	const target = useRef<HTMLDivElement>(null);
 	const size = useSize(target);
 	const [
 		{

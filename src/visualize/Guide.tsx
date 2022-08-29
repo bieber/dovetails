@@ -1,6 +1,13 @@
 import {Line} from 'react-konva';
 
-export default function Guide(props) {
+type Props = {
+	viewWidth: number,
+	viewHeight: number,
+	materialWidth: number,
+	pixelsPerMM: number,
+	x: number,
+};
+export default function Guide(props: Props) {
 	const {
 		viewWidth,
 		viewHeight,

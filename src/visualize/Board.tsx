@@ -1,6 +1,12 @@
 import {Rect} from 'react-konva';
 
-export default function Board(props) {
+type Props = {
+	viewWidth: number,
+	viewHeight: number,
+	materialWidth: number,
+	pixelsPerMM: number,
+};
+export default function Board(props: Props) {
 	const {
 		viewWidth,
 		viewHeight,
