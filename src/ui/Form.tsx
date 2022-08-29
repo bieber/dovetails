@@ -1,7 +1,15 @@
 import DimensionInput from './DimensionInput';
 
-export function Form({children, allowSubmit, ...rest}) {
-	const onSubmit = allowSubmit ? undefined : (e) => e.preventDefault();
+import type {Props as DimensionInputProps} from './DimensionInput';
+
+
+type FormProps = {
+	allowSubmit?: boolean,
+} & React.HTMLProps<HTMLFormElement>;
+export function Form({children, allowSubmit, ...rest}: FormProps) {
+	const onSubmit = allowSubmit
+		? undefined
+		: (e: React.FormEvent) => e.preventDefault();
 	return (
 		<form onSubmit={onSubmit} {...rest}>
 			{children}
@@ -9,7 +17,7 @@ export function Form({children, allowSubmit, ...rest}) {
 	);
 }
 
-export function FormSection({children}) {
+export function FormSection({children}: React.HTMLProps<HTMLDivElement>) {
 	return (
 		<div className="FormSection">
 			{children}
@@ -17,7 +25,7 @@ export function FormSection({children}) {
 	);
 }
 
-export function FormHeader({children}) {
+export function FormHeader({children}: React.HTMLProps<HTMLDivElement>) {
 	return (
 		<div className="FormHeader">
 			{children}
@@ -25,7 +33,7 @@ export function FormHeader({children}) {
 	);
 }
 
-export function FormRow({children}) {
+export function FormRow({children}: React.HTMLProps<HTMLDivElement>) {
 	return (
 		<div className="FormRow">
 			{children}
@@ -33,7 +41,16 @@ export function FormRow({children}) {
 	);
 }
 
-export function SelectRow({id, label, options, value, onChange}) {
+type SelectRowProps = {
+	id: string,
+	label?: string,
+	options: {value: string, label: string}[],
+	value: string,
+	onChange: (newValue: string) => void,
+};
+export function SelectRow(
+	{id, label, options, value, onChange}: SelectRowProps,
+) {
 	const renderedOptions = options.map(
 		({value, label}, i, is) => (
 			<option key={i} value={value}>{label}</option>
@@ -41,7 +58,7 @@ export function SelectRow({id, label, options, value, onChange}) {
 	);
 
 	let renderedLabel = null;
-	if (label !== null) {
+	if (label) {
 		renderedLabel = <label htmlFor={id}>{label}</label>;
 	}
 
@@ -58,9 +75,18 @@ export function SelectRow({id, label, options, value, onChange}) {
 	)
 }
 
-export function TextRow({id, label, value, onChange, dimensionless, ...rest}) {
+type TextRowProps = {
+	id: string,
+	label?: string,
+	value: number,
+	onChange: (newValue: number) => void,
+	dimensionless?: boolean,
+} & DimensionInputProps;
+export function TextRow(
+	{id, label, value, onChange, dimensionless, ...rest}: TextRowProps,
+) {
 	let renderedLabel = null;
-	if (label !== null) {
+	if (label) {
 		renderedLabel = <label htmlFor={id}>{label}</label>;
 	}
 
@@ -78,7 +104,15 @@ export function TextRow({id, label, value, onChange, dimensionless, ...rest}) {
 	);
 }
 
-export function CheckRow({id, label, checked, onChange, ...rest}) {
+type CheckRowProps = {
+	id: string,
+	label?: string,
+	checked: boolean,
+	onChange: (newChecked: boolean) => void,
+} & React.HTMLProps<HTMLInputElement>
+export function CheckRow(
+	{id, label, checked, onChange, ...rest}: CheckRowProps,
+) {
 	let renderedLabel = null;
 	if (label !== null) {
 		renderedLabel = <label htmlFor={id}>{label}</label>;

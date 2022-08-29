@@ -1,24 +1,29 @@
 import {useState} from 'react';
+import {z} from 'zod';
 
 import {useStore} from '../context/store';
-import {autolayout} from '../context/pins';
+import {autolayout, AutolayoutMethod} from '../context/pins';
 
 import {useLimits} from '../util/limits';
 
 import {Form, FormSection, SelectRow, TextRow} from './Form';
 
+const MethodSchema = z.nativeEnum(AutolayoutMethod);
+
 export default function AutoLayout() {
 	const [{general: {material, cutter}, halfPins}, dispatch] = useStore();
 	const {pins: {minWidth, minSpacing}} = useLimits();
 
-	const [method, setMethod] = useState('even');
-	const [count, setCount] = useState(0);
-	const [width, setWidth] = useState(0);
+	const [method, setMethod] = useState<AutolayoutMethod>(
+		AutolayoutMethod.EvenSpacing,
+	);
+	const [count, setCount] = useState<number>(0);
+	const [width, setWidth] = useState<number>(0);
 
 	const methodOptions = [
-		{value: 'even', label: 'Even Spacing'},
-		{value: 'pins', label: 'Fixed Pins'},
-		{value: 'tails', label: 'Fixed Tails'},
+		{value: AutolayoutMethod.EvenSpacing, label: 'Even Spacing'},
+		{value: AutolayoutMethod.FixedPins, label: 'Fixed Pins'},
+		{value: AutolayoutMethod.FixedTails, label: 'Fixed Tails'},
 	];
 
 	const tangent = Math.tan(2 * cutter.angle * Math.PI / 360);
@@ -26,7 +31,7 @@ export default function AutoLayout() {
 	let minTailWidth = minSpacing + 2 * overlap;
 	minTailWidth = Math.ceil(minTailWidth * 10) / 10;
 
-	function onMethodChange(newMethod) {
+	function onMethodChange(newMethod: string) {
 		switch (newMethod) {
 			case 'even':
 				setCount(1);
@@ -45,7 +50,7 @@ export default function AutoLayout() {
 			default:
 				break;
 		}
-		setMethod(newMethod);
+		setMethod(MethodSchema.parse(newMethod));
 	}
 
 	let availableSpace = material.width;
@@ -55,9 +60,9 @@ export default function AutoLayout() {
 
 	let maxCount = 0;
 	let settingsUI = null;
-	let onSubmit = null;
+	let onSubmit = undefined;
 	switch (method) {
-		case 'even':
+		case AutolayoutMethod.EvenSpacing:
 			// Since we're spacing evenly, use the bigger of the
 			// pin/tails minimum size to determine how many pins
 			// we can place
@@ -78,7 +83,7 @@ export default function AutoLayout() {
 						id="count_input"
 						label="Pin Count"
 						value={count}
-						onChange={(count) => setCount(count)}
+						onChange={(count: number) => setCount(count)}
 						step={1}
 						min={0}
 						max={maxCount}
@@ -115,7 +120,7 @@ export default function AutoLayout() {
 						id="pin_count_input"
 						label="Pin Count"
 						value={count}
-						onChange={(count) => setCount(count)}
+						onChange={(count: number) => setCount(count)}
 						step={1}
 						min={0}
 						max={maxCount}
@@ -185,6 +190,7 @@ export default function AutoLayout() {
 			break;
 	}
 
+
 	return (
 		<div className="Block Settings">
 			<Form>
@@ -193,12 +199,13 @@ export default function AutoLayout() {
 						id="method_input"
 						label="Auto Layout Method"
 						options={methodOptions}
+						value={method}
 						onChange={onMethodChange}
 					/>
 				</FormSection>
 				{settingsUI}
 				<FormSection>
-					<button disabled={onSubmit === null} onClick={onSubmit}>
+					<button disabled={!onSubmit} onClick={onSubmit}>
 						Auto Layout
 					</button>
 				</FormSection>

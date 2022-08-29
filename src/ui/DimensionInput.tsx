@@ -1,22 +1,37 @@
 import {useState} from 'react';
 
+import {Unit} from '../context/general';
 import {useStore} from '../context/store';
 
 const MM_PER_INCH = 25.4;
 
-function text(value, unit) {
+function text(value: number, unit: Unit) {
 	let dimensionValue = value;
-	if (unit === 'inch') {
+	if (unit === Unit.Inch) {
 		dimensionValue /= MM_PER_INCH;
 	}
 	return round(dimensionValue).toString();
 }
 
-function round(x) {
+function round(x: number) {
 	return parseFloat(x.toFixed(5));
 }
 
-export default function DimensionInput(props) {
+export type Props = {
+	id: string,
+	value: number,
+	dimensionless?: boolean,
+	integer?: boolean,
+	onChange: (x: number) => void,
+	min?: number,
+	max?: number,
+} & Omit<React.HTMLProps<HTMLInputElement>, "onChange">;
+type State = {
+	existingValue: number,
+	existingUnit: Unit,
+	existingText: string,
+};
+export default function DimensionInput(props: Props) {
 	const {
 		id,
 		value,
@@ -28,7 +43,10 @@ export default function DimensionInput(props) {
 		...rest
 	} = props;
 	let [{general: {unit}}] = useStore();
-	const [{existingUnit, existingText, existingValue}, setState] = useState({
+	const [
+		{existingUnit, existingText, existingValue},
+		setState,
+	] = useState<State>({
 		existingValue: value,
 		existingUnit: unit,
 		existingText: text(value, unit),
@@ -37,11 +55,12 @@ export default function DimensionInput(props) {
 	// If we just want a numeric input without conversion to inches
 	// (e.g. for angles, or counts) we can set the dimensionless flag
 	if (dimensionless) {
-		unit = 'mm';
+		unit = Unit.MM;
 	}
 
 	function onUnitChange() {
 		setState({
+			existingValue,
 			existingUnit: unit,
 			existingText: text(value, unit),
 		});
@@ -66,15 +85,15 @@ export default function DimensionInput(props) {
 		reset();
 	}
 
-	function onInnerChange(event) {
-		const newText = event.target.value;
+	function onInnerChange(event: React.ChangeEvent<HTMLInputElement>) {
+		const newText = event.target?.value || '';
 		let newValue = (newText === '' || newText === '.')
 			? 0
 			: parseFloat(newText);
 		if (isNaN(newValue)) {
 			return;
 		}
-		if (unit === 'inch') {
+		if (unit === Unit.Inch) {
 			newValue *= MM_PER_INCH;
 		}
 
@@ -102,14 +121,14 @@ export default function DimensionInput(props) {
 		);
 	}
 
-	const unitFactor = unit === 'inch' ? 1 / MM_PER_INCH : 1;
+	const unitFactor = unit === Unit.Inch ? 1 / MM_PER_INCH : 1;
 	return (
 		<input
 			id={id}
 			type="number"
 			value={existingText}
-			min={min ? min * unitFactor : null}
-			max={max ? max * unitFactor : null}
+			min={min ? min * unitFactor : undefined}
+			max={max ? max * unitFactor : undefined}
 			step={0.1}
 			onChange={onInnerChange}
 			onBlur={reset}
