@@ -1,4 +1,7 @@
+import {Kind} from '../context/general';
 import {useStore} from '../context/store';
+
+import type {Cutter, Material} from '../context/general';
 
 export function useLimits() {
 	const [{general: {kind, cutter, material}}] = useStore();
@@ -13,15 +16,15 @@ export function useLimits() {
 	};
 }
 
-export function minPinWidth(dovetailDiameter) {
+export function minPinWidth(dovetailDiameter: number) {
 	return dovetailDiameter + 0.1;
 }
 
-export function minPinSpacing(kind, cutter, material) {
+export function minPinSpacing(kind: Kind, cutter: Cutter, material: Material) {
 	const {straightDiameter, dovetailDiameter, angle} = cutter;
 	const {thickness} = material;
 
-	if (kind === 'through') {
+	if (kind === Kind.Through) {
 		return straightDiameter;
 	} else {
 		const tangent = Math.tan(2 * angle * Math.PI / 360);
@@ -29,6 +32,6 @@ export function minPinSpacing(kind, cutter, material) {
 	}
 }
 
-export function maxMaterialThickness(cutterHeight) {
+export function maxMaterialThickness(cutterHeight: number) {
 	return cutterHeight;
 }
