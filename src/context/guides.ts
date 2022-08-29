@@ -8,14 +8,14 @@ export enum From {
 	Right = 'right',
 }
 
-const ContextSchema = z.object(
+export const ContextGuidesSchema = z.object(
 	{
 		enabled: z.boolean(),
 		spacing: z.number(),
 		from: z.nativeEnum(From),
 	},
 );
-export type ContextGuides = z.infer<typeof ContextSchema>;
+export type ContextGuides = z.infer<typeof ContextGuidesSchema>;
 
 export const initGuides: ContextGuides = {
 	enabled: false,

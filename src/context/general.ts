@@ -29,7 +29,7 @@ const MaterialSchema = z.object(
 );
 export type Material = z.infer<typeof MaterialSchema>;
 
-const ContextSchema = z.object(
+export const ContextGeneralSchema = z.object(
 	{
 		kind: z.nativeEnum(Kind),
 		unit: z.nativeEnum(Unit),
@@ -37,7 +37,7 @@ const ContextSchema = z.object(
 		material: MaterialSchema,
 	},
 );
-export type ContextGeneral = z.infer<typeof ContextSchema>;
+export type ContextGeneral = z.infer<typeof ContextGeneralSchema>;
 
 
 enum Action {

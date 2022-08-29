@@ -3,8 +3,9 @@ import {z} from 'zod';
 import {mirrorPins, autolayoutPins} from '../util/pins';
 import {minPinWidth, minPinSpacing} from '../util/limits';
 
-import type {ContextGeneral, Material, Cutter} from './general';
+import type {Material, Cutter} from './general';
 import type {ContextHalfPins} from './halfPins';
+import type {Store} from './store';
 
 let pinID = 0;
 
@@ -30,17 +31,12 @@ const PinSchema = z.object(
 export type Pin = z.infer<typeof PinSchema>;
 export type PinWithoutID = Omit<Pin, "id">;
 
-const ContextSchema = z.array(PinSchema);
-type ContextPins = z.infer<typeof ContextSchema>;
+export const ContextPinsSchema = z.array(PinSchema);
+type ContextPins = z.infer<typeof ContextPinsSchema>;
 
 export const initPins: ContextPins = [];
 
-type State = {
-	general: ContextGeneral,
-	halfPins: ContextHalfPins,
-	pins: ContextPins,
-};
-export function validatePins(state: State): State {
+export function validatePins(state: Store): Store {
 	const {
 		general: {kind, cutter, material},
 		pins,

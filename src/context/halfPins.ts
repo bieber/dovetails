@@ -2,23 +2,22 @@ import {z} from 'zod';
 
 import {minPinSpacing} from '../util/limits';
 
-import type {ContextGeneral} from './general';
+import type {Store} from './store';
 
-const ContextSchema = z.object(
+export const ContextHalfPinsSchema = z.object(
 	{
 		enabled: z.boolean(),
 		width: z.number(),
 	},
 );
-export type ContextHalfPins = z.infer<typeof ContextSchema>;
+export type ContextHalfPins = z.infer<typeof ContextHalfPinsSchema>;
 
 export const initHalfPins: ContextHalfPins = {
 	enabled: false,
 	width: 0,
 };
 
-type State = {halfPins: ContextHalfPins, general: ContextGeneral};
-export function validateHalfPins(state: State): State {
+export function validateHalfPins(state: Store): Store {
 	const {
 		general: {kind, cutter, material},
 		halfPins,
