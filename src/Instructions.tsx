@@ -38,7 +38,7 @@ export default function Instructions() {
 				</div>
 
 				{/* eslint-disable-next-line */}
-				<a name="introduction" />
+				<a id="introduction" />
 				<h2>Introduction</h2>
 				<p>
 					This is a quick project I put together to layout dovetail
@@ -83,7 +83,7 @@ export default function Instructions() {
 				</p>
 
 				{/* eslint-disable-next-line */}
-				<a name="overview" />
+				<a id="overview" />
 				<h2>Overview</h2>
 				<img src={overview} alt="Overview screenshot" />
 				<p>
@@ -102,7 +102,7 @@ export default function Instructions() {
 				</p>
 
 				{/* eslint-disable-next-line */}
-				<a name="global_settings" />
+				<a id="global_settings" />
 				<h2>Global Settings</h2>
 				<img
 					src={globalThrough}
@@ -172,7 +172,7 @@ export default function Instructions() {
 				</p>
 
 				{/* eslint-disable-next-line */}
-				<a name="editing_pins" />
+				<a id="editing_pins" />
 				<h2>Editing Pins</h2>
 				<img src={pinEditing} alt="Pin editing tools screenshot" />
 				<p>
@@ -230,7 +230,7 @@ export default function Instructions() {
 				</p>
 
 				{/* eslint-disable-next-line */}
-				<a name="guides" />
+				<a id="guides" />
 				<h2>Guides</h2>
 				<img src={guides} alt="Guide configuration screenshot" />
 				<p>
@@ -251,7 +251,7 @@ export default function Instructions() {
 				</p>
 
 				{/* eslint-disable-next-line */}
-				<a name="mirror" />
+				<a id="mirror" />
 				<h2>Mirroring the Design</h2>
 				<img src={mirror} alt="Design mirror screenshot" />
 				<p>
@@ -273,7 +273,7 @@ export default function Instructions() {
 				</p>
 
 				{/* eslint-disable-next-line */}
-				<a name="autolayout" />
+				<a id="autolayout" />
 				<h2>Auto Layout</h2>
 				<img src={autolayout} alt="Auto layout screenshot" />
 				<p>
@@ -312,7 +312,7 @@ export default function Instructions() {
 				</p>
 
 				{/* eslint-disable-next-line */}
-				<a name="export" />
+				<a id="export" />
 				<h2>Exporting Templates</h2>
 				<p>
 					When your design is finished, use the export module to
@@ -390,7 +390,7 @@ export default function Instructions() {
 				</p>
 
 				{/* eslint-disable-next-line */}
-				<a name="cutting" />
+				<a id="cutting" />
 				<h2>Cutting Procedure</h2>
 				<p>
 					Once you've downloaded your templates, it's time to cut
@@ -613,7 +613,7 @@ export default function Instructions() {
 				/>
 
 				{/* eslint-disable-next-line */}
-				<a name="todo" />
+				<a id="todo" />
 				<h2>Epilogue</h2>
 				<p>
 					If you've made it this far, thanks for sticking with me.  I
