@@ -1,5 +1,5 @@
 import {useStore} from '../context/store';
-import {mirror} from '../context/pins';
+import {MirrorDirection, mirror} from '../context/pins';
 import {partitionPins} from '../util/pins';
 
 import {Form, FormSection} from './Form';
@@ -23,11 +23,11 @@ export default function Mirror() {
 	);
 
 	function mirrorLTR() {
-		dispatch(mirror('ltr', width, dovetailDiameter));
+		dispatch(mirror(MirrorDirection.LeftToRight, width, dovetailDiameter));
 	}
 
 	function mirrorRTL() {
-		dispatch(mirror('rtl', width, dovetailDiameter));
+		dispatch(mirror(MirrorDirection.RightToLeft, width, dovetailDiameter));
 	}
 
 	return (

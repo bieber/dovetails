@@ -29,7 +29,7 @@ export default function PinCreator() {
 		? halfPins.width + minSpacing
 		: 0;
 	const netWidth = materialWidth - halfPinWidth;
-	let nextPin = null;
+	let nextPin: number | null = null;
 	const sorted = [...pins].sort((a, b) => a.x - b.x);
 
 	let left = halfPinWidth;
@@ -77,7 +77,7 @@ export default function PinCreator() {
 				<FormSection>
 					<button
 						disabled={!nextPin}
-						onClick={() => dispatch(add(nextPin, maxWidth))}>
+						onClick={() => dispatch(add(nextPin || 0, maxWidth))}>
 						Add Pin
 					</button>
 				</FormSection>

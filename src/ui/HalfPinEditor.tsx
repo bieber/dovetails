@@ -28,7 +28,7 @@ export default function HalfPinEditor() {
 		dispatch(update({enabled: !enabled, width: widthMax / 2}));
 	}
 
-	function onUpdate(width) {
+	function onUpdate(width: number) {
 		dispatch(update({width}));
 	}
 

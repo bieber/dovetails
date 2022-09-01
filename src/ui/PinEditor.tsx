@@ -44,13 +44,13 @@ export default function PinEditor() {
 		}
 	}
 
-	function onChangeMaxWidth(maxWidth) {
+	function onChangeMaxWidth(maxWidth: number) {
 		if (selectedPin) {
 			dispatch(update(selectedPin.id, {maxWidth}));
 		}
 	}
 
-	function onChangeX(x) {
+	function onChangeX(x: number) {
 		if (selectedPin) {
 			dispatch(update(selectedPin.id, {x}));
 		}
