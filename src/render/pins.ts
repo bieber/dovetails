@@ -1,6 +1,21 @@
-import {renderHorizontalBase, renderVerticalBase, pocketStyle} from './base';
+import {
+	Anchor,
+	renderHorizontalBase,
+	renderVerticalBase,
+	pocketStyle,
+} from './base';
 
-function renderThroughPins(state, anchor, points) {
+import type {Store} from '../context/store';
+import type {Pin} from '../context/pins';
+
+type PartialPin = Pick<Pin, "x" | "maxWidth">
+type Points = [number, number, number, number]
+
+function renderThroughPins(
+	state: Store,
+	anchor: Anchor,
+	points: (pin: PartialPin) => Points,
+) {
 	const {
 		general: {
 			cutter: {straightDiameter},
@@ -59,7 +74,7 @@ function renderThroughPins(state, anchor, points) {
 	);
 }
 
-function expandedWidths(state, pin, invert) {
+function expandedWidths(state: Store, pin: PartialPin, invert?: boolean) {
 	const {
 		general: {
 			cutter: {straightDiameter, angle},
@@ -89,8 +104,8 @@ function expandedWidths(state, pin, invert) {
 	return [expandedMinWidth, expandedMaxWidth];
 }
 
-export function renderThroughPinsA(state, anchor) {
-	function points(pin) {
+export function renderThroughPinsA(state: Store, anchor: Anchor) {
+	function points(pin: PartialPin): Points {
 		const {x} = pin;
 		const [expandedMinWidth, expandedMaxWidth] = expandedWidths(state, pin);
 
@@ -105,8 +120,8 @@ export function renderThroughPinsA(state, anchor) {
 	return renderThroughPins(state, anchor, points);
 }
 
-export function renderThroughPinsB(state, anchor) {
-	function points(pin) {
+export function renderThroughPinsB(state: Store, anchor: Anchor) {
+	function points(pin: PartialPin): Points {
 		const {x} = pin;
 		const [expandedMinWidth, expandedMaxWidth] = expandedWidths(
 			state,
@@ -125,7 +140,12 @@ export function renderThroughPinsB(state, anchor) {
 	return renderThroughPins(state, anchor, points);
 }
 
-function renderHalfPins(state, anchor, glueGap, extraDepth) {
+function renderHalfPins(
+	state: Store,
+	anchor: Anchor,
+	glueGap: number,
+	extraDepth: number,
+) {
 	const {
 		general: {
 			cutter: {dovetailDiameter, angle},
@@ -148,15 +168,15 @@ function renderHalfPins(state, anchor, glueGap, extraDepth) {
 
 	const steps = [`M ${maxLeft} ${bottom}`];
 
-	function h(x) {
+	function h(x: number) {
 		steps.push(`H ${x}`);
 	}
 
-	function v(y) {
+	function v(y: number) {
 		steps.push(`V ${y}`);
 	}
 
-	function addFinger(beginX, endX) {
+	function addFinger(beginX: number, endX: number) {
 		h(beginX)
 		v(middle);
 		h(endX);
@@ -196,11 +216,19 @@ function renderHalfPins(state, anchor, glueGap, extraDepth) {
 	);
 }
 
-export function renderHalfPinsA(state, glueGap, extraDepth) {
-	return renderHalfPins(state, 'bottomleft', glueGap, extraDepth);
+export function renderHalfPinsA(
+	state: Store,
+	glueGap: number,
+	extraDepth: number,
+) {
+	return renderHalfPins(state, Anchor.BottomLeft, glueGap, extraDepth);
 }
 
-export function renderHalfPinsB(state, glueGap, extraDepth) {
+export function renderHalfPinsB(
+	state: Store,
+	glueGap: number,
+	extraDepth: number,
+) {
 	const {
 		general: {material: {width}},
 		pins,
@@ -217,7 +245,7 @@ export function renderHalfPinsB(state, glueGap, extraDepth) {
 				}),
 			),
 		},
-		'bottomright',
+		Anchor.BottomRight,
 		glueGap,
 		extraDepth,
 	);
