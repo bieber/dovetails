@@ -1,6 +1,8 @@
-import {renderVerticalBase, pocketStyle} from './base';
+import {Anchor, renderVerticalBase, pocketStyle} from './base';
 
-export function renderThroughTails(state, anchor) {
+import type {Store} from '../context/store';
+
+export function renderThroughTails(state: Store, anchor: Anchor) {
 	const {
 		general: {
 			cutter: {dovetailDiameter},
@@ -21,7 +23,7 @@ export function renderThroughTails(state, anchor) {
 
 	const steps = [`M ${maxLeft} ${bottom}`];
 
-	function addFinger(endX) {
+	function addFinger(endX: number) {
 		steps.push(`V ${top}`);
 		steps.push(`H ${endX}`);
 		steps.push(`V ${middle}`);
@@ -57,7 +59,7 @@ export function renderThroughTails(state, anchor) {
 	);
 }
 
-function renderHalfTails(state, anchor) {
+function renderHalfTails(state: Store, anchor: Anchor) {
 	const {
 		general: {
 			cutter: {dovetailDiameter, angle},
@@ -83,12 +85,12 @@ function renderHalfTails(state, anchor) {
 	let y = bottom;
 	const steps = [`M ${x} ${y}`];
 
-	function h(newX) {
+	function h(newX: number) {
 		x = newX;
 		steps.push(`H ${x}`);
 	}
 
-	function v(newY) {
+	function v(newY: number) {
 		y = newY;
 		steps.push(`V ${y}`);
 	}
@@ -104,7 +106,7 @@ function renderHalfTails(state, anchor) {
 		steps.push(`A ${innerRadius} ${innerRadius} 90 0 0 ${x} ${y}`);
 	}
 
-	function addFinger(endX) {
+	function addFinger(endX: number) {
 		v(top);
 		h(endX);
 		if (endX === maxRight) {
@@ -150,11 +152,11 @@ function renderHalfTails(state, anchor) {
 	);
 }
 
-export function renderHalfTailsA(state, anchor) {
-	return renderHalfTails(state, 'bottomleft');
+export function renderHalfTailsA(state: Store) {
+	return renderHalfTails(state, Anchor.BottomLeft);
 }
 
-export function renderHalfTailsB(state, anchor) {
+export function renderHalfTailsB(state: Store) {
 	const {
 		general: {material: {width}},
 		pins,
@@ -171,6 +173,6 @@ export function renderHalfTailsB(state, anchor) {
 				}),
 			),
 		},
-		'bottomright',
+		Anchor.BottomRight,
 	);
 }
