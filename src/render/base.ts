@@ -1,3 +1,12 @@
+import type {Store} from '../context/store';
+
+export enum Anchor {
+	BottomLeft = 'bottomleft',
+	BottomRight = 'bottomright',
+	TopRight = 'topright',
+	TopLeft = 'topleft',
+}
+
 export const pocketStyle = [
 	'fill:#7f7f7f;',
 	'fill-opacity:1;',
@@ -34,7 +43,11 @@ export const guideStyle = [
 	'stroke-opacity:1',
 ].join('');
 
-export function renderVerticalBase(state, anchor, innerPath) {
+export function renderVerticalBase(
+	state: Store,
+	anchor: Anchor,
+	innerPath: string,
+) {
 	const {
 		general: {
 			kind,
@@ -95,7 +108,11 @@ export function renderVerticalBase(state, anchor, innerPath) {
 	`;
 }
 
-export function renderHorizontalBase(state, anchor, innerPath) {
+export function renderHorizontalBase(
+	state: Store,
+	anchor: Anchor,
+	innerPath: string,
+) {
 	const {
 		general: {
 			kind,

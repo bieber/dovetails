@@ -1,19 +1,26 @@
 import {useState} from 'react';
 import {Link} from 'react-router-dom';
+import {z} from 'zod';
 
 import {useStore} from '../context/store';
+import {Anchor} from '../render/base';
 import {renderThroughTails} from '../render/tails';
 import {renderThroughPinsA, renderThroughPinsB} from '../render/pins';
 
 import {Form, FormSection, SelectRow} from './Form';
 
-function dataURI(svg) {
+function dataURI(svg: string) {
 	return `data:image/svg+xml;base64,${btoa(svg)}`;
 }
 
 export default function GenerateThrough() {
 	const [store] = useStore();
-	const [anchor, setAnchor] = useState('bottomleft');
+	const [anchor, setAnchor] = useState(Anchor.BottomLeft);
+
+	const AnchorSchema = z.nativeEnum(Anchor);
+	function checkAnchor(anchor: String) {
+		setAnchor(AnchorSchema.parse(anchor));
+	}
 
 	const shareLink = {
 		path: '/',
@@ -21,10 +28,10 @@ export default function GenerateThrough() {
 	};
 
 	const anchorOptions = [
-		{value: 'bottomleft', label: 'Bottom Left'},
-		{value: 'bottomright', label: 'Bottom Right'},
-		{value: 'topright', label: 'Top Right'},
-		{value: 'topleft', label: 'Top Left'},
+		{value: Anchor.BottomLeft, label: 'Bottom Left'},
+		{value: Anchor.BottomRight, label: 'Bottom Right'},
+		{value: Anchor.TopRight, label: 'Top Right'},
+		{value: Anchor.TopLeft, label: 'Top Left'},
 	];
 
 	return (
@@ -36,7 +43,7 @@ export default function GenerateThrough() {
 						label="Anchor Position"
 						options={anchorOptions}
 						value={anchor}
-						onChange={setAnchor}
+						onChange={checkAnchor}
 					/>
 				</FormSection>
 				<span>Download</span>

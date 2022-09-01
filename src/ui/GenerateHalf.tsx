@@ -7,7 +7,7 @@ import {renderHalfPinsA, renderHalfPinsB} from '../render/pins';
 
 import {Form, FormSection, TextRow} from './Form';
 
-function dataURI(svg) {
+function dataURI(svg: string) {
 	return `data:image/svg+xml;base64,${btoa(svg)}`;
 }
 
