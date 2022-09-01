@@ -1,5 +1,5 @@
 import {useStore} from '../context/store';
-import {update} from '../context/guides';
+import {From, FromSchema, update} from '../context/guides';
 
 import {Form, FormSection, CheckRow, SelectRow, TextRow} from './Form';
 
@@ -15,9 +15,9 @@ export default function GuideSettings() {
 	let extraOptions = null;
 	if (enabled) {
 		const fromOptions = [
-			{label: 'Left', value: 'left'},
-			{label: 'Center', value: 'center'},
-			{label: 'Right', value: 'right'},
+			{label: From.Left, value: 'left'},
+			{label: From.Center, value: 'center'},
+			{label: From.Right, value: 'right'},
 		];
 
 		extraOptions = (
@@ -33,13 +33,17 @@ export default function GuideSettings() {
 					label="Guides From"
 					options={fromOptions}
 					value={from}
-					onChange={(from) => dispatch(update({from}))}
+					onChange={updateFrom}
 				/>
 			</FormSection>
 		);
 	}
 
-	function updateEnabled(newValue) {
+	function updateFrom(newFrom: string) {
+		dispatch(update({from: FromSchema.parse(newFrom)}));
+	}
+
+	function updateEnabled(newValue: boolean) {
 		if (newValue && spacing === 0) {
 			dispatch(update({enabled: true, spacing: dovetailDiameter}));
 		} else {
@@ -54,7 +58,7 @@ export default function GuideSettings() {
 					<CheckRow
 						id="enabled_input"
 						label="Enable Guides"
-						value={enabled}
+						checked={enabled}
 						onChange={updateEnabled}
 					/>
 				</FormSection>

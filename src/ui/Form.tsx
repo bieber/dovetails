@@ -109,7 +109,7 @@ type CheckRowProps = {
 	label?: string,
 	checked: boolean,
 	onChange: (newChecked: boolean) => void,
-} & React.HTMLProps<HTMLInputElement>
+} & Omit<React.HTMLProps<HTMLInputElement>, "onChange">
 export function CheckRow(
 	{id, label, checked, onChange, ...rest}: CheckRowProps,
 ) {

@@ -7,12 +7,13 @@ export enum From {
 	Center = 'center',
 	Right = 'right',
 }
+export const FromSchema = z.nativeEnum(From);
 
 export const ContextGuidesSchema = z.object(
 	{
 		enabled: z.boolean(),
 		spacing: z.number(),
-		from: z.nativeEnum(From),
+		from: FromSchema,
 	},
 );
 export type ContextGuides = z.infer<typeof ContextGuidesSchema>;
@@ -84,7 +85,7 @@ type UpdateAction = {
 	type: Action.Update,
 	delta: Partial<ContextGuides>,
 };
-export function update(delta: ContextGuides) {
+export function update(delta: Partial<ContextGuides>): UpdateAction {
 	return {store: 'guides', type: Action.Update, delta};
 }
 
