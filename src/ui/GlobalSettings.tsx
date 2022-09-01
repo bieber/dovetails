@@ -1,5 +1,14 @@
 import {useStore} from '../context/store';
-import {setKind, setUnit, setCutter, setMaterial} from '../context/general';
+import {
+	Unit,
+	Kind,
+	UnitSchema,
+	KindSchema,
+	setKind,
+	setUnit,
+	setCutter,
+	setMaterial,
+} from '../context/general';
 
 import {useLimits} from '../util/limits';
 
@@ -10,21 +19,29 @@ export default function GlobalSettings() {
 	let {material: {maxThickness}} = useLimits();
 
 	const kindOptions = [
-		{value: 'through', label: 'Through'},
-		{value: 'half', label: 'Half-Blind'},
+		{value: Kind.Through, label: 'Through'},
+		{value: Kind.Half, label: 'Half-Blind'},
 	];
 
 	const unitOptions = [
-		{value: 'mm', label: 'mm'},
-		{value: 'inch', label: 'inch'},
+		{value: Unit.MM, label: 'mm'},
+		{value: Unit.Inch, label: 'inch'},
 	];
 
-	function onDovetailChange(dovetailDiameter) {
+	function onDovetailChange(dovetailDiameter: number) {
 		dispatch(setCutter({dovetailDiameter}));
 	}
 
-	function onStraightChange(straightDiameter) {
+	function onStraightChange(straightDiameter: number) {
 		dispatch(setCutter({straightDiameter}));
+	}
+
+	function updateKind(kind: string) {
+		dispatch(setKind(KindSchema.parse(kind)));
+	}
+
+	function updateUnit(unit: string) {
+		dispatch(setUnit(UnitSchema.parse(unit)));
 	}
 
 	let thicknessLabel = 'Material Thickness';
@@ -64,14 +81,14 @@ export default function GlobalSettings() {
 						label="Dovetail Type"
 						options={kindOptions}
 						value={kind}
-						onChange={(kind) => dispatch(setKind(kind))}
+						onChange={updateKind}
 					/>
 					<SelectRow
 						id="units_input"
 						label="Units"
 						options={unitOptions}
 						value={unit}
-						onChange={(unit) => dispatch(setUnit(unit))}
+						onChange={updateUnit}
 					/>
 				</FormSection>
 				<FormSection>

@@ -4,11 +4,13 @@ export enum Kind {
 	Through = 'through',
 	Half = 'half',
 }
+export const KindSchema = z.nativeEnum(Kind);
 
 export enum Unit {
 	MM = 'mm',
 	Inch = 'inch',
 };
+export const UnitSchema = z.nativeEnum(Unit);
 
 const CutterSchema = z.object(
 	{
@@ -31,8 +33,8 @@ export type Material = z.infer<typeof MaterialSchema>;
 
 export const ContextGeneralSchema = z.object(
 	{
-		kind: z.nativeEnum(Kind),
-		unit: z.nativeEnum(Unit),
+		kind: KindSchema,
+		unit: UnitSchema,
 		cutter: CutterSchema,
 		material: MaterialSchema,
 	},
@@ -96,12 +98,12 @@ export function reduceGeneral(state: ContextGeneral, action: GeneralAction) {
 }
 
 type KindAction = {store: 'general', type: Action.SetKind, kind: Kind};
-export function setKind(kind: Partial<Kind>): KindAction {
+export function setKind(kind: Kind): KindAction {
 	return {store: 'general', type: Action.SetKind, kind};
 }
 
 type UnitAction = {store: 'general', type: Action.SetUnit, unit: Unit};
-export function setUnit(unit: Partial<Unit>): UnitAction {
+export function setUnit(unit: Unit): UnitAction {
 	return {store: 'general', type: Action.SetUnit, unit};
 }
 
