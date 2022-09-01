@@ -18,7 +18,7 @@ type Props = {
 	onChange: (pin: Partial<Pin>) => void,
 	selected: boolean,
 };
-export default function Pin(props: Props) {
+export default function PinComponent(props: Props) {
 	const {
 		viewWidth,
 		viewHeight,
