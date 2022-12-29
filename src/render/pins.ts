@@ -15,7 +15,7 @@ function renderThroughPins(
 	state: Store,
 	anchor: Anchor,
 	points: (pin: PartialPin) => Points,
-) {
+): string {
 	const {
 		general: {
 			cutter: {straightDiameter},
@@ -33,8 +33,9 @@ function renderThroughPins(
 	const middle = thickness + .5 * radius;
 	const bottom = thickness + 2 * straightDiameter;
 
-	const maxLeft = -1.1 * radius;
-	const maxRight = materialWidth + 1.1 * radius;
+	const buffer = minBuffer(state, true);
+	const maxLeft = -buffer;
+	const maxRight = materialWidth + buffer;
 
 	const steps = [`M ${maxLeft} ${bottom}`];
 
@@ -74,7 +75,11 @@ function renderThroughPins(
 	);
 }
 
-function expandedWidths(state: Store, pin: PartialPin, invert?: boolean) {
+function expandedWidths(
+	state: Store,
+	pin: PartialPin,
+	invert?: boolean,
+): [number, number] {
 	const {
 		general: {
 			cutter: {straightDiameter, angle},
@@ -104,7 +109,7 @@ function expandedWidths(state: Store, pin: PartialPin, invert?: boolean) {
 	return [expandedMinWidth, expandedMaxWidth];
 }
 
-export function renderThroughPinsA(state: Store, anchor: Anchor) {
+export function renderThroughPinsA(state: Store, anchor: Anchor): string {
 	function points(pin: PartialPin): Points {
 		const {x} = pin;
 		const [expandedMinWidth, expandedMaxWidth] = expandedWidths(state, pin);
@@ -120,7 +125,7 @@ export function renderThroughPinsA(state: Store, anchor: Anchor) {
 	return renderThroughPins(state, anchor, points);
 }
 
-export function renderThroughPinsB(state: Store, anchor: Anchor) {
+export function renderThroughPinsB(state: Store, anchor: Anchor): string {
 	function points(pin: PartialPin): Points {
 		const {x} = pin;
 		const [expandedMinWidth, expandedMaxWidth] = expandedWidths(
@@ -145,7 +150,7 @@ function renderHalfPins(
 	anchor: Anchor,
 	glueGap: number,
 	extraDepth: number,
-) {
+): string {
 	const {
 		general: {
 			cutter: {dovetailDiameter, angle},
@@ -163,8 +168,9 @@ function renderHalfPins(
 	const middle = dovetailLength + .5 * radius;
 	const bottom = dovetailLength + 2 * dovetailDiameter;
 
-	const maxLeft = -1.1 * radius;
-	const maxRight = materialWidth + 1.1 * radius;
+	const buffer = minBuffer(state, false);
+	const maxLeft = -buffer;
+	const maxRight = materialWidth + buffer;
 
 	const steps = [`M ${maxLeft} ${bottom}`];
 
@@ -228,7 +234,7 @@ export function renderHalfPinsB(
 	state: Store,
 	glueGap: number,
 	extraDepth: number,
-) {
+): string {
 	const {
 		general: {material: {width}},
 		pins,
@@ -249,4 +255,34 @@ export function renderHalfPinsB(
 		glueGap,
 		extraDepth,
 	);
+}
+
+function minBuffer(state: Store, through: boolean): number {
+	const {
+		general: {
+			cutter: {straightDiameter, dovetailDiameter},
+			material: {width: materialWidth},
+		},
+		pins,
+		halfPins,
+	} = state;
+
+	const cutter = through ? straightDiameter : dovetailDiameter;
+	const radius = cutter / 2;
+
+	const buffer = 1.1 * radius;
+	if (!halfPins.enabled && pins.length > 0) {
+		const firstPin = pins[0];
+		const lastPin = pins[pins.length - 1];
+
+		const firstPinLeft = firstPin.x - firstPin.maxWidth / 2;
+		const lastPinRight = lastPin.x + lastPin.maxWidth / 2;
+
+		const leftBuffer = cutter * 1.1 - firstPinLeft;
+		const rightBuffer = cutter * 1.1 -
+			(materialWidth - lastPinRight);
+
+		return Math.max(leftBuffer, rightBuffer, buffer);
+	}
+	return buffer;
 }

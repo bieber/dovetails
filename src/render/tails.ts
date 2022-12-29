@@ -2,7 +2,7 @@ import {Anchor, renderVerticalBase, pocketStyle} from './base';
 
 import type {Store} from '../context/store';
 
-export function renderThroughTails(state: Store, anchor: Anchor) {
+export function renderThroughTails(state: Store, anchor: Anchor): string {
 	const {
 		general: {
 			cutter: {dovetailDiameter},
@@ -18,8 +18,9 @@ export function renderThroughTails(state: Store, anchor: Anchor) {
 	const middle = thickness + 0.1 * dovetailDiameter;
 	const bottom = thickness + 1.5 * dovetailDiameter;
 
-	const maxLeft = -1.1 * radius;
-	const maxRight = materialWidth + 1.1 * radius;
+	const buffer = minBuffer(state);
+	const maxLeft = -buffer;
+	const maxRight = materialWidth + buffer;
 
 	const steps = [`M ${maxLeft} ${bottom}`];
 
@@ -59,7 +60,7 @@ export function renderThroughTails(state: Store, anchor: Anchor) {
 	);
 }
 
-function renderHalfTails(state: Store, anchor: Anchor) {
+function renderHalfTails(state: Store, anchor: Anchor): string {
 	const {
 		general: {
 			cutter: {dovetailDiameter, angle},
@@ -78,8 +79,9 @@ function renderHalfTails(state: Store, anchor: Anchor) {
 	const middle = dovetailLength - inset;
 	const bottom = dovetailLength + 1.5 * dovetailDiameter;
 
-	const maxLeft = -1.1 * radius;
-	const maxRight = materialWidth + 1.1 * radius;
+	const buffer = minBuffer(state);
+	const maxLeft = -buffer;
+	const maxRight = materialWidth + buffer;
 
 	let x = maxLeft;
 	let y = bottom;
@@ -152,11 +154,11 @@ function renderHalfTails(state: Store, anchor: Anchor) {
 	);
 }
 
-export function renderHalfTailsA(state: Store) {
+export function renderHalfTailsA(state: Store): string {
 	return renderHalfTails(state, Anchor.BottomLeft);
 }
 
-export function renderHalfTailsB(state: Store) {
+export function renderHalfTailsB(state: Store): string {
 	const {
 		general: {material: {width}},
 		pins,
@@ -175,4 +177,23 @@ export function renderHalfTailsB(state: Store) {
 		},
 		Anchor.BottomRight,
 	);
+}
+
+function minBuffer(state: Store): number {
+	const {
+		general: {
+			cutter: {dovetailDiameter},
+		},
+		halfPins,
+	} = state;
+	const radius = dovetailDiameter / 2;
+
+	const buffer = 1.1 * radius;
+	if (halfPins.enabled) {
+		const halfPinBuffer = dovetailDiameter * 1.1 - halfPins.width;
+		if (halfPinBuffer > buffer) {
+			return halfPinBuffer;
+		}
+	}
+	return buffer;
 }
