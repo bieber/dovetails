@@ -77,6 +77,13 @@ export function reduceGeneral(state: ContextGeneral, action: GeneralAction) {
 						dovetailLength: state.material.thickness,
 					},
 				};
+			} else {
+				materialComponent = {
+					material: {
+						...state.material,
+						thickness: state.material.dovetailLength,
+					},
+				};
 			}
 			return {
 				...state,
