@@ -36,7 +36,9 @@ export function renderThroughTails(state: Store, anchor: Anchor): string {
 		steps.push(`V ${middle}`);
 	}
 
-	for (const pin of pins) {
+	let sortedPins = [...pins];
+	sortedPins.sort((a, b) => a.x - b.x);
+	for (const pin of sortedPins) {
 		const left = pin.x - pin.maxWidth / 2;
 		const right = pin.x + pin.maxWidth / 2;
 		steps.push(`H ${left}`);

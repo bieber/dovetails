@@ -48,7 +48,9 @@ function renderThroughPins(
 		steps.push(`V ${top}`);
 	}
 
-	for (const pin of pins) {
+	let sortedPins = [...pins];
+	sortedPins.sort((a, b) => a.x - b.x);
+	for (const pin of sortedPins) {
 		const pinPoints = points(pin);
 		steps.push(`H ${pinPoints[0]}`);
 		steps.push(`L ${pinPoints[1]} ${middle}`);
