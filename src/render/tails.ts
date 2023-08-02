@@ -1,6 +1,7 @@
 import {Anchor, renderVerticalBase, pocketStyle} from './base';
 
 import type {Store} from '../context/store';
+import isBeta from '../util/beta';
 
 export function renderThroughTails(state: Store, anchor: Anchor): string {
 	const {
@@ -11,6 +12,10 @@ export function renderThroughTails(state: Store, anchor: Anchor): string {
 		pins,
 		halfPins,
 	} = state;
+
+	const encodedDepth = isBeta()
+		? `shaper:cutDepth="${thickness}mm"`
+		: '';
 
 	const radius = dovetailDiameter / 2;
 
@@ -58,7 +63,7 @@ export function renderThroughTails(state: Store, anchor: Anchor): string {
 	return renderVerticalBase(
 		state,
 		anchor,
-		`<path style="${pocketStyle}" d="${steps.join(' ')}" />`,
+		`<path style="${pocketStyle}" d="${steps.join(' ')}" ${encodedDepth} />`,
 	);
 }
 
@@ -71,6 +76,10 @@ function renderHalfTails(state: Store, anchor: Anchor): string {
 		pins,
 		halfPins,
 	} = state;
+
+	const encodedDepth = isBeta()
+		? `shaper:cutDepth="${thickness}mm"`
+		: '';
 
 	const radius = dovetailDiameter / 2;
 	const tangent = Math.tan(2 * angle * Math.PI / 360);
@@ -152,7 +161,7 @@ function renderHalfTails(state: Store, anchor: Anchor): string {
 	return renderVerticalBase(
 		state,
 		anchor,
-		`<path style="${pocketStyle}" d="${steps.join(' ')}" />`,
+		`<path style="${pocketStyle}" d="${steps.join(' ')}" ${encodedDepth} />`,
 	);
 }
 

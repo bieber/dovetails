@@ -7,6 +7,7 @@ import {
 
 import type {Store} from '../context/store';
 import type {Pin} from '../context/pins';
+import isBeta from '../util/beta';
 
 type PartialPin = Pick<Pin, "x" | "maxWidth">
 type Points = [number, number, number, number]
@@ -24,6 +25,10 @@ function renderThroughPins(
 		pins,
 		halfPins,
 	} = state;
+
+	const encodedDepth = isBeta()
+		? `shaper:cutDepth="${thickness}mm"`
+		: '';
 
 	const halfPinsEnabled = halfPins.enabled && pins.length > 0;
 
@@ -73,7 +78,7 @@ function renderThroughPins(
 	return renderVerticalBase(
 		state,
 		anchor,
-		`<path style="${pocketStyle}" d="${steps.join(' ')}" />`,
+		`<path style="${pocketStyle}" d="${steps.join(' ')}" ${encodedDepth}/>`,
 	);
 }
 
@@ -162,6 +167,11 @@ function renderHalfPins(
 		halfPins,
 	} = state;
 
+	const encodedDepth = isBeta()
+		? `shaper:cutDepth="${thickness}mm"`
+		: '';
+
+
 	const radius = dovetailDiameter / 2;
 	const tangent = Math.tan(2 * angle * Math.PI / 360);
 	const inset = thickness * tangent + glueGap;
@@ -220,7 +230,7 @@ function renderHalfPins(
 	return renderHorizontalBase(
 		state,
 		anchor,
-		`<path style="${pocketStyle}" d="${steps.join(' ')}" />`,
+		`<path style="${pocketStyle}" d="${steps.join(' ')}" ${encodedDepth} />`,
 	);
 }
 

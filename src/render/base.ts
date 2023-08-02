@@ -1,3 +1,5 @@
+import isBeta from '../util/beta';
+
 import type {Store} from '../context/store';
 
 export enum Anchor {
@@ -48,6 +50,12 @@ export function renderVerticalBase(
 	anchor: Anchor,
 	innerPath: string,
 ) {
+	let betaHeader = '';
+	if (isBeta()) {
+		betaHeader =
+			'xmlns:shaper="http://www.shapertools.com/namespaces/shaper"';
+	}
+
 	const {
 		general: {
 			kind,
@@ -90,7 +98,7 @@ export function renderVerticalBase(
 			width="${totalWidth}mm"
 			height="${totalHeight}mm"
 			viewBox="0 0 ${totalWidth} ${totalHeight}"
-			xmlns="http://www.w3.org/2000/svg">
+			xmlns="http://www.w3.org/2000/svg" ${betaHeader}>
 			<g transform="translate(${buffer},${buffer})">
 				${innerPath}
 			</g>
@@ -113,6 +121,12 @@ export function renderHorizontalBase(
 	anchor: Anchor,
 	innerPath: string,
 ) {
+	let betaHeader = '';
+	if (isBeta()) {
+		betaHeader =
+			'xmlns:shaper="http://www.shapertools.com/namespaces/shaper"';
+	}
+
 	const {
 		general: {
 			kind,
@@ -170,7 +184,7 @@ export function renderHorizontalBase(
 			width="${totalWidth}mm"
 			height="${totalHeight}mm"
 			viewBox="0 0 ${totalWidth} ${totalHeight}"
-			xmlns="http://www.w3.org/2000/svg">
+			xmlns="http://www.w3.org/2000/svg" ${betaHeader}>
 			<g transform="translate(${buffer},${buffer+thickness})">
 				${innerPath}
 			</g>
