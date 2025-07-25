@@ -48,13 +48,11 @@ export default function GlobalSettings() {
 	let lengthInput = null;
 	if (kind === 'half') {
 		thicknessLabel = 'Dovetail Depth';
-		maxThickness = Math.min(maxThickness, material.dovetailLength);
 		lengthInput = (
 			<TextRow
 				id="length_input"
 				label="Material Thickness"
 				value={material.dovetailLength}
-				min={material.thickness}
 				onChange={(l) => dispatch(setMaterial({dovetailLength: l}))}
 			/>
 		);
